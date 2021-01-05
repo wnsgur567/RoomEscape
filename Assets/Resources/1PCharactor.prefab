@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 6481601473268168635}
   - component: {fileID: 8532731208226758753}
   - component: {fileID: 914461804}
+  - component: {fileID: 503033248513128590}
   m_Layer: 0
   m_Name: 1PCharactor
   m_TagString: Untagged
@@ -187,6 +188,21 @@ MonoBehaviour:
   moveSpeed: 5
   rotSpeed: 3
   cameraArm: {fileID: 2840879065117863370}
+--- !u!114 &503033248513128590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023640405088958125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167f25a315c47cc45bfdd7a509a97787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_range: 20
+  m_cam: {fileID: 967401328668679498}
+  pipeButton: {fileID: 0}
 --- !u!1 &4623461272429003470
 GameObject:
   m_ObjectHideFlags: 0
