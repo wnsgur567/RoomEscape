@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 public class CharactorInteraction : MonoBehaviourPunCallbacks
 {
+    [Header("캐릭터와 오브젝트의 상호작용 거리")]
     [SerializeField]
     private float m_range;//상호작용 거리
 
