@@ -37,5 +37,5 @@ public struct CurrentOptionInfo
 
 public class _OptionInfoManager : Singleton<_OptionInfoManager>
 {
-    public CurrentOptionInfo m_currentOptionInfo;
+    [ShowOnly] public CurrentOptionInfo m_currentOptionInfo;
 }
