@@ -10,9 +10,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     public GameObject LobbyImage;
     public GameObject CM;
-    private string SpawnName;
-
     public GameManager GM;
+
+    private Transform SpawnPosition;
     void Awake()
     {
         Screen.SetResolution(1920, 1080, false);//해상도설정
@@ -25,7 +25,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()//서버에 접속
     {
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 5 }, null);
+        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 2 }, null);
     }
 
     public override void OnCreatedRoom()//방이생성되면
@@ -38,10 +38,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         CM.SetActive(false);
         LobbyImage.SetActive(false);
 
-        GM.Spawn(SpawnName);
+        GM.Spawn(SpawnPosition);
     }
-    public void SetButtonName(string name)
+    public void SetSpawnPosition(Transform Position)
     {
-        SpawnName = name;
+        SpawnPosition = Position;
     }
 }

@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class CharactorMove : MonoBehaviourPunCallbacks
 {
-    public PhotonView PV;
+    private PhotonView m_PV;
     public float moveSpeed = 5.0f;
     public float rotSpeed = 0.2f;
     public Transform cameraArm;
@@ -18,7 +18,8 @@ public class CharactorMove : MonoBehaviourPunCallbacks
     void Start()
     {
         m_tr = GetComponent<Transform>();
-        if (!PV.IsMine)//IsMine 크리티컬 섹션같은거
+        m_PV = GetComponent<PhotonView>();
+        if (!m_PV.IsMine)//IsMine 크리티컬 섹션같은거
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);//자기 자신이 아닐경우 다른 카메라는 파괴
         }
