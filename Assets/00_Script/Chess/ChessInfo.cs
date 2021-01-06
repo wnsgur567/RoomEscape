@@ -44,11 +44,17 @@ public enum DIRECTIONTYPE
     MAX
 }
 
+public struct Index
+{
+    public int x;
+    public int y;
+}
 
 [System.Serializable]
 public struct PieceInfo
 {
     public PLAYERTYPE playerType;
     public CHESSPIECE chessPiece;
+    public Index Index;
 }
 

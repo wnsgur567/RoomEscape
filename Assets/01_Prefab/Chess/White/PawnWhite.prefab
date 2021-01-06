@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5774853463205270576}
   - component: {fileID: 5779476445107951254}
   - component: {fileID: 4722014437709464136}
-  - component: {fileID: 3002643048814638452}
   - component: {fileID: 8999506620867143292}
+  - component: {fileID: 1923936968944806293}
   m_Layer: 0
   m_Name: PawnWhite
   m_TagString: ChessPiece
@@ -83,25 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3002643048814638452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1653877579755633752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4865af1f419b3e942bea74a6d5036e76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pieceInfo:
-    playerType: 2
-    chessPiece: 1
-  MoveIndex:
-  - {x: 0, y: 0, z: 1}
-  directiontypeList: 
-  BoardManager: {fileID: 0}
 --- !u!65 &8999506620867143292
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -113,5 +94,27 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 1, y: 1.3, z: 1}
+  m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!114 &1923936968944806293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653877579755633752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c125f4be4f9dd24c81e4d810bb9fdca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieceInfo:
+    playerType: 2
+    chessPiece: 1
+  MoveIndex:
+  - {x: 0, y: 0, z: 1}
+  BoardManager: {fileID: 0}
+  M_PawnMove: 0
+  AttckMoveList:
+  - {x: 1, y: 0, z: 1}
+  - {x: -1, y: 0, z: 1}

@@ -8,6 +8,7 @@ public class MouseClick : MonoBehaviour
     public Transform m_cam;
 
     public GameObject ClickObj;
+    public BoardManager BoardManager;
 
     void Interaction()
     {
@@ -24,29 +25,45 @@ public class MouseClick : MonoBehaviour
                     if(ClickObj != null)
                     {
                         Piece piece = ClickObj.GetComponent<Piece>();
-                        Vector3 tempvec = new Vector3();
+                        Board hitBoard = hit.transform.GetComponent<Board>();
+                        Vector3 tempvec;
 
-                        if(piece.pieceInfo.playerType == PLAYERTYPE.WHITE)
+                        tempvec = ClickObj.transform.localPosition + hit.transform.localPosition;
+
+                        if (piece.IsMove(tempvec, hitBoard, false))
                         {
-                            tempvec = hit.transform.position - ClickObj.transform.position;
-                        }
-                        else
-                        {
-                            tempvec = ClickObj.transform.position- hit.transform.position;
-                        }
-                        
-
-
-
-                        if (piece.IsMove(tempvec))
-                        {
-                            ClickObj.transform.position = hit.transform.position;
+                            piece.MoveTo(hitBoard);
+                            ClickObj = null;
                         }
                     }
                 }
                 else if(hit.transform.CompareTag("ChessPiece"))
                 {
-                    ClickObj = hit.transform.gameObject;
+                    if(ClickObj!=null)
+                    {
+                        Piece playerpiece = ClickObj.GetComponent<Piece>();
+                        Piece hitpiece = hit.transform.GetComponent<Piece>();
+                        Board hitBoard = BoardManager.M_BoardArr[hitpiece.pieceInfo.Index.y, hitpiece.pieceInfo.Index.x];
+
+                        if (playerpiece.pieceInfo.playerType != hitpiece.pieceInfo.playerType)
+                        {
+                            Vector3 tempvec = ClickObj.transform.localPosition + hitBoard.transform.localPosition;
+                            if (playerpiece.IsMove(tempvec, hitBoard, true))
+                            {
+                                playerpiece.MoveTo(hitBoard);
+                                ClickObj = null;
+                                hitpiece.gameObject.SetActive(false);
+                            }
+                        }
+                        else
+                        {
+                            ClickObj = hit.transform.gameObject;
+                        }
+                    }
+                    else
+                    {
+                        ClickObj = hit.transform.gameObject;
+                    }
                 }
 
             }
