@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - PipeButton
+  - Paint
   layers:
   - Default
   - TransparentFX
