@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         
     }
 
-    public void Spawn(string name)//버튼에 할당한 name으로 prefab인스턴스 생성
+    public void Spawn(Transform SpawnPosition)//버튼에 할당한 Position으로 prefab인스턴스 생성
     {
-        PhotonNetwork.Instantiate(name, Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("Charactor", SpawnPosition.position, Quaternion.identity);
     }
 }
