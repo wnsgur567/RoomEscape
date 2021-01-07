@@ -98,7 +98,7 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     // 네트워크 연결되었을 때
     public void OnConnected()
     {
-        AddLine("서버에 연결되었습니다.");
+        AddLine("채팅 서버에 연결되었습니다.");
 
         // 채널 참가(채팅방 참가)
         m_chatClient.Subscribe(m_channelName);
@@ -107,7 +107,7 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     // 네트워크 연결이 끊겼을 때
     public void OnDisconnected()
     {
-        AddLine("서버와 연결이 끊어졌습니다.");        
+        AddLine("채팅 서버와 연결이 끊어졌습니다.");        
     }
 
     // 메세지 수신

@@ -18,7 +18,7 @@ public struct HitObjectInformation
 }
 
 
-public class MyRaycaster : MonoBehaviour, IAwake
+public class MyRaycaster : MonoBehaviour, IAwake 
 {
     _InputManager _inputManager = null;
 
