@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardManager : MonoBehaviour
+public class BoardManager : Singleton<BoardManager>
 {
+    public BoxCollider BoardCollider;
+
     public Vector3 PieceSize;
     public Vector3 BoardSize;
 
@@ -12,8 +14,16 @@ public class BoardManager : MonoBehaviour
     public Board BoardObj;
     public Board[,] M_BoardArr = new Board[8, 8];
 
+    public Material MoveMaterial;
+    public Material SelectMaterial;
+
+    
+
     void Start()
     {
+        BoardCollider = this.gameObject.GetComponent<BoxCollider>();
+        
+
         CreateBoardCollider();
         __Init();
     }
@@ -30,6 +40,7 @@ public class BoardManager : MonoBehaviour
                     if (M_BoardArr[i,j].transform.position == piece.transform.position)
                     {
                         M_BoardArr[i, j].M_isPiece = true;
+                        M_BoardArr[i, j].pieceInfo.SetType(piece.pieceInfo);                        
                         piece.pieceInfo.Index.y = i;
                         piece.pieceInfo.Index.x = j;
                         break;
@@ -55,8 +66,10 @@ public class BoardManager : MonoBehaviour
                 GameObject gameObject = Instantiate(BoardObj.gameObject, new Vector3(tempx, 0f, tempy) + this.gameObject.transform.position
                     , Quaternion.identity, this.transform);
                 M_BoardArr[i,j] = gameObject.GetComponent<Board>();
-                M_BoardArr[i, j].M_BoardIndex.y = i;
-                M_BoardArr[i, j].M_BoardIndex.x = j;
+                M_BoardArr[i, j].pieceInfo.InitInfo();
+                M_BoardArr[i, j].pieceInfo.Index.y = i;
+                M_BoardArr[i, j].pieceInfo.Index.x = j;
+
                 tempx += PieceSize.x;
 
             }

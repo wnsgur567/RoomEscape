@@ -11,6 +11,12 @@ public class Pawn : Piece
     void Start()
     {
         __Init();
+
+        //폰 처음 움직임
+        if (!M_PawnMove)
+        {
+            MoveIndex[0] = new Vector3(MoveIndex[0].x, MoveIndex[0].y, MoveIndex[0].z * 2);
+        }
     }
 
     void Update()
@@ -50,11 +56,29 @@ public class Pawn : Piece
             }
         }
 
-        //폰 처음 움직임
-        if(!M_PawnMove)
+        if (!_attck)
         {
-            MoveIndex[0] = new Vector3(MoveIndex[0].x, MoveIndex[0].y, MoveIndex[0].z * 2);
+            if (_hitBoard.M_isPiece)
+            {
+                return false;
+            }
         }
+
+        if (_attck)
+        {
+            if(!_hitBoard.M_isPiece)
+            {
+                return false;
+            }
+
+            if (_hitBoard.M_isPiece 
+                && _hitBoard.pieceInfo.playerType == this.pieceInfo.playerType)
+            {
+                return false;
+            }
+        }
+
+
 
 
         foreach (DIRECTIONTYPE item in tempDirList)
@@ -79,24 +103,19 @@ public class Pawn : Piece
                 {
                     i += tempindex.y; j += tempindex.x;
 
-                    if (BoardManager.M_BoardArr[i, j].M_isPiece
-                        && BoardManager.M_BoardArr[i, j] != _hitBoard)
+                    if (BoardManager.Instance.M_BoardArr[i, j].M_isPiece
+                        && BoardManager.Instance.M_BoardArr[i, j] != _hitBoard)
                     {
                         return false;
                     }
 
-                    if (i == _hitBoard.M_BoardIndex.y && j == _hitBoard.M_BoardIndex.x)
+                    /*if (i == _hitBoard.M_BoardIndex.y && j == _hitBoard.M_BoardIndex.x)*/
+                    if (i == _hitBoard.pieceInfo.Index.y && j == _hitBoard.pieceInfo.Index.x)
                     {
                         break;
                     }
                 }
-
-                //폰 처음움직임
-                if (!M_PawnMove)
-                {
-                    MoveIndex[0] = new Vector3(MoveIndex[0].x, MoveIndex[0].y, MoveIndex[0].z * 0.5f);
-                    M_PawnMove = true;
-                }
+                
 
                 return true;
             }
@@ -104,5 +123,99 @@ public class Pawn : Piece
 
         return false;
     }
+
+    public override void MoveTo(Board _hitboard)
+    {
+        base.MoveTo(_hitboard);
+
+        if (!M_PawnMove)
+        {
+            M_PawnMove = true;
+            MoveIndex[0] = new Vector3(MoveIndex[0].x, MoveIndex[0].y, MoveIndex[0].z * 0.5f);
+        }
+    }
+
+    public override void MoveTileTrue()
+    {
+        int count = (int)MoveIndex[0].z;
+        count = Mathf.Abs(count);
+
+        foreach (Vector3 vec in MoveIndex)
+        {
+            Index dirvec = GetDirection(Direction(vec));
+
+            Vector3 tempvec = new Vector3(dirvec.x, 0f, dirvec.y);
+            for (int j = 0; j < count; j++)
+            {
+                if (pieceInfo.Index.x + (int)tempvec.x < BoardManager.Instance.BoardSize.x
+                        && pieceInfo.Index.x + (int)tempvec.x > -1
+                        && pieceInfo.Index.y + (int)tempvec.z < BoardManager.Instance.BoardSize.z
+                        && pieceInfo.Index.y + (int)tempvec.z > -1)
+                {
+                    Board board = BoardManager.Instance.M_BoardArr[pieceInfo.Index.y + (int)tempvec.z, pieceInfo.Index.x + (int)tempvec.x];
+
+                    if (IsMove(tempvec, board, false))
+                    {
+                        if (board.pieceInfo.playerType
+                       != pieceInfo.playerType)
+                        {
+                            board.MaterialMove();
+                            m_moveBoard.Add(board);
+                        }
+                    }
+
+
+                }
+                else
+                {
+                    break;
+                }
+
+                tempvec.x += dirvec.x;
+                tempvec.z += dirvec.y;
+            }
+        }
+
+
+        foreach (Vector3 vec in AttckMoveList)
+        {
+            Index dirvec = GetDirection(Direction(vec));
+            
+
+            Vector3 tempvec = new Vector3(dirvec.x, 0f, dirvec.y);
+            for (int j = 0; j < count; j++)
+            {
+                if (pieceInfo.Index.x + (int)tempvec.x < BoardManager.Instance.BoardSize.x
+                        && pieceInfo.Index.x + (int)tempvec.x > -1
+                        && pieceInfo.Index.y + (int)tempvec.z < BoardManager.Instance.BoardSize.z
+                        && pieceInfo.Index.y + (int)tempvec.z > -1)
+                {
+                    Board board = BoardManager.Instance.M_BoardArr[pieceInfo.Index.y + (int)tempvec.z, pieceInfo.Index.x + (int)tempvec.x];
+
+                    if (IsMove(tempvec, board, true))
+                    {
+                        if (board.pieceInfo.playerType
+                       != pieceInfo.playerType)
+                        {
+                            board.MaterialMove();
+                            m_moveBoard.Add(board);
+                        }
+                    }
+
+
+                }
+                else
+                {
+                    break;
+                }
+
+                tempvec.x += dirvec.x;
+                tempvec.z += dirvec.y;
+            }
+        }
+
+        BoardManager.Instance.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialSelect();
+    }
+
 
 }

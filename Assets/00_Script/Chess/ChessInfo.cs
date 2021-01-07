@@ -43,7 +43,7 @@ public enum DIRECTIONTYPE
 
     MAX
 }
-
+[System.Serializable]
 public struct Index
 {
     public int x;
@@ -56,5 +56,25 @@ public struct PieceInfo
     public PLAYERTYPE playerType;
     public CHESSPIECE chessPiece;
     public Index Index;
+
+    public void SetType(PieceInfo _info)
+    {
+        playerType = _info.playerType;
+        chessPiece = _info.chessPiece;
+    }
+
+    public void InitInfo()
+    {
+        playerType = PLAYERTYPE.NONE;
+        chessPiece = CHESSPIECE.NONE;
+    }
+}
+
+[System.Serializable]
+public struct ChessMissionInfo
+{
+    public int Turn;
+    public PLAYERTYPE Color;
+    public CHESSPIECE piece;
 }
 

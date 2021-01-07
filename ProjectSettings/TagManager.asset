@@ -8,6 +8,7 @@ TagManager:
   - PipeButton
   - ChessPiece
   - ChessBoard
+  - ChessGame
   layers:
   - Default
   - TransparentFX
