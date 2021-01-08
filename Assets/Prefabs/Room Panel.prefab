@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 475707320890890354}
   - component: {fileID: 475707320890890352}
   - component: {fileID: 475707320890890353}
+  - component: {fileID: 7635028871107138349}
   m_Layer: 5
   m_Name: Room Panel
   m_TagString: Untagged
@@ -76,6 +77,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7635028871107138349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475707320890890355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e20affba2f8be1a44bc26051e63a1a68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_text: {fileID: 475707321942945796}
 --- !u!1 &475707321179300766
 GameObject:
   m_ObjectHideFlags: 0
