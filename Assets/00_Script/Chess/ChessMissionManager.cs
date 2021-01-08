@@ -27,11 +27,16 @@ public class ChessMissionManager : Singleton<ChessMissionManager>
         Debug.Log($"CurTurn: {CurTurn}");
 
         //현재 턴이 주어진 미션의 턴보다 많으면 실패함
-        if(CurTurn> CurMission.Turn)
+        if(CurTurn > CurMission.Turn)
         {
+            //현재 턴 초기화
+            CurTurn = 0;
             //게임카운트 올림
             CurCount++;
-            //게임 초기화 해야함
+            if(!CheckGameCount())
+            {
+                BoardManager.Instance.PenaltySet();
+            }
             Debug.Log($"ChessGameFail:CurCount {CurCount}");
         }
     }
@@ -43,22 +48,11 @@ public class ChessMissionManager : Singleton<ChessMissionManager>
         if(_piece.playerType == CurMission.Color
             && _piece.chessPiece == CurMission.piece)
         {
+            Debug.Log("ChessGameComplete");
+            CurTurn = 0;
             //게임 카운트 올림
             CurCount++;
-
-            if(CurCount >= SuccessMissionCount)
-            {
-                Debug.Log($"Complete :CurCount {CurCount}");
-            }
-
-            //최대 게임 카운트보다 많아짐
-            if (CurCount >= MaxMissionCount)
-            {
-                Debug.Log("Fail");
-            }
-
-
-
+            CheckGameCount();
             return true;
         }
         //미션실패
@@ -81,7 +75,29 @@ public class ChessMissionManager : Singleton<ChessMissionManager>
 
     void SetMission()
     {
+        Debug.Log("MissionSet");
         CurMission = MissionList[Random.Range(0, MissionList.Count)];
         CurMission.Turn *= 2;
+    }
+
+    bool CheckGameCount()
+    {
+        //최대 게임 카운트 안에 게임 끝냄
+        if (CurCount >= SuccessMissionCount)
+        {
+            Debug.Log($"Complete :CurCount {CurCount}");
+            return true;
+        }
+
+        //최대 게임 카운트보다 많아짐
+        if (CurCount >= MaxMissionCount)
+        {
+            BoardManager.Instance.BoardInit();
+            Debug.Log("Fail");
+            return false;
+        }
+
+        SetMission();
+        return false;
     }
 }

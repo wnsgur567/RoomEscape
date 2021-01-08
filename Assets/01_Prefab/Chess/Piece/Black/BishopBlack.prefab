@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 517517970018721544}
   - component: {fileID: 507753151292343208}
   - component: {fileID: 670335142508411640}
-  - component: {fileID: 485447146240207791}
+  - component: {fileID: 4966973091733308901}
   m_Layer: 0
-  m_Name: BishopWhite
+  m_Name: BishopBlack
   m_TagString: ChessPiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 00912c1e55787984d8a57cef15d87a8b, type: 2}
+  - {fileID: 2100000, guid: 519bb7ad9c0b01145b66756f3c261e30, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,16 +96,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pieceInfo:
-    playerType: 2
+    playerType: 1
     chessPiece: 4
+    Index:
+      x: 0
+      y: 0
   MoveIndex:
   - {x: 8, y: 0, z: 8}
   - {x: -8, y: 0, z: 8}
   - {x: 8, y: 0, z: -8}
   - {x: -8, y: 0, z: -8}
-  directiontypeList: 
-  BoardManager: {fileID: 0}
---- !u!65 &485447146240207791
+  OriginMaterial: {fileID: 2100000, guid: 519bb7ad9c0b01145b66756f3c261e30, type: 2}
+  PenaltyMatrial: {fileID: 2100000, guid: 0511b4d9b118c064ab33c8d5037da4ac, type: 2}
+--- !u!65 &4966973091733308901
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

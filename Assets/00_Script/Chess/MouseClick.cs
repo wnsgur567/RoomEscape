@@ -70,9 +70,9 @@ public class MouseClick : Singleton<MouseClick>
                             //ClickObj = null;
                             hitpiece.gameObject.SetActive(false);
                             //미션성공?
-                            if(ChessMissionManager.Instance.isMission(hitpiece.pieceInfo))
+                            if(!ChessMissionManager.Instance.isMission(hitpiece.pieceInfo))
                             {
-                                Debug.Log("ChessGameComplete");
+                                hitpiece.gameObject.SetActive(true);
                             }
                         }
                     }

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BoardManager : Singleton<BoardManager>
 {
-    public BoxCollider BoardCollider;
-
     public Vector3 PieceSize;
     public Vector3 BoardSize;
 
@@ -17,19 +15,69 @@ public class BoardManager : Singleton<BoardManager>
     public Material MoveMaterial;
     public Material SelectMaterial;
 
-    
+    List<Vector3> m_PiecePositionList = new List<Vector3>();
+    public List<CHESSPIECE> m_PenaltyPieceList = new List<CHESSPIECE>();
 
     void Start()
     {
-        BoardCollider = this.gameObject.GetComponent<BoxCollider>();
-        
-
         CreateBoardCollider();
-        __Init();
+        ChessInit();
+        PiecePositionInit();
     }
 
+    public void PenaltySet()
+    {
+        CHESSPIECE changePiece;
 
-    void __Init()
+        if (m_PenaltyPieceList.Count >= (int)CHESSPIECE.MAX-1)
+        {
+            return;
+        }
+
+        int count = 0;
+
+        while (true)
+        {
+            changePiece = (CHESSPIECE)Random.Range((int)CHESSPIECE.NONE + 1, (int)CHESSPIECE.MAX);
+            if(m_PenaltyPieceList.IndexOf(changePiece) == -1)
+            {
+                break;
+            }
+
+            if(++count > 1000)
+            {
+
+                Debug.LogError("Loof");
+                return;
+            }
+            
+        }
+
+        foreach(Piece piece in PieceList)
+        {
+            if(piece.pieceInfo.chessPiece == changePiece)
+            {
+                piece.SetMaterial(piece.PenaltyMatrial);
+            }
+        }
+        m_PenaltyPieceList.Add(changePiece);
+
+    }
+
+    void PiecePositionInit()
+    {
+        foreach (Piece piece in PieceList)
+        {
+            m_PiecePositionList.Add(piece.gameObject.transform.position);
+            if(piece.pieceInfo.chessPiece == CHESSPIECE.PAWN)
+            {
+                Pawn pawn = piece.gameObject.transform.GetComponent<Pawn>();
+                pawn.M_PawnMove = false;
+            }
+        }
+    }
+
+    void ChessInit()
     {
         for (int i=0; i<8; i++)
         {
@@ -37,7 +85,7 @@ public class BoardManager : Singleton<BoardManager>
             {
                 foreach (Piece piece in PieceList)
                 {
-                    if (M_BoardArr[i,j].transform.position == piece.transform.position)
+                    if (M_BoardArr[i,j].gameObject.transform.position == piece.gameObject.transform.position)
                     {
                         M_BoardArr[i, j].M_isPiece = true;
                         M_BoardArr[i, j].pieceInfo.SetType(piece.pieceInfo);                        
@@ -48,13 +96,35 @@ public class BoardManager : Singleton<BoardManager>
                 }
             }
         }
-     
-         
-     
+
+        
     }
 
+    public void BoardInit()
+    {
+        foreach(Board board in M_BoardArr)
+        {
+            board.M_isPiece = false;
+            board.pieceInfo.InitInfo();
+        }
+
+        foreach (Piece piece in PieceList)
+        {
+            int index = PieceList.IndexOf(piece);
+            piece.gameObject.transform.position = m_PiecePositionList[index];
+            m_PiecePositionList.Add(piece.transform.position);
+            piece.gameObject.SetActive(true);
+            piece.SetMaterial(piece.OriginMaterial);
+
+
+        }
+
+        ChessInit();
+    }
+    
+
     [ContextMenu("CreateBoardCollider")]
-    public void CreateBoardCollider()
+    void CreateBoardCollider()
     {
         float tempy = 0;
         float tempx = 0;
@@ -78,10 +148,12 @@ public class BoardManager : Singleton<BoardManager>
 
         }
 
+
+        this.transform.localRotation = this.transform.rotation;
     }
 
     [ContextMenu("ResetBoard")]
-    public void ResetBoard()
+    void ResetBoard()
     {
         foreach (Board item in M_BoardArr)
         {

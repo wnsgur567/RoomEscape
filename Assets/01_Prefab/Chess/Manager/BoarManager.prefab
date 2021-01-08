@@ -43,9 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 005b51c91442eaa45a9ac3f40b1a2874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BoardCollider: {fileID: 0}
   PieceSize: {x: 1, y: 1, z: 0}
   BoardSize: {x: 8, y: 0, z: 8}
   PieceList: []
-  BoardObj: {fileID: 0}
+  BoardObj: {fileID: 2880722140061533811, guid: dc9bcdf7975154a49baf295f950dcfbe, type: 3}
   MoveMaterial: {fileID: 2100000, guid: 68c79dcc84191e243b7c0941e55a9b2d, type: 2}
   SelectMaterial: {fileID: 2100000, guid: aec0425ff68c1b545a9da4e5c3f8fa79, type: 2}
+  m_PiecePositionList: []

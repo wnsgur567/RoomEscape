@@ -7,14 +7,21 @@ public class Piece : MonoBehaviour
 {
     public PieceInfo pieceInfo;
     public List<Vector3> MoveIndex;
+    public Material OriginMaterial;
+    public Material PenaltyMatrial;
 
     protected List<DIRECTIONTYPE> m_directiontypeList = new List<DIRECTIONTYPE>();
     protected List<Board> m_moveBoard = new List<Board>();
+
+    MeshRenderer m_meshRenderer;
+
     void Start()
     {
         __Init();
-
+        
     }
+
+
 
     protected virtual void __Init()
     {
@@ -22,6 +29,8 @@ public class Piece : MonoBehaviour
         {
             m_directiontypeList.Add(Direction(item));
         }
+
+        m_meshRenderer = this.gameObject.GetComponent<MeshRenderer>();
     }
 
     public virtual bool IsMove(Vector3 _index, Board _hitBoard, bool _attck)
@@ -167,6 +176,11 @@ public class Piece : MonoBehaviour
         m_moveBoard.Clear();
 
         BoardManager.Instance.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialOff();
+    }
+
+    public void SetMaterial(Material material)
+    {
+        m_meshRenderer.material = material;
     }
 
     protected DIRECTIONTYPE Direction(Vector3 _dir)

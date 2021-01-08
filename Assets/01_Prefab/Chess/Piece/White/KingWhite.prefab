@@ -98,6 +98,9 @@ MonoBehaviour:
   pieceInfo:
     playerType: 2
     chessPiece: 6
+    Index:
+      x: 0
+      y: 0
   MoveIndex:
   - {x: 0, y: 0, z: 1}
   - {x: 1, y: 0, z: 0}
@@ -107,8 +110,8 @@ MonoBehaviour:
   - {x: -1, y: 0, z: 1}
   - {x: 1, y: 0, z: -1}
   - {x: -1, y: 0, z: -1}
-  directiontypeList: 
-  BoardManager: {fileID: 0}
+  OriginMaterial: {fileID: 2100000, guid: adefce1589f7e584ebd7c6d597a46ee9, type: 2}
+  PenaltyMatrial: {fileID: 2100000, guid: a7890afa04b794b49a0f3b3707fbd182, type: 2}
 --- !u!65 &260333657266452940
 BoxCollider:
   m_ObjectHideFlags: 0
