@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Hong.unity
+    guid: 8933e227c393c434b8ac5948dd66af2e
   m_configObjects: {}

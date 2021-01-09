@@ -25,7 +25,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()//서버에 접속
     {
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 2 }, null);
+        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 3 }, null);
     }
 
     public override void OnCreatedRoom()//방이생성되면

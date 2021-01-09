@@ -32,10 +32,10 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     void Update()
     {
         //마우스커서 확인할려고 임시로 넣은거
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.Confined;
         }
         else if (Input.GetKeyDown(KeyCode.T))
         {
@@ -43,8 +43,24 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if(m_PV.IsMine)
+        if (m_PV.IsMine)
+        {
             Interaction();
+         
+            if (Input.GetMouseButton(1))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
+            }
+        }
+    }
+    public float rotate_spd = 100.0f;
+
+    private void OnMouseDrag()
+    {
+        float temp_x_axis = Input.GetAxis("Mouse X") * rotate_spd * Time.deltaTime;
+        float temp_y_axis = Input.GetAxis("Mouse Y") * rotate_spd * Time.deltaTime;
+        transform.Rotate(temp_y_axis, -temp_x_axis, 0, Space.World);
 
     }
     void Interaction()
