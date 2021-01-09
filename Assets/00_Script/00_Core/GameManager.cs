@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         M_gameManager = this;
+    }
+    private void Start()
+    {
         Spawn(Vector3.zero);
     }
     public void Complete_PipePuzzle()
