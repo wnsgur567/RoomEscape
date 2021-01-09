@@ -23,6 +23,7 @@ public class _NetworkManager : SingletonPunCallback<_NetworkManager>
     {
         _JoinLobby();
     }
+
     // 서버 연결 시 callback
     public override void OnConnected()
     {        

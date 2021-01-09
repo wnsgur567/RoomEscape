@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         M_gameManager = this;
+        Spawn(Vector3.zero);
     }
     public void Complete_PipePuzzle()
     {
@@ -20,8 +21,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
 
-    public void Spawn(Transform SpawnPosition)//버튼에 할당한 Position으로 prefab인스턴스 생성
+    public void Spawn(Vector3 SpawnPosition)//버튼에 할당한 Position으로 prefab인스턴스 생성
     {
-        PhotonNetwork.Instantiate("Charactor", SpawnPosition.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("Charactor", SpawnPosition, Quaternion.identity);
     }
 }
