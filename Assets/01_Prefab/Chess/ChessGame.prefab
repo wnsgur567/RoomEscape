@@ -414,7 +414,7 @@ Transform:
   - {fileID: 4956455771617372271}
   - {fileID: 4956455772175207735}
   - {fileID: 4956455772573854526}
-  - {fileID: 4956455771743522101}
+  - {fileID: 8294885064045249534}
   - {fileID: 4656985714502645547}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2742,6 +2742,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2880722140061533811, guid: dc9bcdf7975154a49baf295f950dcfbe, type: 3}
     - target: {fileID: 3052718914463314221, guid: 6c70e70481cffb647a5ee126d0db4088, type: 3}
+      propertyPath: BoardParent
+      value: 
+      objectReference: {fileID: 4956455772175207728}
+    - target: {fileID: 3052718914463314221, guid: 6c70e70481cffb647a5ee126d0db4088, type: 3}
       propertyPath: PieceList.Array.size
       value: 32
       objectReference: {fileID: 0}
@@ -2919,7 +2923,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3052718914463314223, guid: 6c70e70481cffb647a5ee126d0db4088, type: 3}
       propertyPath: m_Name
-      value: BoarManager
+      value: BoardManager
       objectReference: {fileID: 0}
     - target: {fileID: 3052718914463314223, guid: 6c70e70481cffb647a5ee126d0db4088, type: 3}
       propertyPath: m_TagString
@@ -2939,6 +2943,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4956455773205895363}
     m_Modifications:
+    - target: {fileID: 548414028921995156, guid: bd0014e4b5fad42449f274f611888186, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3479558343424815453, guid: bd0014e4b5fad42449f274f611888186, type: 3}
       propertyPath: m_Name
       value: ChessMissionManager
@@ -2989,9 +2997,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd0014e4b5fad42449f274f611888186, type: 3}
---- !u!4 &4956455771743522101 stripped
+--- !u!4 &8294885064045249534 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3479558343424815455, guid: bd0014e4b5fad42449f274f611888186, type: 3}
+  m_CorrespondingSourceObject: {fileID: 548414028921995156, guid: bd0014e4b5fad42449f274f611888186, type: 3}
   m_PrefabInstance: {fileID: 8394992980668202090}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8742730413932892299

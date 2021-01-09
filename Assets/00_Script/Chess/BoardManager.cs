@@ -6,6 +6,7 @@ public class BoardManager : Singleton<BoardManager>
 {
     public Vector3 PieceSize;
     public Vector3 BoardSize;
+    public GameObject BoardParent;
 
     public List<Piece> PieceList;
 
@@ -133,8 +134,8 @@ public class BoardManager : Singleton<BoardManager>
         {
             for (int j = 0; j < 8; j++)
             {
-                GameObject gameObject = Instantiate(BoardObj.gameObject, new Vector3(tempx, 0f, tempy) + this.gameObject.transform.position
-                    , Quaternion.identity, this.transform);
+                GameObject gameObject = Instantiate(BoardObj.gameObject, new Vector3(tempx, 0f, tempy) + BoardParent.gameObject.transform.position
+                    , Quaternion.identity, BoardParent.transform);
                 M_BoardArr[i,j] = gameObject.GetComponent<Board>();
                 M_BoardArr[i, j].pieceInfo.InitInfo();
                 M_BoardArr[i, j].pieceInfo.Index.y = i;
@@ -149,7 +150,7 @@ public class BoardManager : Singleton<BoardManager>
         }
 
 
-        this.transform.localRotation = this.transform.rotation;
+        BoardParent.transform.localRotation = BoardParent.transform.rotation;
     }
 
     [ContextMenu("ResetBoard")]
