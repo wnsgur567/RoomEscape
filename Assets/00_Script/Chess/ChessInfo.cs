@@ -48,6 +48,28 @@ public struct Index
 {
     public int x;
     public int y;
+
+    public static bool operator ==(Index op1, Index op2)
+    {
+        if (op1.x == op2.x
+            && op1.y == op2.y)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static bool operator !=(Index op1, Index op2)
+    {
+        if (op1.x != op2.x
+            && op1.y != op2.y)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 [System.Serializable]
@@ -68,6 +90,31 @@ public struct PieceInfo
         playerType = PLAYERTYPE.NONE;
         chessPiece = CHESSPIECE.NONE;
     }
+
+    public static bool operator ==(PieceInfo op1, PieceInfo op2)
+    {
+        if(op1.playerType == op2.playerType
+            && op1.chessPiece == op2.chessPiece
+            && op1.Index == op2.Index)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static bool operator !=(PieceInfo op1, PieceInfo op2)
+    {
+        if (op1.playerType != op2.playerType
+           && op1.chessPiece != op2.chessPiece
+           && op1.Index != op2.Index)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 }
 
 [System.Serializable]

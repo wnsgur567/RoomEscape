@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseClick : Singleton<MouseClick>
+public class MouseClick : MonoBehaviour
 {
     public float m_range;
     public Transform m_cam;
 
     public GameObject ClickObj;
+    //public BoardManager boardManager;
 
     void ChessGameClick(RaycastHit hit)
     {
@@ -17,10 +18,12 @@ public class MouseClick : Singleton<MouseClick>
 
             if (hit.transform.CompareTag("ChessBoard"))
             {
+                // 체스보드(클릭한 보드 위치)로 움직임
                 if (ClickObj != null)
                 {
                     Piece playerpiece = ClickObj.GetComponent<Piece>();
                     Board hitBoard = hit.transform.GetComponent<Board>();
+                    BoardManager boardManager = hitBoard.boardManager;
                     Vector3 tempvec = new Vector3();
 
                     tempvec.x = hitBoard.pieceInfo.Index.x - playerpiece.pieceInfo.Index.x;
@@ -29,8 +32,9 @@ public class MouseClick : Singleton<MouseClick>
 
                     if (playerpiece.IsMove(tempvec, hitBoard, false))
                     {
+                        ChessMissionManager.Instance.UpdateChess(boardManager, playerpiece, hitBoard, null);
                         playerpiece.MoveTileFalse();
-                        playerpiece.MoveTo(hitBoard);
+                        playerpiece.MoveTo(hitBoard, null);
                         ClickObj = null;
 
                     }
@@ -44,8 +48,10 @@ public class MouseClick : Singleton<MouseClick>
                    
 
                     Piece hitpiece = hit.transform.GetComponent<Piece>();
-                    Board hitBoard = BoardManager.Instance.M_BoardArr[hitpiece.pieceInfo.Index.y, hitpiece.pieceInfo.Index.x];
+                    BoardManager boardManager = hitpiece.boardManager;
+                    Board hitBoard = boardManager.M_BoardArr[hitpiece.pieceInfo.Index.y, hitpiece.pieceInfo.Index.x];
 
+                    //행동취소
                     if (hit.transform.gameObject == ClickObj)
                     {
                         playerpiece = ClickObj.GetComponent<Piece>();
@@ -54,7 +60,7 @@ public class MouseClick : Singleton<MouseClick>
 
                         return;
                     }
-
+                    //상대편 말 잡기
                     if (playerpiece.pieceInfo.playerType != hitpiece.pieceInfo.playerType)
                     {
                         Vector3 tempvec = new Vector3();
@@ -62,15 +68,15 @@ public class MouseClick : Singleton<MouseClick>
                         tempvec.x = hitBoard.pieceInfo.Index.x - playerpiece.pieceInfo.Index.x;
                         tempvec.z = hitBoard.pieceInfo.Index.y - playerpiece.pieceInfo.Index.y;
 
-
+                        //움직임 여부 체크 후 움직임
                         if (playerpiece.IsMove(tempvec, hitBoard, true))
                         {
-
-                            playerpiece.MoveTo(hitBoard);
-                            //ClickObj = null;
-                            hitpiece.gameObject.SetActive(false);
+                            ChessMissionManager.Instance.UpdateChess(boardManager, playerpiece, hitBoard, hitpiece);
+                            playerpiece.MoveTo(hitBoard, hitpiece);
+                            ClickObj = null;
+                            //hitpiece.gameObject.SetActive(false);
                             //미션성공?
-                            if(!ChessMissionManager.Instance.isMission(hitpiece.pieceInfo))
+                            if(ChessMissionManager.Instance.isMission(hitpiece.pieceInfo))
                             {
                                 hitpiece.gameObject.SetActive(true);
                             }
@@ -78,22 +84,36 @@ public class MouseClick : Singleton<MouseClick>
                     }
                     else
                     {
+                        //플레이어 말 바꾸기
                         playerpiece.MoveTileFalse();
                         ClickObj = hit.transform.gameObject;
                         playerpiece = ClickObj.GetComponent<Piece>();
                         playerpiece.MoveTileTrue();
                     }
                 }
-                else
+                else //플레이어 본인 말 선택
                 {
                     Piece playerpiece = hit.transform.GetComponent<Piece>();
-                    if (playerpiece.pieceInfo.playerType != ChessMissionManager.Instance.TurnPlayer)
+                    BoardManager boardManager = playerpiece.boardManager;
+
+                    if (playerpiece.pieceInfo.playerType == ChessMissionManager.Instance.TurnPlayer
+                        && boardManager.playerType == ChessMissionManager.Instance.TurnPlayer)
                     {
-                        return;
+                        if(ChessMissionManager.Instance.boardManagerList[0].playerType == boardManager.playerType)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+
+
+                        ClickObj = hit.transform.gameObject;
+                        playerpiece.MoveTileTrue();
                     }
 
-                    ClickObj = hit.transform.gameObject;
-                    playerpiece.MoveTileTrue();
+                    
                 }
             }
 
@@ -104,8 +124,11 @@ public class MouseClick : Singleton<MouseClick>
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, m_range))
+        if (Physics.Raycast(m_cam.transform.position, m_cam.transform.forward, out hit, m_range))
         {
+/*
+            if (Physics.Raycast(ray, out hit, m_range))
+        {*/
             ChessGameClick(hit);
         }
     }

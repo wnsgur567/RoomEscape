@@ -2,22 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardManager : Singleton<BoardManager>
+public class BoardManager : MonoBehaviour
 {
-    public Vector3 PieceSize;
-    public Vector3 BoardSize;
-    public GameObject BoardParent;
+    public MouseClick ClickManager;                                           //클릭매니저, 합칠 때 봐야함
+    public PLAYERTYPE playerType;                                           //이 보드의 플레이어 색
 
-    public List<Piece> PieceList;
+    public Vector3 PieceSize;                                                   //칸 사이즈
+    public Vector3 BoardSize;                                                  //보드 사이즈(8*8)
+    public GameObject BoardParent;                                          //보드가 들어갈 부모 오브젝트
 
-    public Board BoardObj;
-    public Board[,] M_BoardArr = new Board[8, 8];
+    public List<Piece> PieceList;                                                //현재 체스들
 
-    public Material MoveMaterial;
-    public Material SelectMaterial;
+    public Board BoardObj;                                                      //만들 보드 오브젝트
+    public Board[,] M_BoardArr = new Board[8, 8];                         //현재 보드
 
-    List<Vector3> m_PiecePositionList = new List<Vector3>();
-    public List<CHESSPIECE> m_PenaltyPieceList = new List<CHESSPIECE>();
+    public SpriteRenderer MoveRenderer;                                     //움직일 수 있는 위치에 나타나는 색 타일
+    public SpriteRenderer SelectRenderer;                                    //선택했을때 나타나는 색 타일
+
+    List<Vector3> m_PiecePositionList = new List<Vector3>();            //체스들 초기 위치
+    
 
     void Start()
     {
@@ -26,45 +29,7 @@ public class BoardManager : Singleton<BoardManager>
         PiecePositionInit();
     }
 
-    public void PenaltySet()
-    {
-        CHESSPIECE changePiece;
-
-        if (m_PenaltyPieceList.Count >= (int)CHESSPIECE.MAX-1)
-        {
-            return;
-        }
-
-        int count = 0;
-
-        while (true)
-        {
-            changePiece = (CHESSPIECE)Random.Range((int)CHESSPIECE.NONE + 1, (int)CHESSPIECE.MAX);
-            if(m_PenaltyPieceList.IndexOf(changePiece) == -1)
-            {
-                break;
-            }
-
-            if(++count > 1000)
-            {
-
-                Debug.LogError("Loof");
-                return;
-            }
-            
-        }
-
-        foreach(Piece piece in PieceList)
-        {
-            if(piece.pieceInfo.chessPiece == changePiece)
-            {
-                piece.SetMaterial(piece.PenaltyMatrial);
-            }
-        }
-        m_PenaltyPieceList.Add(changePiece);
-
-    }
-
+    //체스들 초기 위치 저장
     void PiecePositionInit()
     {
         foreach (Piece piece in PieceList)
@@ -78,6 +43,7 @@ public class BoardManager : Singleton<BoardManager>
         }
     }
 
+    //체스 설정
     void ChessInit()
     {
         for (int i=0; i<8; i++)
@@ -88,8 +54,11 @@ public class BoardManager : Singleton<BoardManager>
                 {
                     if (M_BoardArr[i,j].gameObject.transform.position == piece.gameObject.transform.position)
                     {
+                        //체스가 서 있는 보드위치
                         M_BoardArr[i, j].M_isPiece = true;
-                        M_BoardArr[i, j].pieceInfo.SetType(piece.pieceInfo);                        
+                        //체스가 서 있는 보드의 체스정보 입력
+                        M_BoardArr[i, j].pieceInfo.SetType(piece.pieceInfo);                   
+                        //체스보드 인덱스 설정
                         piece.pieceInfo.Index.y = i;
                         piece.pieceInfo.Index.x = j;
                         break;
@@ -97,21 +66,23 @@ public class BoardManager : Singleton<BoardManager>
                 }
             }
         }
-
-        
     }
 
+    //체스보드,체스 말 처음 상태로 초기화
     public void BoardInit()
     {
+        //초기화
         foreach(Board board in M_BoardArr)
         {
             board.M_isPiece = false;
             board.pieceInfo.InitInfo();
         }
 
+        //설정
         foreach (Piece piece in PieceList)
         {
             int index = PieceList.IndexOf(piece);
+            //체스위치 초기화
             piece.gameObject.transform.position = m_PiecePositionList[index];
             m_PiecePositionList.Add(piece.transform.position);
             piece.gameObject.SetActive(true);
@@ -140,6 +111,7 @@ public class BoardManager : Singleton<BoardManager>
                 M_BoardArr[i, j].pieceInfo.InitInfo();
                 M_BoardArr[i, j].pieceInfo.Index.y = i;
                 M_BoardArr[i, j].pieceInfo.Index.x = j;
+                gameObject.SetActive(true);
 
                 tempx += PieceSize.x;
 

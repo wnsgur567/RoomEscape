@@ -103,8 +103,8 @@ public class Pawn : Piece
                 {
                     i += tempindex.y; j += tempindex.x;
 
-                    if (BoardManager.Instance.M_BoardArr[i, j].M_isPiece
-                        && BoardManager.Instance.M_BoardArr[i, j] != _hitBoard)
+                    if (boardManager.M_BoardArr[i, j].M_isPiece
+                        && boardManager.M_BoardArr[i, j] != _hitBoard)
                     {
                         return false;
                     }
@@ -124,9 +124,9 @@ public class Pawn : Piece
         return false;
     }
 
-    public override void MoveTo(Board _hitboard)
+    public override void MoveTo(Board _hitboard, Piece _hitpiece)
     {
-        base.MoveTo(_hitboard);
+        base.MoveTo(_hitboard, _hitpiece);
 
         if (!M_PawnMove)
         {
@@ -147,12 +147,12 @@ public class Pawn : Piece
             Vector3 tempvec = new Vector3(dirvec.x, 0f, dirvec.y);
             for (int j = 0; j < count; j++)
             {
-                if (pieceInfo.Index.x + (int)tempvec.x < BoardManager.Instance.BoardSize.x
+                if (pieceInfo.Index.x + (int)tempvec.x < boardManager.BoardSize.x
                         && pieceInfo.Index.x + (int)tempvec.x > -1
-                        && pieceInfo.Index.y + (int)tempvec.z < BoardManager.Instance.BoardSize.z
+                        && pieceInfo.Index.y + (int)tempvec.z < boardManager.BoardSize.z
                         && pieceInfo.Index.y + (int)tempvec.z > -1)
                 {
-                    Board board = BoardManager.Instance.M_BoardArr[pieceInfo.Index.y + (int)tempvec.z, pieceInfo.Index.x + (int)tempvec.x];
+                    Board board = boardManager.M_BoardArr[pieceInfo.Index.y + (int)tempvec.z, pieceInfo.Index.x + (int)tempvec.x];
 
                     if (IsMove(tempvec, board, false))
                     {
@@ -185,12 +185,12 @@ public class Pawn : Piece
             Vector3 tempvec = new Vector3(dirvec.x, 0f, dirvec.y);
             for (int j = 0; j < count; j++)
             {
-                if (pieceInfo.Index.x + (int)tempvec.x < BoardManager.Instance.BoardSize.x
+                if (pieceInfo.Index.x + (int)tempvec.x < boardManager.BoardSize.x
                         && pieceInfo.Index.x + (int)tempvec.x > -1
-                        && pieceInfo.Index.y + (int)tempvec.z < BoardManager.Instance.BoardSize.z
+                        && pieceInfo.Index.y + (int)tempvec.z < boardManager.BoardSize.z
                         && pieceInfo.Index.y + (int)tempvec.z > -1)
                 {
-                    Board board = BoardManager.Instance.M_BoardArr[pieceInfo.Index.y + (int)tempvec.z, pieceInfo.Index.x + (int)tempvec.x];
+                    Board board = boardManager.M_BoardArr[pieceInfo.Index.y + (int)tempvec.z, pieceInfo.Index.x + (int)tempvec.x];
 
                     if (IsMove(tempvec, board, true))
                     {
@@ -214,7 +214,7 @@ public class Pawn : Piece
             }
         }
 
-        BoardManager.Instance.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialSelect();
+        boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialSelect();
     }
 
 

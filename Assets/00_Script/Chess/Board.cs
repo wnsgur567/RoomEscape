@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+    public BoardManager boardManager;
+
     public bool M_isPiece;
     public PieceInfo pieceInfo;
-    //public Index M_BoardIndex;
-    public MeshRenderer ColorQuad;
+    public SpriteRenderer ColorQuad;
 
     private void Start()
     {
@@ -17,13 +18,13 @@ public class Board : MonoBehaviour
 
     public void MaterialSelect()
     {
-        ColorQuad.material = BoardManager.Instance.SelectMaterial;
+        ColorQuad.color = boardManager.SelectRenderer.color;
         ColorQuad.gameObject.SetActive(true);
     }
 
     public void MaterialMove()
     {
-        ColorQuad.material = BoardManager.Instance.MoveMaterial;
+        ColorQuad.color = boardManager.MoveRenderer.color;
         ColorQuad.gameObject.SetActive(true);
     }
 

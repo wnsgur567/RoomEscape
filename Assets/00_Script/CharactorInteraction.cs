@@ -132,7 +132,6 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             {
                 //상호작용 크로스헤어 활성화
                 m_Crosshair.gameObject.SetActive(true);
-                ChessGameClick(hit);
             }
 
 
@@ -141,98 +140,6 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         {
             //상호작용할게 없으면 크로스헤어 끄기
             m_Crosshair.gameObject.SetActive(false);
-        }
-    }
-
-    public GameObject ClickObj;
-    void ChessGameClick(RaycastHit hit)
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log($"{hit.transform.tag}");
-
-            if (hit.transform.CompareTag("ChessBoard"))
-            {
-                if (ClickObj != null)
-                {
-                    Piece playerpiece = ClickObj.GetComponent<Piece>();
-                    Board hitBoard = hit.transform.GetComponent<Board>();
-                    Vector3 tempvec = new Vector3();
-
-                    tempvec.x = hitBoard.pieceInfo.Index.x - playerpiece.pieceInfo.Index.x;
-                    tempvec.z = hitBoard.pieceInfo.Index.y - playerpiece.pieceInfo.Index.y;
-
-
-                    if (playerpiece.IsMove(tempvec, hitBoard, false))
-                    {
-                        playerpiece.MoveTileFalse();
-                        playerpiece.MoveTo(hitBoard);
-                        ClickObj = null;
-
-                    }
-                }
-            }
-            else if (hit.transform.CompareTag("ChessPiece"))
-            {
-                if (ClickObj != null)
-                {
-                    Piece playerpiece = ClickObj.GetComponent<Piece>();
-
-
-                    Piece hitpiece = hit.transform.GetComponent<Piece>();
-                    Board hitBoard = BoardManager.Instance.M_BoardArr[hitpiece.pieceInfo.Index.y, hitpiece.pieceInfo.Index.x];
-
-                    if (hit.transform.gameObject == ClickObj)
-                    {
-                        playerpiece = ClickObj.GetComponent<Piece>();
-                        playerpiece.MoveTileFalse();
-                        ClickObj = null;
-
-                        return;
-                    }
-
-                    if (playerpiece.pieceInfo.playerType != hitpiece.pieceInfo.playerType)
-                    {
-                        Vector3 tempvec = new Vector3();
-
-                        tempvec.x = hitBoard.pieceInfo.Index.x - playerpiece.pieceInfo.Index.x;
-                        tempvec.z = hitBoard.pieceInfo.Index.y - playerpiece.pieceInfo.Index.y;
-
-
-                        if (playerpiece.IsMove(tempvec, hitBoard, true))
-                        {
-
-                            playerpiece.MoveTo(hitBoard);
-                            //ClickObj = null;
-                            hitpiece.gameObject.SetActive(false);
-                            //미션성공?
-                            if (!ChessMissionManager.Instance.isMission(hitpiece.pieceInfo))
-                            {
-                                hitpiece.gameObject.SetActive(true);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        playerpiece.MoveTileFalse();
-                        ClickObj = hit.transform.gameObject;
-                        playerpiece = ClickObj.GetComponent<Piece>();
-                        playerpiece.MoveTileTrue();
-                    }
-                }
-                else
-                {
-                    Piece playerpiece = hit.transform.GetComponent<Piece>();
-                    if (playerpiece.pieceInfo.playerType != ChessMissionManager.Instance.TurnPlayer)
-                    {
-                        return;
-                    }
-
-                    ClickObj = hit.transform.gameObject;
-                    playerpiece.MoveTileTrue();
-                }
-            }
-
         }
     }
 

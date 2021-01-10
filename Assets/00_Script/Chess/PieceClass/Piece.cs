@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
+    public BoardManager boardManager;
+
     public PieceInfo pieceInfo;
     public List<Vector3> MoveIndex;
     public Material OriginMaterial;
@@ -35,9 +37,9 @@ public class Piece : MonoBehaviour
 
     public virtual bool IsMove(Vector3 _index, Board _hitBoard, bool _attck)
     {
-        if(_index.x + this.pieceInfo.Index.x > BoardManager.Instance.BoardSize.x
+        if(_index.x + this.pieceInfo.Index.x > boardManager.BoardSize.x
             || _index.x + this.pieceInfo.Index.x < 0
-            || _index.z + this.pieceInfo.Index.y > BoardManager.Instance.BoardSize.z
+            || _index.z + this.pieceInfo.Index.y > boardManager.BoardSize.z
             || _index.z + this.pieceInfo.Index.y < 0)
         {
             return false;
@@ -77,8 +79,8 @@ public class Piece : MonoBehaviour
                 {
                     i += tempindex.y; j += tempindex.x;
 
-                    if(BoardManager.Instance.M_BoardArr[i, j].M_isPiece
-                        && BoardManager.Instance.M_BoardArr[i, j] != _hitBoard)
+                    if(boardManager.M_BoardArr[i, j].M_isPiece
+                        && boardManager.M_BoardArr[i, j] != _hitBoard)
                     {
                         return false;
                     }
@@ -104,24 +106,28 @@ public class Piece : MonoBehaviour
         return false;
     }
 
-    public virtual void MoveTo(Board _hitboard)
+    public virtual void MoveTo(Board _hitboard, Piece _hitpiece)
     {
-        MouseClick.Instance.ClickObj = null;
+        boardManager.ClickManager.ClickObj = null;
 
         MoveTileFalse();
 
         _hitboard.M_isPiece = true;
         _hitboard.pieceInfo.SetType(this.pieceInfo);
 
-        BoardManager.Instance.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].M_isPiece = false;
-        BoardManager.Instance.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].pieceInfo.InitInfo();
+        boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].M_isPiece = false;
+        boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].pieceInfo.InitInfo();
 
         this.transform.position = _hitboard.transform.position;
         this.pieceInfo.Index.x = _hitboard.pieceInfo.Index.x;
         this.pieceInfo.Index.y = _hitboard.pieceInfo.Index.y;
 
-        ChessMissionManager.Instance.TurnPlayer = SwitchPlayerType(ChessMissionManager.Instance.TurnPlayer);
-        ChessMissionManager.Instance.CurTurnAdd();
+        if(_hitpiece != null)
+        {
+            _hitpiece.gameObject.SetActive(false);
+        }
+
+
     }
 
     public virtual void MoveTileTrue()
@@ -134,12 +140,12 @@ public class Piece : MonoBehaviour
             Vector3 tempvec = new Vector3(dirvec.x, 0f, dirvec.y);
             for (int j = 0; j < count; j++)
             {
-                if (pieceInfo.Index.x + (int)tempvec.x < BoardManager.Instance.BoardSize.x
+                if (pieceInfo.Index.x + (int)tempvec.x < boardManager.BoardSize.x
                         && pieceInfo.Index.x + (int)tempvec.x > -1
-                        && pieceInfo.Index.y + (int)tempvec.z < BoardManager.Instance.BoardSize.z
+                        && pieceInfo.Index.y + (int)tempvec.z < boardManager.BoardSize.z
                         && pieceInfo.Index.y + (int)tempvec.z > -1)
                 {
-                    Board board = BoardManager.Instance.M_BoardArr[pieceInfo.Index.y + (int)tempvec.z, pieceInfo.Index.x + (int)tempvec.x];
+                    Board board = boardManager.M_BoardArr[pieceInfo.Index.y + (int)tempvec.z, pieceInfo.Index.x + (int)tempvec.x];
 
                     if (IsMove(tempvec, board, false))
                     {
@@ -163,7 +169,7 @@ public class Piece : MonoBehaviour
             }
         }
 
-        BoardManager.Instance.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialSelect();
+        boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialSelect();
     }
 
     public void MoveTileFalse()
@@ -175,7 +181,7 @@ public class Piece : MonoBehaviour
 
         m_moveBoard.Clear();
 
-        BoardManager.Instance.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialOff();
+        boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialOff();
     }
 
     public void SetMaterial(Material material)
@@ -256,16 +262,5 @@ public class Piece : MonoBehaviour
         return tempindex;
     }
 
-    PLAYERTYPE SwitchPlayerType(PLAYERTYPE _type)
-    {
-        switch (_type)
-        {
-            case PLAYERTYPE.WHITE:
-                return PLAYERTYPE.BLACK;
-            case PLAYERTYPE.BLACK:
-                return PLAYERTYPE.WHITE;
-        }
 
-        return PLAYERTYPE.NONE;
-    }
 }

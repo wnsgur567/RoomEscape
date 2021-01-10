@@ -16,9 +16,9 @@ public class Knight : Piece
 
     public override bool IsMove(Vector3 _index, Board _hitBoard, bool _attck)
     {
-        if (_index.x + this.transform.position.x >= BoardManager.Instance.BoardSize.x
+        if (_index.x + this.transform.position.x >= boardManager.BoardSize.x
             || _index.x + this.transform.position.x < 0
-            || _index.z + this.transform.position.z >= BoardManager.Instance.BoardSize.z
+            || _index.z + this.transform.position.z >= boardManager.BoardSize.z
             || _index.z + this.transform.position.z < 0)
         {
             return false;
@@ -39,12 +39,12 @@ public class Knight : Piece
     {
         foreach (Vector3 vec in MoveIndex)
         {
-            if (pieceInfo.Index.x + (int)vec.x  < BoardManager.Instance.BoardSize.x
+            if (pieceInfo.Index.x + (int)vec.x  < boardManager.BoardSize.x
             && pieceInfo.Index.x + (int)vec.x > -1
-            && pieceInfo.Index.y + (int)vec.z < BoardManager.Instance.BoardSize.z
+            && pieceInfo.Index.y + (int)vec.z < boardManager.BoardSize.z
             && pieceInfo.Index.y + (int)vec.z > -1)
             {
-                Board board = BoardManager.Instance.M_BoardArr[pieceInfo.Index.y + (int)vec.z, pieceInfo.Index.x + (int)vec.x];
+                Board board = boardManager.M_BoardArr[pieceInfo.Index.y + (int)vec.z, pieceInfo.Index.x + (int)vec.x];
                 if (board.pieceInfo.playerType
                     != pieceInfo.playerType)
                 {
@@ -54,7 +54,7 @@ public class Knight : Piece
             }
         }
 
-        BoardManager.Instance.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialSelect();
+        boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialSelect();
     }
 
 }
