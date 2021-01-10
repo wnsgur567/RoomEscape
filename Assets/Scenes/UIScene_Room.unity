@@ -2118,7 +2118,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 653515367}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -2333,7 +2333,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 
+  m_Text: Std
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -3152,9 +3152,9 @@ GameObject:
   m_Component:
   - component: {fileID: 848339954}
   - component: {fileID: 848339957}
-  - component: {fileID: 848339958}
   - component: {fileID: 848339956}
   - component: {fileID: 848339955}
+  - component: {fileID: 848339958}
   m_Layer: 5
   m_Name: "\uBC29 \uB9CC\uB4E4\uAE30 Button"
   m_TagString: Untagged
@@ -3226,33 +3226,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1141069263}
-        m_TargetAssemblyTypeName: NetworkRoomManager, Assembly-CSharp
-        m_MethodName: _CreateRoom
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 848339958}
-        m_TargetAssemblyTypeName: _OnButtonProcess, Assembly-CSharp
-        m_MethodName: __OnLoadScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Hong
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 848339958}
-        m_TargetAssemblyTypeName: _OnButtonProcess, Assembly-CSharp
-        m_MethodName: __OnLoadScene
+        m_TargetAssemblyTypeName: RoomCreateButton, Assembly-CSharp
+        m_MethodName: __CreateRoom
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3309,9 +3285,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 848339953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9efff207511b6443bbc42f1da4b0815, type: 3}
+  m_Script: {fileID: 11500000, guid: f93d028d419ae5b42af15c7f1ed424c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_roomName_Text: {fileID: 0}
+  m_roomPW_Text: {fileID: 0}
 --- !u!1 &881360697
 GameObject:
   m_ObjectHideFlags: 0
@@ -3940,6 +3918,7 @@ MonoBehaviour:
   m_RoomListContent: {fileID: 1796769431}
   m_roomNameInputfield: {fileID: 663007483}
   m_roomPasswordInputfield: {fileID: 800043828}
+  m_selectedRoomName: 
 --- !u!1 &1153817232
 GameObject:
   m_ObjectHideFlags: 0
@@ -4608,6 +4587,7 @@ GameObject:
   - component: {fileID: 1276892477}
   - component: {fileID: 1276892476}
   - component: {fileID: 1276892475}
+  - component: {fileID: 1276892478}
   m_Layer: 5
   m_Name: "\uCC38\uAC00\uD558\uAE30 Button"
   m_TagString: Untagged
@@ -4678,7 +4658,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1276892476}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1276892478}
+        m_TargetAssemblyTypeName: RoomJoinButton, Assembly-CSharp
+        m_MethodName: __JoinRoom
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UIScene_Game
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1276892476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4717,6 +4709,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1276892473}
   m_CullTransparentMesh: 1
+--- !u!114 &1276892478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276892473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41a8c7c1f35c2ce4b81219f1a134b175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_text: {fileID: 0}
 --- !u!1 &1313422146
 GameObject:
   m_ObjectHideFlags: 0
@@ -7440,7 +7445,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u200B"
+  m_text: "Std\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
