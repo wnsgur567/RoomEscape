@@ -11,19 +11,23 @@ using Photon.Pun;
 
 public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientListener
 {
+    _NetworkInfoManager m_networkInfoManager = null;
+
 	private ChatClient m_chatClient;
-    [SerializeField] string m_userName; // 임시
-    [SerializeField] string m_channelName;  // 임시
+    [SerializeField, ShowOnly] string m_userName; // 임시
+    [SerializeField, ShowOnly] string m_channelName;  // 임시
 
     [SerializeField] TMP_InputField m_InputField;
     [SerializeField] TextMeshProUGUI m_outputText;
 
+    [SerializeField] TMP_InputField m_termainlInputField;
+    [SerializeField] TextMeshProUGUI m_termainlOutputText;
 
-    private void Start()
+    [SerializeField, ShowOnly] bool isGameStart;
+
+    override protected void Awake()
     {
-        // output 비우기
-        m_outputText.text = "";
-        AddLine("연결 시도...");
+        m_networkInfoManager = _NetworkInfoManager.Instance;               
 
         // 채팅 연결 및 초기화
         __Initialize();
@@ -31,6 +35,10 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
 
     private void __Initialize()
     {
+        // 유저 정보 초기화
+        m_userName = m_networkInfoManager.m_playerInfo.nickname;
+        m_channelName = m_networkInfoManager.m_playerInfo.currRoomName;
+
         // IChatClientListener 포함하는 obj(this)
         m_chatClient = new ChatClient(this);
 
@@ -39,6 +47,14 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
             PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat,       // setting 참조
             PhotonNetwork.AppVersion,
             new AuthenticationValues(m_userName));
+
+        // output 창 모두 비우기
+        FlushAllText();
+        // AddLine("연결 시도...");
+                
+
+        // 게임 시작 flag
+        isGameStart = false;
     }
 
     private void Update()
@@ -57,6 +73,26 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
             m_InputField.text = "";
         }
     }
+    public void SendText(string p_text)
+    {
+        if (m_chatClient.State == ChatState.ConnectedToFrontEnd)
+        {
+            // 해당 채널에(m_channelName), 입력 메세지(inputField.text) 뿌리기
+            m_chatClient.PublishMessage(m_channelName, p_text);          
+        }
+    }
+
+    // 게임 시작시 호출해 주세요
+    public void _GameStart()
+    {
+        isGameStart = true;
+    }
+
+    public void FlushAllText()
+    {
+        m_outputText.text = "";
+        m_termainlOutputText.text = "";
+    }
 
     public void AddLine(TextMeshProUGUI p_outputText ,string p_lineString)
     {
@@ -66,7 +102,10 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     {
         m_outputText.text += p_lineString + "\r\n";
     }
-
+    private void AddLineTermianl(string p_lineString)
+    {
+        m_termainlOutputText.text += p_lineString + "\r\n";
+    }
 
     /// 이하 IChatClientListener function
     /// //////////////////////////////////////////////////////
@@ -107,7 +146,8 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     // 네트워크 연결이 끊겼을 때
     public void OnDisconnected()
     {
-        AddLine("채팅 서버와 연결이 끊어졌습니다.");        
+        AddLine("채팅 서버와 연결이 끊어졌습니다.");
+        SendText(string.Format("{0} 퇴장111 아 왜안대ㅐㅐㅐㅐ", m_userName));
     }
 
     // 메세지 수신
@@ -115,7 +155,10 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     {
         for (int i = 0; i < messages.Length; i++)
         {
-            AddLine(string.Format("{0} : {1}", senders[i], messages[i].ToString()));
+            if (isGameStart)
+                AddLineTermianl(string.Format("{0} : {1}", senders[i], messages[i].ToString()));
+            else
+                AddLine(string.Format("{0} : {1}", senders[i], messages[i].ToString()));
         }
     }
 
@@ -134,26 +177,28 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     public void OnSubscribed(string[] channels, bool[] results)
     {
         AddLine(string.Format("채널 입장 ({0})", string.Join(",", channels)));
+        SendText(string.Format("{0} 입장", m_userName));
     }
 
     // 채팅 나가기
     public void OnUnsubscribed(string[] channels)
     {
         AddLine(string.Format("채널 퇴장 ({0})", string.Join(",", channels)));
+        SendText(string.Format("{0} 퇴장222", m_userName));
     }
 
     // 다른 한 유저가 채팅 참가
     public void OnUserSubscribed(string channel, string user)
     {
+        AddLine(string.Format($"{user} 참가"));
         //throw new System.NotImplementedException();
     }
 
     // 다른 한 유저가 채팅 나감
     public void OnUserUnsubscribed(string channel, string user)
     {
+        AddLine(string.Format($"{user} 퇴장"));
         //throw new System.NotImplementedException();
     }
-
-    
 
 }

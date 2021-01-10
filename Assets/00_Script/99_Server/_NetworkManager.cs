@@ -21,7 +21,7 @@ public class _NetworkManager : SingletonPunCallback<_NetworkManager>
     public void _Connect() => PhotonNetwork.ConnectUsingSettings();
     public override void OnConnectedToMaster()
     {
-        _JoinLobby();
+        //_JoinLobby();
     }
 
     // 서버 연결 시 callback
@@ -39,21 +39,21 @@ public class _NetworkManager : SingletonPunCallback<_NetworkManager>
     }
     #endregion
 
-    #region 로비 
-    // 대형게임의 경우 로비를 여러개 사용
-    // 1개만 사용 예정
+    //#region 로비 
+    //// 대형게임의 경우 로비를 여러개 사용
+    //// 1개만 사용 예정
 
-    public void _JoinLobby() => PhotonNetwork.JoinLobby();
-    public override void OnJoinedLobby()
-    {
-        Debug.Log("로비 입장");
-    }
-    public void _LeaveLobby() => PhotonNetwork.LeaveLobby();
-    public override void OnLeftLobby()
-    {
-        Debug.Log("로비 퇴장");
-    }
-    #endregion
+    //public void _JoinLobby() => PhotonNetwork.JoinLobby();
+    //public override void OnJoinedLobby()
+    //{
+    //    Debug.Log("로비 입장");
+    //}
+    //public void _LeaveLobby() => PhotonNetwork.LeaveLobby();
+    //public override void OnLeftLobby()
+    //{
+    //    Debug.Log("로비 퇴장");
+    //}
+    //#endregion
 
 
 
