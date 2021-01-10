@@ -11,7 +11,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     private float m_range;//상호작용 거리
 
     [SerializeField]
-    private Transform m_cam;//카메라
+    private Camera m_cam;//카메라
 
     [SerializeField]
     private Image m_Crosshair;//크로스헤어
@@ -21,6 +21,12 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     private PhotonView m_PV;
     private int m_PaintCount;
     private bool m_PaintStart;
+
+    [SerializeField]
+    private CharactorMove m_moveScript;
+
+    [SerializeField]
+    private Transform m_Zoom_pos;
     void Start()
     {
         m_PV = GetComponent<PhotonView>();
@@ -123,6 +129,44 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                         Debug.Log("정답임");
                     }
                     //M_pipeButton.ActiveButton();
+                }
+            }
+
+            //오브젝트가 폭탄인경우
+            if(hit.transform.CompareTag("Bomb"))
+            {
+                //상호작용 크로스헤어 활성화
+                m_Crosshair.gameObject.SetActive(true);
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    m_Crosshair.gameObject.SetActive(false);
+                    Debug.Log(hit.transform.tag);
+                    Transform temp_pos = hit.transform.parent;
+                    
+                    hit.transform.parent.position = m_Zoom_pos.position;
+                    hit.transform.parent.rotation = m_Zoom_pos.rotation;
+                    
+                    m_moveScript.M_Input = false;
+                    
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.Confined;
+                    
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        RaycastHit _hit;
+                        if (Physics.Raycast(m_cam.ScreenPointToRay(Input.mousePosition),out _hit))
+                        {
+                            Debug.Log(_hit.transform.tag);
+                        }
+                        //hit.transform.parent.transform.position = temp_pos.position;
+                        //hit.transform.parent.transform.rotation = temp_pos.rotation;
+
+                        //Cursor.visible = false;
+                        //Cursor.lockState = CursorLockMode.Locked;
+                        //m_moveScript.M_Input = true;
+
+                    }
                 }
             }
         }

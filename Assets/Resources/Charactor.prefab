@@ -75,6 +75,36 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &396338591
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 396338592}
+  m_Layer: 0
+  m_Name: Zoom_Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &396338592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396338591}
+  m_LocalRotation: {x: 0.0000004109317, y: -0.70710695, z: 0.7071067, w: 0.00000041093196}
+  m_LocalPosition: {x: -0.08803054, y: 0.046, z: 0.871}
+  m_LocalScale: {x: 0.32603905, y: 0.32603902, z: 0.13041562}
+  m_Children: []
+  m_Father: {fileID: 967401328668679498}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: -180, z: 0}
 --- !u!1 &967401328668679497
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +133,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 2.5, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 396338592}
   m_Father: {fileID: 2840879065117863370}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -178,7 +209,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &493673338854534061
 Transform:
   m_ObjectHideFlags: 0
@@ -188,7 +219,7 @@ Transform:
   m_GameObject: {fileID: 1023640405088958125}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.25, z: 0}
-  m_LocalScale: {x: 1, y: 2.5, z: 1}
+  m_LocalScale: {x: 3.0671175, y: 7.6677933, z: 3.0671175}
   m_Children:
   - {fileID: 2840879065117863370}
   - {fileID: 5735933023613238400}
@@ -260,9 +291,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd0220da98004e8c2c3cc295e2528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 10
   rotSpeed: 3
   cameraArm: {fileID: 2840879065117863370}
+  M_Input: 0
 --- !u!114 &503033248513128590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,9 +308,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_range: 20
-  m_cam: {fileID: 967401328668679498}
+  m_cam: {fileID: 967401328668679499}
   m_Crosshair: {fileID: 267683932}
   M_pipeButton: {fileID: 0}
+  m_moveScript: {fileID: 914461804}
+  m_Zoom_pos: {fileID: 396338592}
 --- !u!1 &4623461272429003470
 GameObject:
   m_ObjectHideFlags: 0

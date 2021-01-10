@@ -5,8 +5,10 @@ using Photon.Pun;
 using Photon.Realtime;
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public GameObject LobbyImage;
     public static GameManager M_gameManager = null;
+    public GameObject m_Pipe_puzzle;
+    public GameObject m_Paint_puzzle;
+    public Transform SpawnPosition;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -14,18 +16,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
-        Spawn(Vector3.zero);
+        DigitalClock.M_clock.Clock_Initialize();
+
+        Spawn();
     }
     public void Complete_PipePuzzle()
     {
         //파이프퍼즐 완료시
         //폭탄뚜껑 열어야함
+        m_Pipe_puzzle.SetActive(false);
         Debug.Log("파이프 클리어!");
     }
 
 
-    public void Spawn(Vector3 SpawnPosition)//버튼에 할당한 Position으로 prefab인스턴스 생성
+    public void Spawn()//버튼에 할당한 Position으로 prefab인스턴스 생성
     {
-        PhotonNetwork.Instantiate("Charactor", SpawnPosition, Quaternion.identity);
+        PhotonNetwork.Instantiate("Charactor", SpawnPosition.position, Quaternion.identity);
     }
 }

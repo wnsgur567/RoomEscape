@@ -5171,6 +5171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f27dfef56611f854fa8f21e37b80a346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_playerInfo:
+    nickname: 
+    currRoomName: 
+    m_type: 0
 --- !u!4 &1784547562
 Transform:
   m_ObjectHideFlags: 0

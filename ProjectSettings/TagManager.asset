@@ -8,6 +8,13 @@ TagManager:
   - PipeButton
   - Paint
   - Paint_correct
+  - WhiteWire
+  - GreenWire
+  - BlueWire
+  - RedWire
+  - BlackWire
+  - YellowWire
+  - Bomb
   layers:
   - Default
   - TransparentFX
