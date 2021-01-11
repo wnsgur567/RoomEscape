@@ -37,29 +37,5 @@ public struct CurrentOptionInfo
 
 public class _OptionInfoManager : Singleton<_OptionInfoManager>
 {
-    [ShowOnly] public CurrentOptionInfo m_currentOptionInfo;
-
-    public void ChangeResolution(int p_width, int p_height)
-    {
-        m_currentOptionInfo.resolution_width = p_width;
-        m_currentOptionInfo.resolution_height = p_height;
-    }
-
-    public void ChangeMouseSensitive(float p_val)
-    {
-        // ¾øÀ½
-    }
-
-    public void ChangeVolunme(float p_vol)
-    {
-        m_currentOptionInfo.volume = p_vol;
-    }
-    public void ChangeBgmVolume(float p_vol)
-    {
-        m_currentOptionInfo.volume_bgm = p_vol;
-    }
-    public void ChangeEffectVolume(float p_vol)
-    {
-        m_currentOptionInfo.volume_effect = p_vol;
-    }
+    public CurrentOptionInfo m_currentOptionInfo;
 }

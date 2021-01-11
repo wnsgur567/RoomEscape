@@ -2,6 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class ShowOnlyAttribute : PropertyAttribute
+{
+
+}
+
+public class ReadOnlyAttribute : PropertyAttribute
+{
+    public readonly bool runtimeOnly;
+
+    public ReadOnlyAttribute(bool runtimeOnly = false)
+    {
+        this.runtimeOnly = runtimeOnly;
+    }
+}
+
 [System.Serializable]
 public struct HitObjectInformation
 {
@@ -18,7 +33,7 @@ public struct HitObjectInformation
 }
 
 
-public class MyRaycaster : MonoBehaviour, IAwake 
+public class MyRaycaster : MonoBehaviour, IAwake
 {
     _InputManager _inputManager = null;
 
@@ -52,7 +67,18 @@ public class MyRaycaster : MonoBehaviour, IAwake
         // ray 적용시킬 레이어 값 가져오기
         cullingLayer = CullingLayer();
     }
-   
+    //private void Awake()
+    //{
+    //    _inputManager = _InputManager.Instance;
+
+    //    // event link
+    //    _inputManager.mouseMove_Event.AddHandler("MyRaycaster", __OnMouseMove);
+    //    _inputManager.mouseLButtonDown_Event.AddHandler("MyRaycaster", __OnLButtonDown);
+
+    //    // ray 적용시킬 레이어 값 가져오기
+    //    cullingLayer = CullingLayer();
+    //}    
+
     private void Update()
     {        
         // 디버깅용
