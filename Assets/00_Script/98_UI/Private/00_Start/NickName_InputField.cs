@@ -10,7 +10,8 @@ public class NickName_InputField : MonoBehaviour
 
     private void Awake()
     {
-        m_inputfield = GetComponent<TMPro.TMP_InputField>();        
+        m_inputfield = GetComponent<TMPro.TMP_InputField>();
+        m_inputfield.interactable = true;
     }
 
     // text 길이가 0이면 false
@@ -21,7 +22,7 @@ public class NickName_InputField : MonoBehaviour
         return true;
     }
 
-    public void __OnActivateButtons()
+    public void __OnSettingActivation()
     {
         if(CheckTextLength())
         {
@@ -30,5 +31,13 @@ public class NickName_InputField : MonoBehaviour
                 item.interactable = true;
             }
         }
+        else
+        {
+            foreach (var item in m_button)
+            {
+                item.interactable = false;
+            }
+        }
     }
+    
 }
