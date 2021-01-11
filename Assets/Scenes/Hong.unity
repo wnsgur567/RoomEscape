@@ -697,7 +697,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents: []
-  viewIdField: 8
+  viewIdField: 9
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &448020155
@@ -1037,7 +1037,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents: []
-  viewIdField: 7
+  viewIdField: 10
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &522401241
@@ -1255,7 +1255,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents: []
-  viewIdField: 3
+  viewIdField: 11
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &574047047
@@ -1684,7 +1684,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents: []
-  viewIdField: 6
+  viewIdField: 12
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &1017486724
@@ -2107,7 +2107,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents: []
-  viewIdField: 5
+  viewIdField: 13
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &1508645878
@@ -2942,7 +2942,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents: []
-  viewIdField: 4
+  viewIdField: 14
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &1897093980
@@ -3407,7 +3407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6481601473268168635, guid: 5260e1910a9f89b47bffe938a1c0a26b, type: 3}
       propertyPath: viewIdField
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5260e1910a9f89b47bffe938a1c0a26b, type: 3}
