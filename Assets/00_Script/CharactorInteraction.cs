@@ -27,6 +27,11 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
 
     [SerializeField]
     private Transform m_Zoom_pos;
+    public enum State
+    {
+        Normal = 0,
+        ZoomIn
+    }
     void Start()
     {
         m_PV = GetComponent<PhotonView>();
@@ -143,7 +148,8 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     m_Crosshair.gameObject.SetActive(false);
                     Debug.Log(hit.transform.tag);
                     Transform temp_pos = hit.transform.parent;
-                    
+
+                    hit.collider.enabled = false;
                     hit.transform.parent.position = m_Zoom_pos.position;
                     hit.transform.parent.rotation = m_Zoom_pos.rotation;
                     
