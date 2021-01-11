@@ -12,7 +12,6 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine.Networking;
-#if UNITY_EDITOR
 //#if !PHOTON_UNITY_NETWORKING
 using System;
 using UnityEditor;
@@ -350,4 +349,4 @@ public class ChatEditor : EditorWindow
     }
 }
 
-#endif
+//#endif

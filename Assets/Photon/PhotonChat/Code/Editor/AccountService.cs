@@ -71,6 +71,9 @@ public class AccountService
             Debug.LogError("Registration request is null");
             return false;
         }
+
+        
+
         ChatEditor.StartCoroutine(
             ChatEditor.HttpPost(GetUrlWithQueryStringEscaped(request),
                 RequestHeaders,

@@ -1,60 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
-public class _NetworkManager : SingletonPunCallback<_NetworkManager>
-{
-    protected override void Awake()
+public class NetworkManager : MonoBehaviourPunCallbacks 
+{    
+    void Awake()
     {
-        Screen.SetResolution(1920, 1080, false);
+        //Screen.SetResolution(1920, 1080, false);//해상도설정
 
-        _Connect();
+        //아래는 서버 반응? 속도같은거
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 30;
+
+
+        // 네트워크 초기화
+        Connect();
     }
+    public void Connect() => PhotonNetwork.ConnectUsingSettings();//버튼누르면 실행되는함수
 
-
-    #region 서버 연결
-
-    // 서버와 연결하기
-    public void _Connect() => PhotonNetwork.ConnectUsingSettings();
-    public override void OnConnectedToMaster()
+    public override void OnConnectedToMaster()//서버에 접속
     {
-        _JoinLobby();
+        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 2 }, null);
     }
 
-    // 서버 연결 시 callback
-    public override void OnConnected()
-    {        
-        Debug.Log("서버 접속 완료");
-    }
-    // 서버와 연결 끊기
-    public void _DisConnect() => PhotonNetwork.Disconnect();
-
-    // 서버 연결 끊겼을 시 callback
-    public override void OnDisconnected(DisconnectCause cause)
+    public override void OnCreatedRoom()//방이생성되면
     {
-        Debug.Log("서버와 연결 끊김");
+
     }
-    #endregion
-
-    #region 로비 
-    // 대형게임의 경우 로비를 여러개 사용
-    // 1개만 사용 예정
-
-    public void _JoinLobby() => PhotonNetwork.JoinLobby();
-    public override void OnJoinedLobby()
+    public override void OnJoinedRoom()//방에접속되면
     {
-        Debug.Log("로비 입장");
-    }
-    public void _LeaveLobby() => PhotonNetwork.LeaveLobby();
-    public override void OnLeftLobby()
-    {
-        Debug.Log("로비 퇴장");
-    }
-    #endregion
+        //Debug.Log("접속됨");
+        //CM.SetActive(false);
+        //LobbyImage.SetActive(false);
 
-
-
+        //GM.Spawn(SpawnPosition);
+    }    
 }
