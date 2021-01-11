@@ -19,13 +19,15 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     public PipeButton M_pipeButton;//파이프버튼 스크립트
 
     private PhotonView m_PV;
-
+    private int m_PaintCount;
+    private bool m_PaintStart;
     void Start()
     {
         m_PV = GetComponent<PhotonView>();
         Cursor.visible = false; 
         Cursor.lockState = CursorLockMode.Locked;
-
+        m_PaintCount = 0;
+        m_PaintStart = false;
     }
     void Update()
     {
@@ -57,17 +59,28 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 //상호작용 크로스헤어 활성화
                 m_Crosshair.gameObject.SetActive(true);
 
-                M_pipeButton = hit.transform.GetComponent<PipeButton>();
                 //안내메세지같은거 추가해야함
 
                 //파이프 버튼에서 마우스누르면 파이프 실행
                 if (Input.GetMouseButtonDown(0))
                 {
+                    if (PipePuzzleManager.M_pipeManager.M_IsStarted == false)
+                    {
+                        PipePuzzleManager.M_pipeManager.M_IsStarted = true;
+                        Debug.Log("파이프퍼즐 시작");
+                        return;
+                    }
+                    else
+                    {
+                        //타이머 시작
+                    }
+
+                    M_pipeButton = hit.transform.GetComponent<PipeButton>();
                     M_pipeButton.ActiveButton();
                 }
             }
             //오브젝트가 그림퍼즐인 경우
-            if (hit.transform.CompareTag("Paint")) // || 정답일 때)
+            if (hit.transform.CompareTag("Paint")  || hit.transform.CompareTag("Paint_correct"))
             {
                 //상호작용 크로스헤어 활성화
                 m_Crosshair.gameObject.SetActive(true);
@@ -76,16 +89,38 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("그림임");
-                    if(hit.transform.CompareTag("Paint"))
+                    //그림 상호작용이 첫번째(시작) 이라면
+                    if(m_PaintStart == false)
                     {
-                        //그림이면
-                        //전구깜빡이는 패널티
+                        m_PaintStart = true;
+                        Debug.Log("그림퍼즐시작");
+                        return;
                     }
                     else
                     {
-                        //정답이면
+                        m_PaintCount++;
+                    }
 
+                    //그림 상호작용 카운트를 증가시키고
+
+                    Debug.Log(m_PaintCount);
+                    if (hit.transform.CompareTag("Paint"))
+                    {
+                        Debug.Log("그림임");
+                        //그림을 클릭하면
+                        //전구깜빡이는 패널티
+                        if (m_PaintCount == 10)
+                        {
+
+                        }
+                        //그림이면
+                    }
+                    else if(hit.transform.CompareTag("Paint_correct"))
+                    {
+                        //정답이면
+                        //비활성화시킴
+                        hit.transform.gameObject.SetActive(false);
+                        Debug.Log("정답임");
                     }
                     //M_pipeButton.ActiveButton();
                 }
