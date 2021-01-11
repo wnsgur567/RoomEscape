@@ -23,7 +23,7 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     [SerializeField] TMP_InputField m_termainlInputField;
     [SerializeField] TextMeshProUGUI m_termainlOutputText;
 
-    [SerializeField, ShowOnly] bool isGameStart;
+    [SerializeField, ShowOnly] public bool isGameStart;
 
     override protected void Awake()
     {
