@@ -7,6 +7,7 @@ public struct NetworkPlayerInfo
 {
     public string nickname;
     public string currRoomName;  // 참가한 방 이름
+    public int deadLine_time;         // 방 제한시간   
     public E_RoomType m_type;
 }
 
