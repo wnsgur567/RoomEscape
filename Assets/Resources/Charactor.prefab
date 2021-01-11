@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 267683933}
   - component: {fileID: 267683932}
   m_Layer: 5
-  m_Name: Crosshair
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 267683930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.40343, y: 0.40343, z: 0.40343}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5735933023613238400}
   m_RootOrder: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 914461804}
   - component: {fileID: 503033248513128590}
   m_Layer: 0
-  m_Name: Charactor
+  m_Name: 1PCharactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fd0220da98004e8c2c3cc295e2528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 6481601473268168635}
   moveSpeed: 5
   rotSpeed: 3
   cameraArm: {fileID: 2840879065117863370}
