@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/01_Prefab/Chess/Board.prefab.meta
+guid: dc9bcdf7975154a49baf295f950dcfbe
+PrefabImporter:
+=======
 guid: 28f767db91d00614d9b1503565c9752c
 folderAsset: yes
 DefaultImporter:
+>>>>>>> fb2a9fa (파이프 퍼즐 멀티동기화):Assets/Prefabs.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

@@ -53,8 +53,6 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         //카메라 기준으로 가운데에다 m_range만큼 레이를 쏨
         if (Physics.Raycast(m_cam.transform.position, m_cam.transform.forward, out hit, m_range))
         {
-            Debug.Log($"{hit.transform.tag}");
-
             //오브젝트가 파이프퍼즐인 경우
             if (hit.transform.CompareTag("PipeButton"))
             {
@@ -127,14 +125,6 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     //M_pipeButton.ActiveButton();
                 }
             }
-
-            if(hit.transform.CompareTag("ChessPiece") || hit.transform.CompareTag("ChessBoard"))
-            {
-                //상호작용 크로스헤어 활성화
-                m_Crosshair.gameObject.SetActive(true);
-            }
-
-
         }
         else
         {
@@ -142,5 +132,5 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             m_Crosshair.gameObject.SetActive(false);
         }
     }
-
+    
 }

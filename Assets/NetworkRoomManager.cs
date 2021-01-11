@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class NetworkRoomManager : SingletonPunCallback<NetworkRoomManager>
 {
     _NetworkManager m_netManager = null;
+    _NetworkInfoManager m_netInfoManager = null;
+
     public RoomPanel m_RoomOriginPrefab;
     public ContentSizeFitter m_RoomListContent;
     private GameObject m_RoomListContentObj = null;
@@ -18,19 +20,26 @@ public class NetworkRoomManager : SingletonPunCallback<NetworkRoomManager>
 
     private List<RoomInfo> m_roomList = null;
 
+    public string m_selectedRoomName;
 
     override protected void Awake()
     {
+        _JoinLobby();
+
         m_netManager = _NetworkManager.Instance;
+        m_netInfoManager = _NetworkInfoManager.Instance;
 
         m_roomList = new List<RoomInfo>();
         m_RoomListContentObj = m_RoomListContent.gameObject;
+
+        m_selectedRoomName = "";
+        
     }
 
     private void NewRoomObj(RoomInfo p_info)
     {
-        RoomPanel _roomPanel = GameObject.Instantiate<RoomPanel>(m_RoomOriginPrefab);        
-        Room _room = PhotonNetwork.CurrentRoom;
+        RoomPanel _roomPanel = GameObject.Instantiate<RoomPanel>(m_RoomOriginPrefab);
+        Photon.Realtime.Room currentRoom = PhotonNetwork.CurrentRoom;        
         _roomPanel.__Initialize(p_info.Name, p_info.PlayerCount);
         _roomPanel.transform.SetParent(m_RoomListContentObj.transform, false);
     }
@@ -39,9 +48,10 @@ public class NetworkRoomManager : SingletonPunCallback<NetworkRoomManager>
 
     // 게임 방 생성
     // 방 최대인원 2명
-    public void _CreateRoom()
+    public bool _CreateRoom()
     {
-        PhotonNetwork.CreateRoom(m_roomNameInputfield.text, new RoomOptions { MaxPlayers = 2 });
+        m_netInfoManager.m_playerInfo.currRoomName = m_roomNameInputfield.text;
+        return PhotonNetwork.CreateRoom(m_roomNameInputfield.text, new RoomOptions { MaxPlayers = 2 });
     }
 
     // 방 생성 성공 시 callback
@@ -56,8 +66,12 @@ public class NetworkRoomManager : SingletonPunCallback<NetworkRoomManager>
     }
 
     // 방 이름으로 참가
-    public void _JoinRoom(string p_roomName)
-        => PhotonNetwork.JoinRoom(p_roomName);
+    public bool _JoinRoom(string p_roomName)
+    {
+        m_netInfoManager.m_playerInfo.currRoomName = m_selectedRoomName;
+        return PhotonNetwork.JoinRoom(p_roomName);
+    }
+        
 
     // 랜덤 방 참가 시도
     public void _JoinRandomRoom()
@@ -116,7 +130,8 @@ public class NetworkRoomManager : SingletonPunCallback<NetworkRoomManager>
         }
 
         UpdateMyRoomList();
-    }
+    }    
+
     #endregion
 
     private void UpdateMyRoomList()
@@ -131,4 +146,21 @@ public class NetworkRoomManager : SingletonPunCallback<NetworkRoomManager>
             NewRoomObj(item);
         }
     }
+
+
+    #region 로비 
+    // 대형게임의 경우 로비를 여러개 사용
+    // 1개만 사용 예정
+
+    public void _JoinLobby() => PhotonNetwork.JoinLobby();
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("로비 입장");
+    }
+    public void _LeaveLobby() => PhotonNetwork.LeaveLobby();
+    public override void OnLeftLobby()
+    {
+        Debug.Log("로비 퇴장");
+    }
+    #endregion
 }

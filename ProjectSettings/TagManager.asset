@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ChessPiece
   - Bullet
-  - ChessGame
-  - ChessBoard
+  - PipeButton
+  - Paint
+  - Paint_correct
   layers:
   - Default
   - TransparentFX
