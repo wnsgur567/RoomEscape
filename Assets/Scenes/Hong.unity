@@ -424,7 +424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &168085057
 Light:
   m_ObjectHideFlags: 0
@@ -700,55 +700,6 @@ MonoBehaviour:
   viewIdField: 8
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!1 &438036799
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 438036801}
-  - component: {fileID: 438036800}
-  m_Layer: 0
-  m_Name: LightProbeGroup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!220 &438036800
-LightProbeGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 438036799}
-  m_Enabled: 1
-  m_SourcePositions:
-  - {x: 1, y: 1, z: 1}
-  - {x: 1, y: 1, z: -1}
-  - {x: 1, y: -1, z: 1}
-  - {x: 1, y: -1, z: -1}
-  - {x: -1, y: 1, z: 1}
-  - {x: -1, y: 1, z: -1}
-  - {x: -1, y: -1, z: 1}
-  - {x: -1, y: -1, z: -1}
-  m_Dering: 1
---- !u!4 &438036801
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 438036799}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.836758, y: 16.393568, z: -2.3565383}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 16
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &448020155
 GameObject:
   m_ObjectHideFlags: 0
@@ -2295,6 +2246,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: room
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8dbee47e79d927246adc73460aa84625, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1603246306389932429, guid: 8dbee47e79d927246adc73460aa84625, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -2451,7 +2406,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1552087369}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
         m_MethodName: SetSpawnPosition
         m_Mode: 2
@@ -2463,7 +2418,7 @@ MonoBehaviour:
           m_StringArgument: 2PCharactor
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1552087369}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
         m_MethodName: Connect
         m_Mode: 1
@@ -2626,7 +2581,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1552087369}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
         m_MethodName: SetSpawnPosition
         m_Mode: 2
@@ -2638,7 +2593,7 @@ MonoBehaviour:
           m_StringArgument: 1PCharactor
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1552087369}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
         m_MethodName: Connect
         m_Mode: 1
@@ -3430,9 +3385,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 967401328668679497, guid: 5260e1910a9f89b47bffe938a1c0a26b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1023640405088958125, guid: 5260e1910a9f89b47bffe938a1c0a26b, type: 3}
       propertyPath: m_Name
       value: Charactor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1023640405088958125, guid: 5260e1910a9f89b47bffe938a1c0a26b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623461272429003470, guid: 5260e1910a9f89b47bffe938a1c0a26b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098095818065122064, guid: 5260e1910a9f89b47bffe938a1c0a26b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6481601473268168635, guid: 5260e1910a9f89b47bffe938a1c0a26b, type: 3}
       propertyPath: viewIdField
