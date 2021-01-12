@@ -84,7 +84,9 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     M_pipeButton = hit.transform.GetComponent<PipeButton>();
                     M_pipeButton.ActiveButton();
 
-                    hit.transform.Rotate(Vector3.back, Time.deltaTime * 250f, Space.Self);
+
+                    //hit.transform.Rotate(Vector3.forward, Time.deltaTime * 250f, Space.Self);
+
                 }
             }
             else if (hit.transform.CompareTag("Paint") || hit.transform.CompareTag("Paint_correct")) //오브젝트가 그림퍼즐인 경우
@@ -130,10 +132,10 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                         //비활성화시킴
 
                         LightPenalty.instance.M_IsPenalty = false;
+                        LightPenalty.instance.obj.SetActive(true);
                         hit.transform.gameObject.SetActive(false);
                         Debug.Log("정답임");
                     }
-                    //M_pipeButton.ActiveButton();
                 }
             }
             else if (hit.transform.CompareTag("Bomb")) //오브젝트가 폭탄인경우
@@ -144,9 +146,14 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 if (Input.GetMouseButtonDown(0))
                 {
                     m_Crosshair.gameObject.SetActive(false);
-                    m_tempHit = hit;
+                    //폭탄 원래위치
+
+                    m_tempObj = hit.transform.parent.gameObject;
+                    m_tempCol = hit.collider;
+                    m_tempTransform = hit.transform.parent.position;
+                    m_tempTransformRotate = hit.transform.parent.eulerAngles;
+
                     m_moveScript.M_Input = false;
-                    m_tempTransform = hit.transform.parent;
                     Debug.Log(hit.transform.tag);
 
                     temp_pos = hit.transform.parent;
@@ -177,8 +184,13 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             m_Crosshair.gameObject.SetActive(false);
         }
     }
-    private RaycastHit m_tempHit;
-    private Transform m_tempTransform;
+    [SerializeField]
+    private GameObject m_tempObj;
+    private Collider m_tempCol;
+
+    [SerializeField]
+    Vector3 m_tempTransform;
+    Vector3 m_tempTransformRotate;
     void ZoomIn()
     {
         //줌된상태라면
@@ -208,11 +220,13 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             //m_moveScript.M_Input = true;
 
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             Debug.Log("키눌림");
-            m_tempHit.collider.enabled = true;
-            m_tempHit.transform.position = m_tempTransform.position;
+            //m_tempObj.collider.enabled = true;
+            m_tempCol.enabled = true;
+            m_tempObj.transform.position = m_tempTransform;
+            m_tempObj.transform.eulerAngles = m_tempTransformRotate;
 
 
             m_moveScript.M_Input = true;

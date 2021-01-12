@@ -14,8 +14,10 @@ public class DigitalClock : MonoBehaviour
 
     public float M_puzzleTimer = 0;
 
+    [NonSerialized]
     public int m_minute;
-    public int m_second;
+
+    public int m_second = 0;
     public float M_currentSeconds;
 
     private bool m_penalty;

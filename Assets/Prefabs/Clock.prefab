@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2434711876976758124}
-  m_LocalRotation: {x: 0.000000011403656, y: -0.7071069, z: -0.7071067, w: 0}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0.7071068, w: 0}
   m_LocalPosition: {x: -10.24, y: 6.320002, z: 19.23}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
@@ -97,7 +97,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   M_IsStop: 0
   m_CountdownText: {fileID: 3245050637800624038}
-  m_minute: 20
+  M_puzzleTimer: 0
+  m_minute: 0
   m_second: 0
   M_currentSeconds: 0
 --- !u!1 &3245050637800623961
