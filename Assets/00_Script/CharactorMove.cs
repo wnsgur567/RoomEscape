@@ -14,6 +14,8 @@ public class CharactorMove : MonoBehaviourPunCallbacks
     private float m_h = 0.0f;
     private float m_v = 0.0f;
     private Transform m_tr;
+
+    public bool M_Input;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,13 +25,23 @@ public class CharactorMove : MonoBehaviourPunCallbacks
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);//자기 자신이 아닐경우 다른 카메라는 파괴
         }
+        M_Input = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
-        CharactorRotation();
+        if (M_Input)
+        {
+            CharactorRotation();
+        }
+    }
+    private void FixedUpdate()
+    {
+        if (M_Input)
+        {
+            Move();
+        }
     }
     private void Move()
     {
@@ -38,13 +50,21 @@ public class CharactorMove : MonoBehaviourPunCallbacks
         Vector3 moveDir = (Vector3.forward * m_v) + (Vector3.right * m_h);
 
         m_tr.Translate(moveDir * Time.deltaTime * moveSpeed, Space.Self);
-        //tr.Rotate(Vector3.up * Time.deltaTime * rotSpeed * Input.GetAxis("Mouse X"));
+
     }
     void CharactorRotation()
     {
+
         float rotX = Input.GetAxis("Mouse Y") * rotSpeed;
         float rotY = Input.GetAxis("Mouse X") * rotSpeed;
-
+        //if (rotX < 180f)
+        //{
+        //    rotX = Mathf.Clamp(rotX, -1f, 70f);
+        //}
+        //else
+        //{
+        //    rotX = Mathf.Clamp(rotX, 300f, 361f);
+        //}
         this.transform.localRotation *= Quaternion.Euler(0, rotY, 0);
         cameraArm.localRotation *= Quaternion.Euler(-rotX, 0, 0);
     }
