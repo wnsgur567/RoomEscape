@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4722014437709464136}
   - component: {fileID: 1015993990935941494}
   - component: {fileID: 6167924291362602772}
+  - component: {fileID: 1277635223984910900}
   m_Layer: 0
   m_Name: PawnBlack
   m_TagString: ChessPiece
@@ -108,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c125f4be4f9dd24c81e4d810bb9fdca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardManager: {fileID: 0}
   pieceInfo:
     playerType: 1
     chessPiece: 1
@@ -122,3 +124,25 @@ MonoBehaviour:
   AttckMoveList:
   - {x: 1, y: 0, z: -1}
   - {x: -1, y: 0, z: -1}
+--- !u!114 &1277635223984910900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653877579755633752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

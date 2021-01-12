@@ -20,14 +20,18 @@ public class BoardManager : MonoBehaviour
     public SpriteRenderer SelectRenderer;                                    //선택했을때 나타나는 색 타일
 
     List<Vector3> m_PiecePositionList = new List<Vector3>();            //체스들 초기 위치
-    
+
 
     void Start()
     {
+        //보드(칸)생성
         CreateBoardCollider();
+        //체스 초기화
         ChessInit();
+        //체스 초기 위치 저장
         PiecePositionInit();
     }
+
 
     //체스들 초기 위치 저장
     void PiecePositionInit()
@@ -35,6 +39,7 @@ public class BoardManager : MonoBehaviour
         foreach (Piece piece in PieceList)
         {
             m_PiecePositionList.Add(piece.gameObject.transform.position);
+            //폰 처음 움직임 false
             if(piece.pieceInfo.chessPiece == CHESSPIECE.PAWN)
             {
                 Pawn pawn = piece.gameObject.transform.GetComponent<Pawn>();
@@ -84,8 +89,9 @@ public class BoardManager : MonoBehaviour
             int index = PieceList.IndexOf(piece);
             //체스위치 초기화
             piece.gameObject.transform.position = m_PiecePositionList[index];
-            m_PiecePositionList.Add(piece.transform.position);
+            //m_PiecePositionList.Add(piece.transform.position);
             piece.gameObject.SetActive(true);
+            //원래 색으로
             piece.SetMaterial(piece.OriginMaterial);
 
 
@@ -94,8 +100,7 @@ public class BoardManager : MonoBehaviour
         ChessInit();
     }
     
-
-    [ContextMenu("CreateBoardCollider")]
+    //보드(칸)생성
     void CreateBoardCollider()
     {
         float tempy = 0;
@@ -105,14 +110,20 @@ public class BoardManager : MonoBehaviour
         {
             for (int j = 0; j < 8; j++)
             {
+                //보드 오브젝트 생성
                 GameObject gameObject = Instantiate(BoardObj.gameObject, new Vector3(tempx, 0f, tempy) + BoardParent.gameObject.transform.position
                     , Quaternion.identity, BoardParent.transform);
                 M_BoardArr[i,j] = gameObject.GetComponent<Board>();
+                //보드 체스 정보 초기화
                 M_BoardArr[i, j].pieceInfo.InitInfo();
+                //인덱스 설정
                 M_BoardArr[i, j].pieceInfo.Index.y = i;
                 M_BoardArr[i, j].pieceInfo.Index.x = j;
+                //보드 매니져 설정
+                M_BoardArr[i, j].boardManager = this;
                 gameObject.SetActive(true);
 
+                //다음 위치로
                 tempx += PieceSize.x;
 
             }
@@ -123,14 +134,5 @@ public class BoardManager : MonoBehaviour
 
 
         BoardParent.transform.localRotation = BoardParent.transform.rotation;
-    }
-
-    [ContextMenu("ResetBoard")]
-    void ResetBoard()
-    {
-        foreach (Board item in M_BoardArr)
-        {
-            GameObject.DestroyImmediate(item.gameObject);
-        }
     }
 }

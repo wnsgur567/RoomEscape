@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1370474813605874627}
   - component: {fileID: 5845837816295824695}
   - component: {fileID: -1381016858570056995}
+  - component: {fileID: 7954286309710304970}
   m_Layer: 0
   m_Name: KnightBlack
   m_TagString: ChessPiece
@@ -108,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed3e24c1d08f124b921f5b1d28d6525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardManager: {fileID: 0}
   pieceInfo:
     playerType: 1
     chessPiece: 3
@@ -125,3 +127,25 @@ MonoBehaviour:
   - {x: -1, y: 0, z: -2}
   OriginMaterial: {fileID: 2100000, guid: bae910897e7359a4c8e219248d19fc3c, type: 2}
   PenaltyMatrial: {fileID: 2100000, guid: dc7224089b1ea434f8ef1ddb716090ff, type: 2}
+--- !u!114 &7954286309710304970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393746438577066901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
