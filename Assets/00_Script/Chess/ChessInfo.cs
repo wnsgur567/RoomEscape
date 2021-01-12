@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//체스말
 [System.Serializable]
 public enum CHESSPIECE
 {
@@ -16,6 +17,8 @@ public enum CHESSPIECE
 
     MAX
 }
+
+//플레이어 색
 [System.Serializable]
 public enum PLAYERTYPE
 {
@@ -27,6 +30,7 @@ public enum PLAYERTYPE
     MAX
 }
 
+//방향
 [System.Serializable]
 public enum DIRECTIONTYPE
 {
@@ -43,11 +47,19 @@ public enum DIRECTIONTYPE
 
     MAX
 }
+
+//보드 배열 인덱스
 [System.Serializable]
 public struct Index
 {
     public int x;
     public int y;
+
+    public Index(int indexX, int indexY) : this()
+    {
+        x = indexX;
+        y = indexY;
+    }
 
     public static bool operator ==(Index op1, Index op2)
     {
@@ -72,12 +84,24 @@ public struct Index
     }
 }
 
+
+//체스 정보
 [System.Serializable]
 public struct PieceInfo
 {
+    //색
     public PLAYERTYPE playerType;
+    //말
     public CHESSPIECE chessPiece;
+    //보드 인덱스
     public Index Index;
+
+    public PieceInfo(int _PType, int _Piece, int indexX, int indexY)
+    {
+        playerType = (PLAYERTYPE)_PType;
+        chessPiece = (CHESSPIECE)_Piece;
+        Index = new Index(indexX, indexY);
+    }
 
     public void SetType(PieceInfo _info)
     {
@@ -117,11 +141,12 @@ public struct PieceInfo
 
 }
 
+//미션 정보
 [System.Serializable]
 public struct ChessMissionInfo
 {
     public int Turn;
     public PLAYERTYPE Color;
-    public CHESSPIECE piece;
+    public CHESSPIECE Piece;
 }
 

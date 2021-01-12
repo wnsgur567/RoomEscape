@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 507753151292343208}
   - component: {fileID: 670335142508411640}
   - component: {fileID: 485447146240207791}
+  - component: {fileID: -3272631439330494967}
   m_Layer: 0
   m_Name: BishopWhite
   m_TagString: ChessPiece
@@ -95,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4865af1f419b3e942bea74a6d5036e76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardManager: {fileID: 0}
   pieceInfo:
     playerType: 2
     chessPiece: 4
@@ -121,3 +123,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &-3272631439330494967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530033825851626370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

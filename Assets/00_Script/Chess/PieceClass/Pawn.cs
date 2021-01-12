@@ -1,40 +1,38 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Pawn : Piece
 {
-    public bool M_PawnMove = false;
-    public List<Vector3> AttckMoveList;
-    List<DIRECTIONTYPE> m_AttackDirList = new List<DIRECTIONTYPE>();
+    public bool M_PawnMove = false;         //폰이 처음 이동하는지
+    public List<Vector3> AttckMoveList;    //말 잡을때 이동하는 위치
+    List<DIRECTIONTYPE> m_AttackDirList = new List<DIRECTIONTYPE>();    //말 잡을때 방향
 
     void Start()
     {
         __Init();
 
-        //폰 처음 움직임
+        //폰 처음 움직임(2칸)
         if (!M_PawnMove)
         {
             MoveIndex[0] = new Vector3(MoveIndex[0].x, MoveIndex[0].y, MoveIndex[0].z * 2);
         }
     }
 
-    void Update()
-    {
-        
-    }
-
+    //초기화
     protected override void __Init()
     {
         base.__Init();
 
+        //방향 추가
         foreach (Vector3 item in AttckMoveList)
         {
             m_AttackDirList.Add(Direction(item));
         }
     }
 
-
+    //움직일 수 있는지
     public override bool IsMove(Vector3 _index, Board _hitBoard, bool _attck)
     {
         DIRECTIONTYPE dir = Direction(_index);
@@ -124,9 +122,10 @@ public class Pawn : Piece
         return false;
     }
 
-    public override void MoveTo(Board _hitboard, Piece _hitpiece)
+    [PunRPC]
+    public override void MoveTo(int _hitboardPType, int _hitboardPiece, int indexX, int indexY/* ,PieceInfo _hitboard*/)
     {
-        base.MoveTo(_hitboard, _hitpiece);
+        base.MoveTo(_hitboardPType, _hitboardPiece, indexX, indexY);
 
         if (!M_PawnMove)
         {
@@ -134,6 +133,21 @@ public class Pawn : Piece
             MoveIndex[0] = new Vector3(MoveIndex[0].x, MoveIndex[0].y, MoveIndex[0].z * 0.5f);
         }
     }
+
+    [PunRPC]
+    public override void MoveTo(int _hitboardPType, int _hitboardPiece, int _hitboardindexX, int _hitboardindexY,
+        int _hitpiecePType, int _hitpiecePiece, int _hitpieceindexX, int _hitpieceindexY)
+    {
+        base.MoveTo(_hitboardPType, _hitboardPiece, _hitboardindexX, _hitboardindexY,
+             _hitpiecePType,  _hitpiecePiece,  _hitpieceindexX,  _hitpieceindexY);
+
+        if (!M_PawnMove)
+        {
+            M_PawnMove = true;
+            MoveIndex[0] = new Vector3(MoveIndex[0].x, MoveIndex[0].y, MoveIndex[0].z * 0.5f);
+        }
+    }
+
 
     public override void MoveTileTrue()
     {
