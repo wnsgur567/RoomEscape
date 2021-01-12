@@ -15,6 +15,7 @@ TagManager:
   - BlackWire
   - YellowWire
   - Bomb
+  - Cover
   layers:
   - Default
   - TransparentFX

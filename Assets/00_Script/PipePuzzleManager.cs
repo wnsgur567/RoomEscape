@@ -7,7 +7,7 @@ public class PipePuzzleManager : MonoBehaviour
     [SerializeField]
     Pipe[] m_pipe;
     [SerializeField]
-    SphereCollider[] m_pipeButton;
+    BoxCollider[] m_pipeButton;
 
     public static PipePuzzleManager M_pipeManager = null;
 

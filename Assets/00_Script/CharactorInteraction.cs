@@ -17,6 +17,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     private Image m_Crosshair;//크로스헤어
 
     public PipeButton M_pipeButton;//파이프버튼 스크립트
+    public BombScript M_bombScript;
 
     private PhotonView m_PV;
     private int m_PaintCount;
@@ -27,13 +28,18 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
 
     [SerializeField]
     private Transform m_Zoom_pos;
+
+    private Transform temp_pos;
+    private GameObject temp_obj;
     public enum State
     {
         Normal = 0,
         ZoomIn
     }
+    State state;
     void Start()
     {
+        state = State.Normal;
         m_PV = GetComponent<PhotonView>();
         Cursor.visible = false; 
         Cursor.lockState = CursorLockMode.Locked;
@@ -42,21 +48,13 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     }
     void Update()
     {
-        //마우스커서 확인할려고 임시로 넣은거
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (m_PV.IsMine)
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Locked;
+            if (state == State.Normal)
+                Interaction();
+            else
+                ZoomIn();
         }
-        else if (Input.GetKeyDown(KeyCode.T))
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-
-        if(m_PV.IsMine)
-            Interaction();
-
     }
     void Interaction()
     {
@@ -146,33 +144,22 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 if (Input.GetMouseButtonDown(0))
                 {
                     m_Crosshair.gameObject.SetActive(false);
+                    //tempHit = hit;
+                    m_moveScript.M_Input = false;
+
                     Debug.Log(hit.transform.tag);
-                    Transform temp_pos = hit.transform.parent;
+
+                    temp_pos = hit.transform.parent;
+                    temp_obj = hit.transform.parent.gameObject;
 
                     hit.collider.enabled = false;
                     hit.transform.parent.position = m_Zoom_pos.position;
                     hit.transform.parent.rotation = m_Zoom_pos.rotation;
-                    
-                    m_moveScript.M_Input = false;
-                    
+
+
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.Confined;
-                    
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        RaycastHit _hit;
-                        if (Physics.Raycast(m_cam.ScreenPointToRay(Input.mousePosition),out _hit))
-                        {
-                            Debug.Log(_hit.transform.tag);
-                        }
-                        //hit.transform.parent.transform.position = temp_pos.position;
-                        //hit.transform.parent.transform.rotation = temp_pos.rotation;
-
-                        //Cursor.visible = false;
-                        //Cursor.lockState = CursorLockMode.Locked;
-                        //m_moveScript.M_Input = true;
-
-                    }
+                    state = State.ZoomIn;
                 }
             }
         }
@@ -182,5 +169,44 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             m_Crosshair.gameObject.SetActive(false);
         }
     }
-    
+    private RaycastHit m_tempHit;
+    void ZoomIn()
+    {
+        //줌된상태라면
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit _hit;
+            if (Physics.Raycast(m_cam.ScreenPointToRay(Input.mousePosition), out _hit))
+            {
+                if (_hit.transform.CompareTag("Cover"))
+                {
+                    M_bombScript = _hit.transform.GetComponent<BombScript>();
+                    if (M_bombScript.M_State == BombScript.Cover_State.Close)
+                        M_bombScript.M_State = BombScript.Cover_State.Open;
+                    else
+                    {
+                        M_bombScript.M_State = BombScript.Cover_State.Close;
+                    }
+                    Debug.Log("폭탄커버클릭");
+                }
+            }
+            //hit.transform.parent.transform.position = temp_pos.position;
+            //hit.transform.parent.transform.rotation = temp_pos.rotation;
+
+            
+            //m_moveScript.M_Input = true;
+
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("키눌림");
+
+            m_moveScript.M_Input = true;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            temp_obj.transform.parent = temp_pos;
+
+            state = State.Normal;
+        }
+    }
 }

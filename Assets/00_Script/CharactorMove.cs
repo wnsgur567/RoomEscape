@@ -33,31 +33,37 @@ public class CharactorMove : MonoBehaviourPunCallbacks
     {
         if (M_Input)
         {
-            Move();
             CharactorRotation();
+        }
+    }
+    private void FixedUpdate()
+    {
+        if (M_Input)
+        {
+            Move();
         }
     }
     private void Move()
     {
-            m_h = Input.GetAxis("Horizontal");
-            m_v = Input.GetAxis("Vertical");
-            Vector3 moveDir = (Vector3.forward * m_v) + (Vector3.right * m_h);
+        m_h = Input.GetAxis("Horizontal");
+        m_v = Input.GetAxis("Vertical");
+        Vector3 moveDir = (Vector3.forward * m_v) + (Vector3.right * m_h);
 
-            m_tr.Translate(moveDir * Time.deltaTime * moveSpeed, Space.Self);
-        
+        m_tr.Translate(moveDir * Time.deltaTime * moveSpeed, Space.Self);
+
     }
     void CharactorRotation()
     {
-        
+
         float rotX = Input.GetAxis("Mouse Y") * rotSpeed;
         float rotY = Input.GetAxis("Mouse X") * rotSpeed;
-        //if (rotY < 180f)
+        //if (rotX < 180f)
         //{
-        //    rotY = Mathf.Clamp(rotY, -1f, 70f);
+        //    rotX = Mathf.Clamp(rotX, -1f, 70f);
         //}
         //else
         //{
-        //    rotY = Mathf.Clamp(rotY, 300f, 361f);
+        //    rotX = Mathf.Clamp(rotX, 300f, 361f);
         //}
         this.transform.localRotation *= Quaternion.Euler(0, rotY, 0);
         cameraArm.localRotation *= Quaternion.Euler(-rotX, 0, 0);
