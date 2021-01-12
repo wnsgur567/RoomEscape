@@ -59,6 +59,7 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
 
     private void Update()
     {
+        //Debug.Log(PhotonNetwork.IsMasterClient);
         // 채팅 서비스
         m_chatClient.Service();
     }
@@ -177,7 +178,7 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     public void OnSubscribed(string[] channels, bool[] results)
     {
         AddLine(string.Format("채널 입장 ({0})", string.Join(",", channels)));
-        SendText(string.Format("{0} 입장", m_userName));
+        SendText(string.Format("{0} 입장", m_userName));        
     }
 
     // 채팅 나가기

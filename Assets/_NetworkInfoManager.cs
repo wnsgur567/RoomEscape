@@ -6,14 +6,21 @@ using UnityEngine;
 public struct NetworkPlayerInfo
 {
     public string nickname;
-    public string currRoomName;  // 참가한 방 이름
+    public string other_nickname;
+    public string currRoomName;       // 참가한 방 이름
     public int deadLine_time;         // 방 제한시간   
-    public E_RoomType m_type;
+    public E_RoomType type;
+    public bool isRoomOwner;          // 방장인가?
 }
 
 public class _NetworkInfoManager : Singleton<_NetworkInfoManager>
 {
     [ShowOnly] public NetworkPlayerInfo m_playerInfo;
+
+    private void Start()
+    {
+        
+    }
 
     public void SetNickName(string p_nick)
     {
@@ -22,6 +29,7 @@ public class _NetworkInfoManager : Singleton<_NetworkInfoManager>
 
     public void SetRoomType(E_RoomType _type)
     {
-        m_playerInfo.m_type = _type;
+        m_playerInfo.type = _type;
     }
+    
 }

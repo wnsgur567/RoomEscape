@@ -27,7 +27,7 @@ public class _NetworkManager : SingletonPunCallback<_NetworkManager>
     // 서버 연결 시 callback
     public override void OnConnected()
     {        
-        Debug.Log("서버 접속 완료");
+        Debug.Log("서버 접속 완료");        
     }
     // 서버와 연결 끊기
     public void _DisConnect() => PhotonNetwork.Disconnect();

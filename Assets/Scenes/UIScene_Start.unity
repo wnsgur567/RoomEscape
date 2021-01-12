@@ -7030,9 +7030,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerInfo:
     nickname: 
+    other_nickname: 
     currRoomName: 
     deadLine_time: 0
-    m_type: 0
+    type: 0
+    isRoomOwner: 0
 --- !u!4 &1784547562
 Transform:
   m_ObjectHideFlags: 0
