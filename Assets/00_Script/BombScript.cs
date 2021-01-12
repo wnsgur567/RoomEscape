@@ -19,6 +19,7 @@ public class BombScript : MonoBehaviour
     public Cover_State M_State;
     void Start()
     {
+        this.transform.tag = "None";
         M_State = Cover_State.Close;
         if (m_Left)
         {

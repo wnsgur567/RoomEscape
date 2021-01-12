@@ -32,10 +32,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void Complete_PipePuzzle()
     {
         //파이프퍼즐 완료시
-        //폭탄뚜껑 열어야함
         m_ACover.tag = "Cover";
-        m_Pipe_puzzle.SetActive(false);
         Debug.Log("파이프 클리어!");
+    }
+    public void Complete_PaintPuzzle()
+    {
+        //페인트퍼즐 완료시
+        m_DCover.tag = "Cover";
+        Debug.Log("페인트 클리어!");
     }
 
 

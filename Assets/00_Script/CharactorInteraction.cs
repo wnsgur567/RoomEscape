@@ -76,20 +76,18 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     if (PipePuzzleManager.M_pipeManager.M_IsStarted == false)
                     {
                         PipePuzzleManager.M_pipeManager.M_IsStarted = true;
+                        DigitalClock.M_clock.M_puzzleTimer = DigitalClock.M_clock.M_currentSeconds - 120f;
                         Debug.Log("파이프퍼즐 시작");
                         return;
-                    }
-                    else
-                    {
-                        //타이머 시작
                     }
 
                     M_pipeButton = hit.transform.GetComponent<PipeButton>();
                     M_pipeButton.ActiveButton();
+
+                    hit.transform.Rotate(Vector3.back, Time.deltaTime * 250f, Space.Self);
                 }
             }
-            //오브젝트가 그림퍼즐인 경우
-            if (hit.transform.CompareTag("Paint") || hit.transform.CompareTag("Paint_correct"))
+            else if (hit.transform.CompareTag("Paint") || hit.transform.CompareTag("Paint_correct")) //오브젝트가 그림퍼즐인 경우
             {
                 //상호작용 크로스헤어 활성화
                 m_Crosshair.gameObject.SetActive(true);
@@ -118,6 +116,8 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                         Debug.Log("그림임");
                         //그림을 클릭하면
                         //전구깜빡이는 패널티
+                        LightPenalty.instance.M_IsPenalty = true;
+                        LightPenalty.instance.StartPenalty();
                         if (m_PaintCount == 10)
                         {
 
@@ -128,15 +128,15 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     {
                         //정답이면
                         //비활성화시킴
+
+                        LightPenalty.instance.M_IsPenalty = false;
                         hit.transform.gameObject.SetActive(false);
                         Debug.Log("정답임");
                     }
                     //M_pipeButton.ActiveButton();
                 }
             }
-
-            //오브젝트가 폭탄인경우
-            if (hit.transform.CompareTag("Bomb"))
+            else if (hit.transform.CompareTag("Bomb")) //오브젝트가 폭탄인경우
             {
                 //상호작용 크로스헤어 활성화
                 m_Crosshair.gameObject.SetActive(true);
@@ -144,9 +144,9 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 if (Input.GetMouseButtonDown(0))
                 {
                     m_Crosshair.gameObject.SetActive(false);
-                    //tempHit = hit;
+                    m_tempHit = hit;
                     m_moveScript.M_Input = false;
-
+                    m_tempTransform = hit.transform.parent;
                     Debug.Log(hit.transform.tag);
 
                     temp_pos = hit.transform.parent;
@@ -162,6 +162,10 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     state = State.ZoomIn;
                 }
             }
+            else
+            {
+                m_Crosshair.gameObject.SetActive(false);
+            }
         }
         //else if(hit.transform.CompareTag("Wall") || hit.transform.CompareTag("Untagged"))
         //{
@@ -174,6 +178,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         }
     }
     private RaycastHit m_tempHit;
+    private Transform m_tempTransform;
     void ZoomIn()
     {
         //줌된상태라면
@@ -206,6 +211,9 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log("키눌림");
+            m_tempHit.collider.enabled = true;
+            m_tempHit.transform.position = m_tempTransform.position;
+
 
             m_moveScript.M_Input = true;
             Cursor.visible = false;
