@@ -9,7 +9,7 @@ public class MouseClick : MonoBehaviourPun
     public Camera m_cam;
 
     public GameObject ClickObj;             //클릭한 체스말
-    public List<GameObject> ChessGame;   //상호작용하는 체스게임
+    public List<BoxCollider> ChessGame;   //상호작용하는 체스게임
     //public BoardManager boardManager;
 
     //체스게임 조작
@@ -146,9 +146,9 @@ public class MouseClick : MonoBehaviourPun
                 {
                     ChessMissionManager.Instance.__Init();
 
-                    foreach (GameObject gameObject in ChessGame)
+                    foreach (BoxCollider gameObject in ChessGame)
                     {
-                        gameObject.SetActive(false);
+                        gameObject.transform.gameObject.SetActive(false);
                     }
                 }
             }
