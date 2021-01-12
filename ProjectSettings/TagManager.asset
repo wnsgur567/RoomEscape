@@ -16,6 +16,7 @@ TagManager:
   - YellowWire
   - Bomb
   - Cover
+  - Wall
   layers:
   - Default
   - TransparentFX

@@ -5,22 +5,32 @@ using UnityEngine;
 public class BombScript : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    [SerializeField]
+    private bool m_Left;
+
+    private Vector3 m_Axis;
+    private float m_Angle;
     public enum Cover_State
     {
         Open = 0,
         Close,
-        
     }
     public Cover_State M_State;
     void Start()
     {
         M_State = Cover_State.Close;
-        Debug.Log(transform.localEulerAngles);
+        if (m_Left)
+        {
+            m_Axis = Vector3.down;
+            m_Angle = 90f;
+        }
+        else
+        {
+            m_Axis = Vector3.down;
+            m_Angle = -90f;
+        }
     }
-    //왼쪽 210 시작 90
-
-    //오른쪽 30 시작 -90
-
     public bool active = false;
     // Update is called once per frame
     void Update()
@@ -34,20 +44,14 @@ public class BombScript : MonoBehaviour
                 }
                 else
                 {
-                    transform.Rotate(Vector3.down, Time.deltaTime * 250f, Space.Self);
+                    transform.Rotate(m_Axis, Time.deltaTime * 250f, Space.Self);
                 }
                 break;
             case Cover_State.Close:
-                transform.localEulerAngles = new Vector3(90f, 0f, 0f);
-                //transform.Rotate(Vector3.down, Time.deltaTime * 150f, Space.World);
+                transform.localEulerAngles = new Vector3(m_Angle, 0f, 0f);
                 break;
             default:
                 break;
-        }
-        if(Input.GetKeyDown(KeyCode.V))
-        {
-            Debug.Log("키보드누름");
-            Debug.Log(transform.localEulerAngles.x);
         }
     }
 

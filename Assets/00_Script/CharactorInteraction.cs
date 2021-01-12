@@ -41,7 +41,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     {
         state = State.Normal;
         m_PV = GetComponent<PhotonView>();
-        Cursor.visible = false; 
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         m_PaintCount = 0;
         m_PaintStart = false;
@@ -89,7 +89,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 }
             }
             //오브젝트가 그림퍼즐인 경우
-            if (hit.transform.CompareTag("Paint")  || hit.transform.CompareTag("Paint_correct"))
+            if (hit.transform.CompareTag("Paint") || hit.transform.CompareTag("Paint_correct"))
             {
                 //상호작용 크로스헤어 활성화
                 m_Crosshair.gameObject.SetActive(true);
@@ -99,7 +99,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 if (Input.GetMouseButtonDown(0))
                 {
                     //그림 상호작용이 첫번째(시작) 이라면
-                    if(m_PaintStart == false)
+                    if (m_PaintStart == false)
                     {
                         m_PaintStart = true;
                         Debug.Log("그림퍼즐시작");
@@ -124,7 +124,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                         }
                         //그림이면
                     }
-                    else if(hit.transform.CompareTag("Paint_correct"))
+                    else if (hit.transform.CompareTag("Paint_correct"))
                     {
                         //정답이면
                         //비활성화시킴
@@ -136,7 +136,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             }
 
             //오브젝트가 폭탄인경우
-            if(hit.transform.CompareTag("Bomb"))
+            if (hit.transform.CompareTag("Bomb"))
             {
                 //상호작용 크로스헤어 활성화
                 m_Crosshair.gameObject.SetActive(true);
@@ -163,9 +163,13 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 }
             }
         }
+        //else if(hit.transform.CompareTag("Wall") || hit.transform.CompareTag("Untagged"))
+        //{
+        //    //상호작용할게 없으면 크로스헤어 끄기
+        //    m_Crosshair.gameObject.SetActive(false);
+        //}
         else
         {
-            //상호작용할게 없으면 크로스헤어 끄기
             m_Crosshair.gameObject.SetActive(false);
         }
     }
@@ -189,11 +193,13 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     }
                     Debug.Log("폭탄커버클릭");
                 }
+                Debug.Log(_hit.transform.tag);
+
             }
             //hit.transform.parent.transform.position = temp_pos.position;
             //hit.transform.parent.transform.rotation = temp_pos.rotation;
 
-            
+
             //m_moveScript.M_Input = true;
 
         }

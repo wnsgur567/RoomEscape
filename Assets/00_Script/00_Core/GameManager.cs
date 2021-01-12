@@ -9,6 +9,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject m_Pipe_puzzle;
     public GameObject m_Paint_puzzle;
     public Transform SpawnPosition;
+
+    [SerializeField]
+    private GameObject m_ACover;
+    [SerializeField]
+    private GameObject m_BCover;
+    [SerializeField]
+    private GameObject m_CCover;
+    [SerializeField]
+    private GameObject m_DCover;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -24,6 +33,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         //ÆÄÀÌÇÁÆÛÁñ ¿Ï·á½Ã
         //ÆøÅº¶Ñ²± ¿­¾î¾ßÇÔ
+        m_ACover.tag = "Cover";
         m_Pipe_puzzle.SetActive(false);
         Debug.Log("ÆÄÀÌÇÁ Å¬¸®¾î!");
     }
