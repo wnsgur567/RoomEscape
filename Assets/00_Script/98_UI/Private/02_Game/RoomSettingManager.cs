@@ -46,10 +46,11 @@ public class RoomSettingManager : MonoBehaviour
             m_OwnerText.text = "방 장";
 
             // 버튼 활성화, 비활성화 (방장만 권한 있음)
-            m_startButtonText.text = "시작하기";
-            m_startButton.enabled = true;
-            m_Aroom_selectButton.enabled = true;
-            m_Broom_selectButton.enabled = true;
+            if (m_infoManager.m_playerInfo.isReady == false)
+                m_startButton.interactable = false;
+            m_startButtonText.text = "시작하기";                        
+            m_Aroom_selectButton.interactable = true;
+            m_Broom_selectButton.interactable = true;
         }
         else
         {
@@ -60,10 +61,9 @@ public class RoomSettingManager : MonoBehaviour
             m_OwnerText.text = "참가자";
 
             // 시작 버튼 활성화, 비활성화
-            m_startButtonText.text = "준비완료";
-            m_startButton.enabled = true;
-            m_Aroom_selectButton.enabled = false;
-            m_Broom_selectButton.enabled = false;
+            m_startButtonText.text = "준비완료";            
+            m_Aroom_selectButton.interactable = false;
+            m_Broom_selectButton.interactable = false;
         }
     }
 
