@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 7081301840124397005}
   - component: {fileID: 6237274348565991218}
   - component: {fileID: 8926486088494429185}
+  - component: {fileID: 1023939948215441648}
   m_Layer: 5
   m_Name: "\uBC29 \uCC38\uAC00 Button"
   m_TagString: Untagged
@@ -237,6 +238,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: {fileID: 60632886011949918}
+--- !u!114 &1023939948215441648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5988814935147282835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec42a3e4fc2fe94fb5de83820530a46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_soundType: 2
+  m_bgm: 0
+  m_ui: 2
+  m_object: 0
+  m_interation: 0
 --- !u!1 &8418256231608571146
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,8 +322,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uB300\uCDA9 \uC5EC\uAE30 \uBC29 \uC774\uB984\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 203a3c20577a07045847ffebfe6163bd, type: 2}
-  m_sharedMaterial: {fileID: -6984453556445383806, guid: 203a3c20577a07045847ffebfe6163bd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -329,8 +347,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

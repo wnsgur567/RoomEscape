@@ -1,0 +1,10 @@
+public enum E_oooType
+{
+	bomb_Timer = 0,
+	bomb_TimerLast = 1,
+	es_pipe_03_waterdrop = 2,
+	es_pipe_04_vapor = 3,
+	es_radio_01_morse = 4,
+
+	Max
+}

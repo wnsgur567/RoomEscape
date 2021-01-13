@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class _SoundManager : MonoBehaviour
+public class _SoundManager : Singleton<_SoundManager>,IAwake
 {
     _ResourceLoader m_resourceLoader = null;
     Dictionary<E_BGMSound, AudioClip> m_bgmDic = null;
@@ -15,7 +15,7 @@ public class _SoundManager : MonoBehaviour
 
     private AudioSource[] _audios = null;
 
-    private void Awake()
+    public void __Awake()
     {
         // dictionary 가져오기
         m_resourceLoader = _ResourceLoader.Instance;
@@ -28,7 +28,7 @@ public class _SoundManager : MonoBehaviour
 
         __InitBgm();
         __InitUI();
-    }
+    }    
 
 
     #region BGM
@@ -39,14 +39,16 @@ public class _SoundManager : MonoBehaviour
     {
         m_bgm_audio = _audios[0];
 
-        m_bgm_audio.loop = true;        
+        m_bgm_audio.loop = true;
+        PlayBGMSound(E_BGMSound.bgm_title);
     }
 
-    public void ChangeAndPlayBGMSound(E_BGMSound p_soundName)
+    public void PlayBGMSound(E_BGMSound p_soundName)
     {
         m_bgm_audio.clip = m_bgmDic[p_soundName];
         m_bgm_audio.Play();
     }
+
     #endregion
 
     #region UI & ObjectInteration
@@ -64,7 +66,7 @@ public class _SoundManager : MonoBehaviour
             _audios[i].loop = false;
             _audios[i].Stop();
             m_ui_audio_queue.Enqueue(_audios[i]);
-        }
+        }        
     }
 
     public void PlayUISound(E_UISound p_soundName)
@@ -87,5 +89,7 @@ public class _SoundManager : MonoBehaviour
             m_ui_audio_queue.Enqueue(_source);
         }
     }
+
+   
     #endregion
 }
