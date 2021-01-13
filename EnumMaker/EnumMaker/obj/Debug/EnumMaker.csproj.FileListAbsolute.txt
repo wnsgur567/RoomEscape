@@ -1,0 +1,10 @@
+C:\Users\wnsgu\source\repos\EnumMaker\EnumMaker\bin\Debug\EnumMaker.exe.config
+C:\Users\wnsgu\source\repos\EnumMaker\EnumMaker\bin\Debug\EnumMaker.exe
+C:\Users\wnsgu\source\repos\EnumMaker\EnumMaker\bin\Debug\EnumMaker.pdb
+C:\Users\wnsgu\source\repos\EnumMaker\EnumMaker\obj\Debug\EnumMaker.csprojAssemblyReference.cache
+C:\Users\wnsgu\source\repos\EnumMaker\EnumMaker\obj\Debug\EnumMaker.Form1.resources
+C:\Users\wnsgu\source\repos\EnumMaker\EnumMaker\obj\Debug\EnumMaker.Properties.Resources.resources
+C:\Users\wnsgu\source\repos\EnumMaker\EnumMaker\obj\Debug\EnumMaker.csproj.GenerateResource.cache
+C:\Users\wnsgu\source\repos\EnumMaker\EnumMaker\obj\Debug\EnumMaker.csproj.CoreCompileInputs.cache
+C:\Users\wnsgu\source\repos\EnumMaker\EnumMaker\obj\Debug\EnumMaker.exe
+C:\Users\wnsgu\source\repos\EnumMaker\EnumMaker\obj\Debug\EnumMaker.pdb
