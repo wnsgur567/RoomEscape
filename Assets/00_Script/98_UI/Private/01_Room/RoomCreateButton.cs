@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class RoomCreateButton : MonoBehaviour
 {
@@ -11,8 +12,12 @@ public class RoomCreateButton : MonoBehaviour
     [SerializeField, ShowOnly] TextMeshProUGUI m_roomName_Text;
     [SerializeField, ShowOnly] TextMeshProUGUI m_roomPW_Text;
 
+    private Button m_button = null;
+
     private void Awake()
     {
+        m_button = GetComponent<Button>();
+        m_button.interactable = false;
         m_infoManager = _NetworkInfoManager.Instance;
         m_roomManager = NetworkRoomManager.Instance;
     }
@@ -30,5 +35,10 @@ public class RoomCreateButton : MonoBehaviour
     public void __SetOwner()
     {
         m_infoManager.m_playerInfo.isRoomOwner = true;
+    }
+
+    public void __SetInteractive()
+    {
+        m_button.interactable = true;
     }
 }

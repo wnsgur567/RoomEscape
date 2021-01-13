@@ -11,6 +11,7 @@ public struct NetworkPlayerInfo
     public int deadLine_time;         // 방 제한시간   
     public E_RoomType type;
     public bool isRoomOwner;          // 방장인가?
+    public bool isReady;               //  준비 된 상태인가?
 }
 
 public class _NetworkInfoManager : Singleton<_NetworkInfoManager>
