@@ -24,25 +24,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772059641}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 3.21, y: 6.59, z: 3.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 3.3, y: 9.75, z: 3.5}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 5736862505111522768}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &1727717139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 120557662398185198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fabdaa6b17e7974d832169a2cb85d4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chessZoom: {fileID: 5194035724249625113}
 --- !u!114 &3407888142465016976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,11 +42,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46acb7936825f34fa7ec8cb46b32f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chessColl: {fileID: 6039879682813518922}
   ZoomPos: {fileID: 2118019327025676297}
   Player: {fileID: 0}
   PositionSpeed: 10
   RotationSpeed: 70
+  ExitButton: {fileID: 0}
   chessZoomState: 0
 --- !u!1 &3150830779552367387
 GameObject:
@@ -88,59 +75,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5194035723022618159}
   - {fileID: 5731024451424368453}
   - {fileID: 5736862505111522768}
   - {fileID: 2518807934232167738}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5194035723022618145
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5194035723022618159}
-  - component: {fileID: 5194035723022618144}
-  m_Layer: 0
-  m_Name: ClickManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5194035723022618159
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5194035723022618145}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.6626105, y: -0.40893614, z: -4.706323}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3012433104648819729}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5194035723022618144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5194035723022618145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fb88cb70fae9dc429618d154b270432, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_range: 1000
-  m_cam: {fileID: 0}
-  ClickObj: {fileID: 0}
 --- !u!114 &498277383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,11 +175,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46acb7936825f34fa7ec8cb46b32f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chessColl: {fileID: 1727717139}
   ZoomPos: {fileID: 772059642}
   Player: {fileID: 0}
   PositionSpeed: 10
   RotationSpeed: 70
+  ExitButton: {fileID: 0}
   chessZoomState: 0
 --- !u!1 &5876425730675293332
 GameObject:
@@ -264,26 +204,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5876425730675293332}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 3.51, y: 6.96, z: 3.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 3.5, y: 9, z: 3.5}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 2518807934232167738}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &6039879682813518922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7837876314463270404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fabdaa6b17e7974d832169a2cb85d4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chessZoom: {fileID: 3407888142465016976}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
 --- !u!1001 &816752758449313043
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -374,10 +301,10 @@ PrefabInstance:
     - target: {fileID: 4956455772573854525, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: ClickManager
       value: 
-      objectReference: {fileID: 5194035723022618144}
+      objectReference: {fileID: 0}
     - target: {fileID: 4956455773205895363, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4956455773205895363, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: m_LocalPosition.x
@@ -385,11 +312,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4956455773205895363, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4956455773205895363, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.8
+      value: -31.2
       objectReference: {fileID: 0}
     - target: {fileID: 4956455773205895363, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: m_LocalRotation.w
@@ -498,11 +425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 005b51c91442eaa45a9ac3f40b1a2874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &120557662398185198 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 790943311618698237, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
-  m_PrefabInstance: {fileID: 816752758449313043}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5194035722889611473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -512,7 +434,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 548414028921995156, guid: bd0014e4b5fad42449f274f611888186, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 548414028921995156, guid: bd0014e4b5fad42449f274f611888186, type: 3}
       propertyPath: m_LocalPosition.x
@@ -709,10 +631,10 @@ PrefabInstance:
     - target: {fileID: 4956455772573854525, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: ClickManager
       value: 
-      objectReference: {fileID: 5194035723022618144}
+      objectReference: {fileID: 0}
     - target: {fileID: 4956455773205895363, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4956455773205895363, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: m_LocalPosition.x
@@ -720,11 +642,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4956455773205895363, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -9.25
       objectReference: {fileID: 0}
     - target: {fileID: 4956455773205895363, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 20.56
       objectReference: {fileID: 0}
     - target: {fileID: 4956455773205895363, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
       propertyPath: m_LocalRotation.w
@@ -833,8 +755,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 005b51c91442eaa45a9ac3f40b1a2874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &7837876314463270404 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 790943311618698237, guid: 106f4cd1f5d6a1b45ab9c2fc4690c090, type: 3}
-  m_PrefabInstance: {fileID: 7366838112737500665}
-  m_PrefabAsset: {fileID: 0}

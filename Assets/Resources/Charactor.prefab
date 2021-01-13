@@ -317,6 +317,7 @@ MonoBehaviour:
   M_bombScript: {fileID: 0}
   m_moveScript: {fileID: 914461804}
   m_Zoom_pos: {fileID: 396338592}
+  ClickPiece: {fileID: 0}
 --- !u!54 &7980613676849089358
 Rigidbody:
   m_ObjectHideFlags: 0

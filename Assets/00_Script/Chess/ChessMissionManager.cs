@@ -5,6 +5,8 @@ using Photon.Pun;
 
 public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
 {
+    public Animator ChessTableAni;
+
     public PLAYERTYPE TurnPlayer;                 //현재 플레이어 색
     public List<ChessMissionInfo> MissionList;    //미션 리스트
     public int SuccessMissionCount;                //성공 게임 카운트 
@@ -28,6 +30,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
     {
         PV = GetComponent<PhotonView>();
     }
+
 
 
     //초기화
@@ -261,8 +264,8 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
             if (CurCount >= SuccessMissionCount
                 && CurCount < MaxMissionCount)
             {
-                //책상열리는거 여기 추가
-
+                //책상열림
+                TableAniTrigger();
                 Debug.Log($"체스게임 성공, 현재카운트 :CurCount {CurCount}");
                 return true;
             }
@@ -307,4 +310,9 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         }
     }
 
+    //책상서랍 열리는 애니메이션
+    void TableAniTrigger()
+    {
+        ChessTableAni.SetTrigger("isMove");
+    }
 }
