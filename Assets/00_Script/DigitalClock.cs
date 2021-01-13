@@ -4,19 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
-public class DigitalClock : MonoBehaviour
+public class DigitalClock :  MonoBehaviour
 {
     public static DigitalClock M_clock;
     public bool M_IsStop;
 
     [SerializeField]
-    private TextMeshPro m_CountdownText;
+    private TextMeshPro m_CountdownText;    //텍스트 출력
 
     public float M_puzzleTimer = 0;
 
     public int m_minute;
     public int m_second;
-    public float M_currentSeconds;
+    public float M_currentSeconds;          //현재 시간
 
     private bool m_penalty;
     private int m_timerdefault;
@@ -63,4 +63,6 @@ public class DigitalClock : MonoBehaviour
             m_CountdownText.text = "00:00";
         }
     }
+
+
 }

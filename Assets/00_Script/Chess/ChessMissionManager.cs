@@ -5,16 +5,17 @@ using Photon.Pun;
 
 public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
 {
-    //public BoardManager boardManager;
     public PLAYERTYPE TurnPlayer;                 //현재 플레이어 색
     public List<ChessMissionInfo> MissionList;    //미션 리스트
     public int SuccessMissionCount;                //성공 게임 카운트 
     public int MaxMissionCount;                     //최대 게임 카운트
 
+    public float PenaltyTime;
+
     public List<BoardManager> boardManagerList;     //보드매니져 리스트
 
-
-    public ChessMissionInfo CurMission;                   //현재 미션
+    [SerializeField]
+    ChessMissionInfo CurMission;                   //현재 미션
     int CurTurn;                                        //현재 체스게임 턴
 
     int CurCount;                                      //현재 게임 카운트
@@ -60,11 +61,8 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
                 PenaltySet();
             }
             //게임 미션 6번 실패 시
-            if (CheckGameCount(false))
-            {
-                
-            }
-            Debug.Log($"ChessGameFail:CurCount {CurCount}");
+            CheckGameCount(false);
+            Debug.Log($"체스미션 실패:CurCount {CurCount}");
         }
     }
 
@@ -78,10 +76,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
             Debug.Log("ChessGameComplete");
             CurTurn = 0;
             //미션 3번 성공
-            if(CheckGameCount(true))
-            {
-
-            }
+            CheckGameCount(true);
             return true;
         }
         //미션실패
@@ -239,6 +234,8 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         CurMission = MissionList[Random.Range(0, MissionList.Count)];
         CurMission.Turn *= 2;
 
+        
+
         PV.RPC("SendMission", RpcTarget.AllBuffered, CurMission.Turn, (int)CurMission.Color, (int)CurMission.Piece);
 
     }
@@ -250,7 +247,8 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         this.CurMission.Turn = _Turn;
         this.CurMission.Color = (PLAYERTYPE)_Color;
         this.CurMission.Piece = (CHESSPIECE)_Piece;
-
+        //단말기 메세지 보냄
+        _NetworkChatManager.Instance.AddLine(ChessMissionMessage());
     }
 
     //게임 끝났는지
@@ -263,7 +261,9 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
             if (CurCount >= SuccessMissionCount
                 && CurCount < MaxMissionCount)
             {
-                Debug.Log($"Complete :CurCount {CurCount}");
+                //책상열리는거 여기 추가
+
+                Debug.Log($"체스게임 성공, 현재카운트 :CurCount {CurCount}");
                 return true;
             }
 
@@ -273,11 +273,14 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
             //최대 게임 카운트보다 많아짐
             if (CurCount >= MaxMissionCount)
             {
+                //폭탄 시간 줄어듬
+                DigitalClock.M_clock.M_currentSeconds -= PenaltyTime;
+
                 foreach (BoardManager boardManager in boardManagerList)
                 {
                     boardManager.BoardInit();
                 }
-                Debug.Log("Fail");
+                Debug.Log("체스게임실패");
                 return true;
             }
         }

@@ -134,7 +134,7 @@ public class Piece : MonoBehaviourPunCallbacks
         }
 
         //클릭한 말 null
-        boardManager.ClickManager.ClickObj = null;
+        boardManager.ClickManager.ClickChessPieceNull();
         //이동 가능한 타일표시X
         MoveTileFalse();
 
@@ -186,7 +186,7 @@ public class Piece : MonoBehaviourPunCallbacks
         }
 
         //선택한 말 null
-        boardManager.ClickManager.ClickObj = null;
+        boardManager.ClickManager.ClickChessPieceNull();
 
         //이동가능 보드 표시X
         MoveTileFalse();

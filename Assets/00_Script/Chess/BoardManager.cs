@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    public MouseClick ClickManager;                                           //클릭매니저, 합칠 때 봐야함
+    public CharactorInteraction ClickManager;                                           //클릭매니저, 합칠 때 봐야함
     public PLAYERTYPE playerType;                                           //이 보드의 플레이어 색
 
     public Vector3 PieceSize;                                                   //칸 사이즈
@@ -24,6 +24,7 @@ public class BoardManager : MonoBehaviour
 
     void Start()
     {
+
         //보드(칸)생성
         CreateBoardCollider();
         //체스 초기화

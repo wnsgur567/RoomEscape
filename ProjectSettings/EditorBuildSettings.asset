@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Hong.unity
     guid: 8933e227c393c434b8ac5948dd66af2e
-  - enabled: 0
-    path: Assets/Scenes/Eunseo.unity
-    guid: 9dfeea9086c3b8849ba703c1bd1e0595
+  - enabled: 1
+    path: Assets/Scenes/01_MainTest.unity
+    guid: ffd622db8526bec44a7df26b33a9d213
   m_configObjects: {}

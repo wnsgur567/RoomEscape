@@ -99,11 +99,11 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     {
         p_outputText.text += p_lineString + "\r\n";        
     }
-    private void AddLine(string p_lineString)
+    public void AddLine(string p_lineString)
     {
         m_outputText.text += p_lineString + "\r\n";
     }
-    private void AddLineTermianl(string p_lineString)
+    public void AddLineTermianl(string p_lineString)
     {
         m_termainlOutputText.text += p_lineString + "\r\n";
     }
