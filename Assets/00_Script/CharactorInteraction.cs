@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.EventSystems;
+
 public class CharactorInteraction : MonoBehaviourPunCallbacks
 {
     [Header("캐릭터와 오브젝트의 상호작용 거리")]
@@ -17,7 +19,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     private Image m_Crosshair;//크로스헤어
 
     public PipeButton M_pipeButton;//파이프버튼 스크립트
-    public BombScript M_bombScript;
+    public BombCoverScript M_bombCoverScript;
 
     private PhotonView m_PV;
     private int m_PaintCount;
@@ -31,6 +33,10 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
 
     private Transform temp_pos;
     private GameObject temp_obj;
+
+    
+    private bool Iskey; 
+    private bool IsUsb; 
     public enum State
     {
         Normal = 0,
@@ -39,6 +45,8 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     State state;
     void Start()
     {
+        Iskey = false;
+        IsUsb = false;
         state = State.Normal;
         m_PV = GetComponent<PhotonView>();
         Cursor.visible = false;
@@ -138,6 +146,14 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     }
                 }
             }
+            else if (hit.transform.CompareTag("Radio"))
+            {
+                m_Crosshair.gameObject.SetActive(true);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    GameManager.M_gameManager.StartRadio();
+                }
+            }
             else if (hit.transform.CompareTag("Bomb")) //오브젝트가 폭탄인경우
             {
                 //상호작용 크로스헤어 활성화
@@ -169,16 +185,29 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     state = State.ZoomIn;
                 }
             }
+            else if (hit.transform.CompareTag("USB"))
+            {
+                m_Crosshair.gameObject.SetActive(true);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    IsUsb = true;
+                    hit.transform.gameObject.SetActive(false);
+                }
+            }
+            else if (hit.transform.CompareTag("Key"))
+            {
+                m_Crosshair.gameObject.SetActive(true);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Iskey = true;
+                    hit.transform.gameObject.SetActive(false);
+                }
+            }
             else
             {
                 m_Crosshair.gameObject.SetActive(false);
             }
         }
-        //else if(hit.transform.CompareTag("Wall") || hit.transform.CompareTag("Untagged"))
-        //{
-        //    //상호작용할게 없으면 크로스헤어 끄기
-        //    m_Crosshair.gameObject.SetActive(false);
-        //}
         else
         {
             m_Crosshair.gameObject.SetActive(false);
@@ -201,24 +230,41 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             {
                 if (_hit.transform.CompareTag("Cover"))
                 {
-                    M_bombScript = _hit.transform.GetComponent<BombScript>();
-                    if (M_bombScript.M_State == BombScript.Cover_State.Close)
-                        M_bombScript.M_State = BombScript.Cover_State.Open;
+                    M_bombCoverScript = _hit.transform.GetComponent<BombCoverScript>();
+                    if (M_bombCoverScript.M_State == BombCoverScript.Cover_State.Close)
+                        M_bombCoverScript.M_State = BombCoverScript.Cover_State.Open;
                     else
                     {
-                        M_bombScript.M_State = BombScript.Cover_State.Close;
+                        M_bombCoverScript.M_State = BombCoverScript.Cover_State.Close;
                     }
                     Debug.Log("폭탄커버클릭");
                 }
-                Debug.Log(_hit.transform.tag);
-
+                if (_hit.transform.CompareTag("Button"))
+                {
+                    DigitalClock.M_clock.M_currentSeconds -= 30f;
+                }
+                if(_hit.transform.CompareTag("CorrectButton"))
+                {
+                    //d퍼즐 성공
+                }
+                if(_hit.transform.CompareTag("KeyHolder"))
+                {
+                    if(Iskey)
+                    {
+                        _hit.collider.enabled = false;
+                        _hit.transform.GetChild(0).gameObject.SetActive(true);
+                    }
+                }
+                if(_hit.transform.CompareTag("USBHolder"))
+                {
+                    if (IsUsb)
+                    {
+                        _hit.collider.enabled = false;
+                        _hit.transform.GetChild(0).gameObject.SetActive(true);
+                    }
+                }
+                CutWire(_hit.transform.tag, _hit.transform.parent.gameObject);
             }
-            //hit.transform.parent.transform.position = temp_pos.position;
-            //hit.transform.parent.transform.rotation = temp_pos.rotation;
-
-
-            //m_moveScript.M_Input = true;
-
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -236,5 +282,59 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
 
             state = State.Normal;
         }
+    }
+    void CutWire(string Wire_name, GameObject Hide_Wire)
+    {
+        switch (Wire_name)
+        {
+            case "RedWire":
+                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                BombScript.M_instance.M_cutRed.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+            case "BlueWire":
+                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                BombScript.M_instance.M_cutBlue.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+            case "BlackWire":
+                BombScript.M_instance.M_cutBlack.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+            case "WhiteWire":
+                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                BombScript.M_instance.M_cutWhite.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+            case "YellowWire":
+                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                BombScript.M_instance.M_cutYellow.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+            case "GreenWire":
+                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                BombScript.M_instance.M_cutGreen.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+        }
+    }
+    
+    private bool IsPointerOverUIObject()
+    {
+        List<RaycastResult> results = GetUIObjectsUnderPointer();
+        return results.Count > 0;
+    }
+
+    private List<RaycastResult> GetUIObjectsUnderPointer()
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+        return results;
     }
 }

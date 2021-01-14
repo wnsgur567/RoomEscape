@@ -46,6 +46,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         m_DCover.tag = "Cover";
         Debug.Log("페인트 클리어!");
     }
+    public void StartRadio()
+    {
+        m_CCover.tag = "Cover";
+        Debug.Log("라디오퍼즐 시작");
+    }
 
 
     public void Spawn()//버튼에 할당한 Position으로 prefab인스턴스 생성

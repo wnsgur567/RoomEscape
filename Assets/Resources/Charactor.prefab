@@ -314,7 +314,7 @@ MonoBehaviour:
   m_cam: {fileID: 967401328668679499}
   m_Crosshair: {fileID: 267683932}
   M_pipeButton: {fileID: 0}
-  M_bombScript: {fileID: 0}
+  M_bombCoverScript: {fileID: 0}
   m_moveScript: {fileID: 914461804}
   m_Zoom_pos: {fileID: 396338592}
   m_tempObj: {fileID: 0}

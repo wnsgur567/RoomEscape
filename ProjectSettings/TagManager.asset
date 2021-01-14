@@ -18,6 +18,16 @@ TagManager:
   - Cover
   - Wall
   - None
+  - ChessGame
+  - ChessPiece
+  - ChessBoard
+  - Key
+  - USB
+  - Radio
+  - Button
+  - CorrectButton
+  - KeyHolder
+  - USBHolder
   layers:
   - Default
   - TransparentFX

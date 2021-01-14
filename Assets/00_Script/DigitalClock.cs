@@ -7,6 +7,7 @@ using TMPro;
 public class DigitalClock : MonoBehaviour
 {
     public static DigitalClock M_clock;
+
     public bool M_IsStop;
 
     [SerializeField]
