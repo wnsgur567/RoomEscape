@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Chess/Animation.meta
 guid: ef25e64b8307d90419823fbdc551ab4b
+=======
+guid: a59bab3324a27cd49b435eaa702e99c8
+>>>>>>> b96abecb7885a0ed3bd872813ab0071ecdabf8d4:Assets/Resources/Audio/01_Bgm.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<< HEAD:Assets/Resources/Audio/03_Interation.meta
 guid: f281dd620370b614aa90db9848ed66e1
+=======
+guid: 183c3cfd01d405d4a8f80b2dcad3623d
+>>>>>>> b96abecb7885a0ed3bd872813ab0071ecdabf8d4:Assets/Resources/Audio/04_Object.meta
+=======
+guid: f281dd620370b614aa90db9848ed66e1
+>>>>>>> b96abecb7885a0ed3bd872813ab0071ecdabf8d4
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
