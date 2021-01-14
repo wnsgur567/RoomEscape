@@ -1,5 +1,10 @@
 fileFormatVersion: 2
-guid: ffd622db8526bec44a7df26b33a9d213
+<<<<<<< HEAD:Assets/Scenes/01_MainTest.unity.meta
+guid: 8fbc5d83884ac8a4ea7441c2821e972f
+=======
+guid: fe1c02baa64ffa7499ac8b59612cbaa4
+folderAsset: yes
+>>>>>>> NewHongsBranch:Assets/03 Prefabs.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

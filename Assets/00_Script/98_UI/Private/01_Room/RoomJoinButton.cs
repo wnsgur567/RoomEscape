@@ -14,12 +14,15 @@ public class RoomJoinButton : MonoBehaviour
         m_infoManager = _NetworkInfoManager.Instance;
         m_roomManager = NetworkRoomManager.Instance;        
     }
-   
-    public void __JoinRoom(string p_sceneName)
+
+    public void JoinRoom(string p_sceneName)
     {
+        if (m_roomManager.m_selectedRoomName == "")
+            //return;
+
         if (m_roomManager._JoinRoom(m_roomManager.m_selectedRoomName))
-        {            
+        {
             _OnButtonProcess.__OnLoadScene(p_sceneName);
         }
-    }    
+    }
 }

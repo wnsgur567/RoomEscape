@@ -28,6 +28,7 @@ public class RoomSettingManager : MonoBehaviour
     {
         m_infoManager = _NetworkInfoManager.Instance;
         m_pv = GetComponent<PhotonView>();
+        m_infoManager.m_playerInfo.type = E_RoomType.Max;
     }
 
     public void __Initialize()

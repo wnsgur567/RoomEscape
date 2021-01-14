@@ -23,6 +23,8 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     [SerializeField] TMP_InputField m_termainlInputField;
     [SerializeField] TextMeshProUGUI m_termainlOutputText;
 
+    [SerializeField] Canvas m_termianl;
+
     [SerializeField, ShowOnly] public bool isGameStart;
 
     override protected void Awake()
@@ -65,13 +67,21 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     }
 
     public void OnInputText()
-    {        
+    {
         if (m_chatClient.State == ChatState.ConnectedToFrontEnd)
         {
             // 해당 채널에(m_channelName), 입력 메세지(inputField.text) 뿌리기
-            m_chatClient.PublishMessage(m_channelName, m_InputField.text);
 
-            m_InputField.text = "";
+            if (isGameStart)
+            {
+                m_chatClient.PublishMessage(m_channelName, m_InputField.text);
+                m_InputField.text = "";
+            }
+            else
+            {
+                m_chatClient.PublishMessage(m_channelName, m_termainlInputField.text);
+                m_termainlInputField.text = "";
+            }
         }
     }
     public void SendText(string p_text)
@@ -87,6 +97,7 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
     public void _GameStart()
     {
         isGameStart = true;
+        m_termianl.gameObject.SetActive(true);
     }
 
     public void FlushAllText()

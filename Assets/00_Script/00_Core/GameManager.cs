@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager M_gameManager = null;
     public GameObject m_Pipe_puzzle;
     public GameObject m_Paint_puzzle;
-    public Transform SpawnPosition;
+
+    public Transform A_SpawnPosition;
+    public Transform B_SpawnPosition;
 
     [SerializeField]
     private GameObject m_ACover;
@@ -18,7 +20,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     private GameObject m_CCover;
     [SerializeField]
     private GameObject m_DCover;
-
 
     _NetworkInfoManager m_infoManager = null;
     // Start is called before the first frame update
@@ -32,7 +33,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         DigitalClock.M_clock.m_minute = m_infoManager.m_playerInfo.deadLine_time;
         DigitalClock.M_clock.Clock_Initialize();
 
-        Spawn();
+        Spawn(m_infoManager);
     }
     public void Complete_PipePuzzle()
     {
@@ -53,8 +54,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
 
-    public void Spawn()//버튼에 할당한 Position으로 prefab인스턴스 생성
+    public void Spawn(_NetworkInfoManager Infomanager)//버튼에 할당한 Position으로 prefab인스턴스 생성
     {
-        PhotonNetwork.Instantiate("Charactor", SpawnPosition.position, Quaternion.identity);
+        if(Infomanager.m_playerInfo.type == E_RoomType.A)
+        {
+            PhotonNetwork.Instantiate("Charactor", A_SpawnPosition.position, Quaternion.identity);
+        }
+        else
+        {
+            PhotonNetwork.Instantiate("Charactor", B_SpawnPosition.position, Quaternion.identity);
+        }
     }
 }

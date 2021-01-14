@@ -13,6 +13,7 @@ public class DigitalClock :  MonoBehaviour
     private TextMeshPro m_CountdownText;    //텍스트 출력
 
     public float M_puzzleTimer = 0;
+    
 
     public int m_minute;
     public int m_second;
@@ -40,6 +41,8 @@ public class DigitalClock :  MonoBehaviour
 
         if (M_puzzleTimer > M_currentSeconds)
         {
+            if (PipePuzzleManager.M_pipeManager.M_IsClearPuzzle == true)
+                return;
             if (!m_penalty)
             {
                 m_penalty = true;

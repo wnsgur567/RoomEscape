@@ -314,10 +314,12 @@ MonoBehaviour:
   m_cam: {fileID: 967401328668679499}
   m_Crosshair: {fileID: 267683932}
   M_pipeButton: {fileID: 0}
-  M_bombScript: {fileID: 0}
+  M_bombCoverScript: {fileID: 0}
   m_moveScript: {fileID: 914461804}
   m_Zoom_pos: {fileID: 396338592}
   ClickPiece: {fileID: 0}
+  m_tempObj: {fileID: 0}
+  m_tempTransform: {x: 0, y: 0, z: 0}
 --- !u!54 &7980613676849089358
 Rigidbody:
   m_ObjectHideFlags: 0

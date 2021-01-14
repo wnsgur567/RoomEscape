@@ -68,6 +68,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         if (m_PV.IsMine)
         {
             FindInit();
+            
         }
     }
 
@@ -77,25 +78,29 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     {
         if (m_PV.IsMine)
         {
-            
-                if (zoomState == ZOOMSTATE.NONE)
-                    Interaction();
-                else
-                    ZoomIn();
+
+            if (zoomState == ZOOMSTATE.NONE)
+                Interaction();
+            else
+                ZoomIn();
             
         }
     }
 
     public void MouseSetFalse()
     {
+        zoomState = ZOOMSTATE.NONE;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        m_moveScript.M_Input = true;
     }
 
     public void MouseSetTrue()
     {
+        zoomState = ZOOMSTATE.ZOOMIN;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        m_moveScript.M_Input = false;
     }
 
     void Interaction()
@@ -105,12 +110,10 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         //    return;
         //}
 
-            RaycastHit hit;
+        RaycastHit hit;
         //ī�޶� �������� ������� m_range��ŭ ���̸� ��
         if (Physics.Raycast(m_cam.transform.position, m_cam.transform.forward, out hit, m_range))
         {
-
-
             //������Ʈ�� ������������ ���
             if (hit.transform.CompareTag("PipeButton"))
             {
@@ -126,7 +129,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     {
                         PipePuzzleManager.M_pipeManager.M_IsStarted = true;
                         DigitalClock.M_clock.M_puzzleTimer = DigitalClock.M_clock.M_currentSeconds - 120f;
-                        Debug.Log("���������� ����");
+                        Debug.Log("Activate PipePenalty");
                         return;
                     }
 
@@ -203,7 +206,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 if (Input.GetMouseButtonDown(0))
                 {
                     m_Crosshair.gameObject.SetActive(false);
-                    //��ź ������ġ
+                    ////��ź ������ġ
 
                     m_tempObj = hit.transform.parent.gameObject;
                     m_tempCol = hit.collider;
@@ -223,7 +226,10 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
 
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.Confined;
+
                     zoomState = ZOOMSTATE.ZOOMIN;
+                    //bomb = hit.transform.parent.GetComponent<ChessZoom>();
+                    //bomb.ZoomInSet();
                 }
             }
             else if (hit.transform.CompareTag("ChessGame"))
@@ -283,8 +289,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         //    return;
         //}
 
-        m_moveScript.M_Input = false;
-        MouseSetTrue();
+        //m_moveScript.M_Input = false;
 
         RaycastHit _hit;
         if (Physics.Raycast(m_cam.ScreenPointToRay(Input.mousePosition), out _hit))
@@ -358,6 +363,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     }
 
     ChessZoom chess;
+    ChessZoom bomb;
 
     //ü������ ����
     void ChessGameClick(RaycastHit hit)
@@ -508,12 +514,12 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         switch (Wire_name)
         {
             case "RedWire":
-                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
                 BombScript.M_instance.M_cutRed.SetActive(true);
                 Hide_Wire.SetActive(false);
                 break;
             case "BlueWire":
-                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
                 BombScript.M_instance.M_cutBlue.SetActive(true);
                 Hide_Wire.SetActive(false);
                 break;
@@ -522,22 +528,30 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 Hide_Wire.SetActive(false);
                 break;
             case "WhiteWire":
-                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
                 BombScript.M_instance.M_cutWhite.SetActive(true);
                 Hide_Wire.SetActive(false);
                 break;
             case "YellowWire":
-                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
                 BombScript.M_instance.M_cutYellow.SetActive(true);
                 Hide_Wire.SetActive(false);
                 break;
             case "GreenWire":
-                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
                 BombScript.M_instance.M_cutGreen.SetActive(true);
                 Hide_Wire.SetActive(false);
                 break;
         }
     }
+
+    [PunRPC]
+    void BombTimePenalty()
+    {
+        DigitalClock.M_clock.M_currentSeconds -= 30f;
+    }
+
+
     
     private bool IsPointerOverUIObject()
     {

@@ -29,7 +29,7 @@ public class RoomInfoSyncronizer : MonoBehaviourPunCallbacks
     // 방 참가자가 레디버튼을 누를 경우 호출
     public void _OnReady()
     {
-        if (PhotonNetwork.IsMasterClient == false)
+        if (m_infoManager.m_playerInfo.type != E_RoomType.Max && PhotonNetwork.IsMasterClient == false)
         {
             bool _b;
             if (m_infoManager.m_playerInfo.isReady)

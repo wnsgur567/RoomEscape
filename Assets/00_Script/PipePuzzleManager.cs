@@ -13,7 +13,7 @@ public class PipePuzzleManager : MonoBehaviour
 
     public bool M_IsStarted;
 
-    private bool m_IsClearPuzzle;
+    public bool M_IsClearPuzzle;
     private bool m_endflag;
 
     [SerializeField]
@@ -30,7 +30,7 @@ public class PipePuzzleManager : MonoBehaviour
     }
     private void Start()
     {
-        m_IsClearPuzzle = false;
+        M_IsClearPuzzle = false;
         m_endflag = false;
         M_IsStarted = false;
     }
@@ -43,16 +43,16 @@ public class PipePuzzleManager : MonoBehaviour
         {
             if (m_pipe[i].M_PipeActivate == true)
             {
-                m_IsClearPuzzle = true;
+                M_IsClearPuzzle = true;
             }
             else
             {
-                m_IsClearPuzzle = false;
+                M_IsClearPuzzle = false;
                 break;
             }
         }
 
-        if (m_IsClearPuzzle)
+        if (M_IsClearPuzzle)
         {
             GameManager.M_gameManager.Complete_PipePuzzle();
             EndPuzzle();

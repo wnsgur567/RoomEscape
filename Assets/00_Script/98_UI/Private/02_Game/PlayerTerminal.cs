@@ -25,20 +25,20 @@ public class PlayerTerminal : MonoBehaviour
     }
 
     private void KeyInput()
-    {        
+    {
         if (m_chatManager.isGameStart && Input.GetKeyDown(KeyCode.Tab))
         {
             if (isAvailable)
             {
                 SetAvailable(false);
-            }                
+            }
             else
             {
                 SetAvailable(true);
-            }                
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (isAvailable && Input.GetKeyDown(KeyCode.Return))
         {
             // setfocus
             m_focusObject.ActivateInputField();
@@ -47,7 +47,7 @@ public class PlayerTerminal : MonoBehaviour
             m_chatManager.OnInputText();
         }
     }
-    
+
     // 활성화 비활성화시 관련 함수 호출
     public void SetAvailable(bool _b)
     {

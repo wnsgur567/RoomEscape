@@ -720,6 +720,7 @@ MonoBehaviour:
   m_outputText: {fileID: 1386634063}
   m_termainlInputField: {fileID: 1580548692}
   m_termainlOutputText: {fileID: 610665437}
+  m_termianl: {fileID: 381983408}
   isGameStart: 0
 --- !u!1 &287271218
 GameObject:

@@ -25,7 +25,8 @@ public class ChessZoom : MonoBehaviour
     bool isChessSet;                                    //처음 줌 하는건지
 
     Transform camera;
-
+    [SerializeField]
+    private bool m_isChess;
     void Start()
     {
 
@@ -66,6 +67,7 @@ public class ChessZoom : MonoBehaviour
         chessZoomState = ZOOMSTATE.ZOOMIN;                                                                                                      //상태 변경
         boxCollider.enabled = false;                                                                                                                                //콜라이더 끄기
         ExitButton.transform.gameObject.SetActive(true);
+        Player.MouseSetTrue();
     }
 
     //줌 아웃 세팅
@@ -73,15 +75,19 @@ public class ChessZoom : MonoBehaviour
     {
         ExitButton.transform.gameObject.SetActive(false);
         chessZoomState = ZOOMSTATE.ZOOMOUT;
-        Player.MouseSetFalse();
+        
         
     }
 
     //처음에만 실행, 줌 초기화
     void ZoomInit()
     {
-        isChessSet = true;
-        ChessMissionManager.Instance.__Init();
+        //2 line only chess
+        if (m_isChess)
+        {
+            isChessSet = true;
+            ChessMissionManager.Instance.__Init();
+        }
         ExitButton.onClick.AddListener(() => ZoomOutSet());
     }
 
@@ -104,6 +110,7 @@ public class ChessZoom : MonoBehaviour
         {
             chessZoomState = ZOOMSTATE.NONE;
             boxCollider.enabled = true;
+            Player.MouseSetFalse();
         }
     }
 }
