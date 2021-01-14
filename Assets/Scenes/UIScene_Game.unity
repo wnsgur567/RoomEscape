@@ -2745,7 +2745,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1145925803}
         m_TargetAssemblyTypeName: RoomButton, Assembly-CSharp
-        m_MethodName: __OnSelectRoom_A
+        m_MethodName: OnSelectRoom_A
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3525,7 +3525,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1368245092}
         m_TargetAssemblyTypeName: RoomButton, Assembly-CSharp
-        m_MethodName: __OnSelectRoom_B
+        m_MethodName: OnSelectRoom_B
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
