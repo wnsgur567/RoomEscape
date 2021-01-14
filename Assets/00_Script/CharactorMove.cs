@@ -54,18 +54,22 @@ public class CharactorMove : MonoBehaviourPunCallbacks
     }
     void CharactorRotation()
     {
+        float rotX = Input.GetAxis("Mouse X") * rotSpeed;
+        float rotY = Input.GetAxis("Mouse Y") * rotSpeed;
 
-        float rotX = Input.GetAxis("Mouse Y") * rotSpeed;
-        float rotY = Input.GetAxis("Mouse X") * rotSpeed;
-        //if (rotX < 180f)
-        //{
-        //    rotX = Mathf.Clamp(rotX, -1f, 70f);
-        //}
-        //else
-        //{
-        //    rotX = Mathf.Clamp(rotX, 300f, 361f);
-        //}
-        this.transform.localRotation *= Quaternion.Euler(0, rotY, 0);
-        cameraArm.localRotation *= Quaternion.Euler(-rotX, 0, 0);
+        float tempcamY = Mathf.LerpAngle(0, -rotY, 10f);
+
+        // -180~180도
+        float angle = cameraArm.transform.eulerAngles.x > 180 ? cameraArm.transform.eulerAngles.x - 360 : cameraArm.transform.eulerAngles.x;
+
+        if (angle + tempcamY >= 50)//하단, 높을수록 아래로 한바퀴
+            angle = 50;
+        else if (angle + tempcamY <= -60)  //상단 낮을수록 위로
+            angle = -60;
+        else
+            angle += tempcamY;
+
+        cameraArm.transform.eulerAngles = new Vector3(angle, cameraArm.transform.eulerAngles.y, 0);
+        this.transform.localRotation *= Quaternion.Euler(0, rotX, 0);
     }
 }

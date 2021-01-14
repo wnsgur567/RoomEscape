@@ -21,6 +21,12 @@ public class DigitalClock :  MonoBehaviour
 
     private bool m_penalty;
     private int m_timerdefault;
+
+    [SerializeField]
+    private Image m_PenaltyImage;
+
+    private float m_PenaltyTime = 3.5f;
+    private float m_time = 0f;
     private void Awake()
     {
         M_clock = this;
@@ -35,7 +41,6 @@ public class DigitalClock :  MonoBehaviour
     }
     void Update()
     {
-
         if (M_IsStop)
             return;
 
@@ -48,10 +53,12 @@ public class DigitalClock :  MonoBehaviour
                 m_penalty = true;
                 //시야를 가린다
 
+                Debug.Log("Activate PipePenalty");
                 return;
             }
             if (m_penalty)
             {
+                FadeIn();
                 return;
             }
             Debug.Log("2분경과");
@@ -67,5 +74,14 @@ public class DigitalClock :  MonoBehaviour
         }
     }
 
+    void FadeIn()
+    {
+        Color color = m_PenaltyImage.color;
+        if (color.a < 1)
+        {
+            color.a += Time.deltaTime * 0.2f;
+        }
 
+        m_PenaltyImage.color = color;
+    }
 }

@@ -28,6 +28,7 @@ TagManager:
   - CorrectButton
   - KeyHolder
   - USBHolder
+  - Note
   layers:
   - Default
   - TransparentFX

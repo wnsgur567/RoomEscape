@@ -38,6 +38,8 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     private bool m_PaintStart;
 
     [SerializeField]
+    private SpriteUI m_NoteUI;
+    [SerializeField]
     private CharactorMove m_moveScript;
 
     [SerializeField]
@@ -53,10 +55,12 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
 
 
     private bool Iskey; 
-    private bool IsUsb; 
+    private bool IsUsb;
+    private bool m_ActivePipe;
     
     void Start()
     {
+        m_ActivePipe = false;
         Iskey = false;
         IsUsb = false;
         zoomState = ZOOMSTATE.NONE;
@@ -76,12 +80,41 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         if (m_PV.IsMine)
         {
             if (zoomState == ZOOMSTATE.NONE)
+            {
                 Interaction();
+                PipeAction();
+            }
             else
                 ZoomIn();
         }
     }
 
+    //파이프 회전속도
+    private float m_PipeSpeed = 200f;
+    //파이프 회전 시간체크용 변수
+    private float m_fTime = 0;
+    //파이프가 몇초동안 회전할건지
+    private float m_ActiveLimitetime = 0.7f;
+    private GameObject tempPipe;
+    private float m_PipePenaltyTime = 5f;
+    void PipeAction()
+    {
+        if (m_ActivePipe)
+        {
+            m_fTime += Time.deltaTime;
+            if (m_fTime >= m_ActiveLimitetime)
+            {
+                m_ActivePipe = false;
+                m_fTime = 0;
+                tempPipe = null;
+                return;
+            }
+            else
+            {
+                tempPipe.transform.Rotate(Vector3.forward, m_PipeSpeed * Time.deltaTime, Space.Self);
+            }
+        }
+    }
     public void MouseSetFalse()
     {
         zoomState = ZOOMSTATE.NONE;
@@ -123,16 +156,15 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     if (PipePuzzleManager.M_pipeManager.M_IsStarted == false)
                     {
                         PipePuzzleManager.M_pipeManager.M_IsStarted = true;
-                        DigitalClock.M_clock.M_puzzleTimer = DigitalClock.M_clock.M_currentSeconds - 120f;
-                        Debug.Log("Activate PipePenalty");
+                        DigitalClock.M_clock.M_puzzleTimer = DigitalClock.M_clock.M_currentSeconds - m_PipePenaltyTime;
                         return;
                     }
-
+                    tempPipe = hit.transform.gameObject;
+                    m_ActivePipe = true;
                     M_pipeButton = hit.transform.GetComponent<PipeButton>();
                     M_pipeButton.ActiveButton();
 
 
-                    //hit.transform.Rotate(Vector3.forward, Time.deltaTime * 250f, Space.Self);
 
                 }
             }
@@ -242,6 +274,15 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     chess.ZoomInSet();
                 }
             }
+            else if(hit.transform.CompareTag("Note"))
+            {
+                m_Crosshair.gameObject.SetActive(true);
+                if(Input.GetMouseButtonDown(0))
+                {
+                    m_NoteUI.gameObject.SetActive(true);
+                    m_NoteUI.ActiveTrue();
+                }
+            }
             else if (hit.transform.CompareTag("USB"))
             {
                 m_Crosshair.gameObject.SetActive(true);
@@ -277,6 +318,8 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     [SerializeField]
     Vector3 m_tempTransform;
     Vector3 m_tempTransformRotate;
+
+    private GameObject m_tempCover;
     void ZoomIn()
     {
         //if (!IsPointerOverUIObject())
@@ -290,6 +333,16 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         if (Physics.Raycast(m_cam.ScreenPointToRay(Input.mousePosition), out _hit))
         {
             //�ܵȻ��¶��
+            if (_hit.transform.CompareTag("Cover"))
+            {
+                m_tempCover = _hit.transform.GetChild(0).gameObject;
+                m_tempCover.SetActive(true);
+            }
+            else
+            {
+                m_tempCover.SetActive(false);
+                m_tempCover = null;
+            }
             if (Input.GetMouseButtonDown(0))
             {
 
