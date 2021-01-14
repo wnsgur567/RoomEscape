@@ -15,6 +15,15 @@ public class PipePuzzleManager : MonoBehaviour
 
     private bool m_IsClearPuzzle;
     private bool m_endflag;
+
+    [SerializeField]
+    private GameObject m_OldPipe;
+
+    [SerializeField]
+    private GameObject m_BrokenPipe;
+    [SerializeField]
+    private MeshRenderer m_MeshRenderer;
+
     private void Awake()
     {
         M_pipeManager = this;
@@ -56,5 +65,9 @@ public class PipePuzzleManager : MonoBehaviour
         {
             m_pipeButton[i].enabled = false;
         }
+        m_OldPipe.SetActive(false);
+        m_BrokenPipe.SetActive(true);
+        m_MeshRenderer.material.color = Color.black;
+
     }
 }

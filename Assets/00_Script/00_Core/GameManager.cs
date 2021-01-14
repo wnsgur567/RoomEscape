@@ -18,13 +18,18 @@ public class GameManager : MonoBehaviourPunCallbacks
     private GameObject m_CCover;
     [SerializeField]
     private GameObject m_DCover;
+
+
+    _NetworkInfoManager m_infoManager = null;
     // Start is called before the first frame update
     private void Awake()
     {
+        m_infoManager = _NetworkInfoManager.Instance;
         M_gameManager = this;
     }
     private void Start()
     {
+        DigitalClock.M_clock.m_minute = m_infoManager.m_playerInfo.deadLine_time;
         DigitalClock.M_clock.Clock_Initialize();
 
         Spawn();
@@ -40,6 +45,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         //페인트퍼즐 완료시
         m_DCover.tag = "Cover";
         Debug.Log("페인트 클리어!");
+    }
+    public void StartRadio()
+    {
+        m_CCover.tag = "Cover";
+        Debug.Log("라디오퍼즐 시작");
     }
 
 

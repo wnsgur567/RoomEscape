@@ -20,18 +20,18 @@ public enum ZOOMSTATE
 
 public class CharactorInteraction : MonoBehaviourPunCallbacks
 {
-    [Header("Ä³¸¯ÅÍ¿Í ¿ÀºêÁ§Æ®ÀÇ »óÈ£ÀÛ¿ë °Å¸®")]
+    [Header("Ä³ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Å¸ï¿½")]
     [SerializeField]
-    private float m_range;//»óÈ£ÀÛ¿ë °Å¸®
+    private float m_range;//ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Å¸ï¿½
 
     [SerializeField]
-    public Camera m_cam;//Ä«¸Þ¶ó
+    public Camera m_cam;//Ä«ï¿½Þ¶ï¿½
 
     [SerializeField]
-    private Image m_Crosshair;//Å©·Î½ºÇì¾î
+    private Image m_Crosshair;//Å©ï¿½Î½ï¿½ï¿½ï¿½ï¿½
 
-    public PipeButton M_pipeButton;//ÆÄÀÌÇÁ¹öÆ° ½ºÅ©¸³Æ®
-    public BombScript M_bombScript;
+    public PipeButton M_pipeButton;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° ï¿½ï¿½Å©ï¿½ï¿½Æ®
+    public BombCoverScript M_bombCoverScript;
 
     private PhotonView m_PV;
     private int m_PaintCount;
@@ -49,11 +49,16 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     ZOOMSTATE zoomState;
 
     [SerializeField]
-    GameObject ClickPiece;             //Å¬¸¯ÇÑ Ã¼½º¸»
+    GameObject ClickPiece;             //Å¬ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½
 
 
+    private bool Iskey; 
+    private bool IsUsb; 
+    
     void Start()
     {
+        Iskey = false;
+        IsUsb = false;
         zoomState = ZOOMSTATE.NONE;
         m_PV = GetComponent<PhotonView>();
         MouseSetFalse();
@@ -101,50 +106,52 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         //}
 
             RaycastHit hit;
-        //Ä«¸Þ¶ó ±âÁØÀ¸·Î °¡¿îµ¥¿¡´Ù m_range¸¸Å­ ·¹ÀÌ¸¦ ½ô
+        //Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½îµ¥ï¿½ï¿½ï¿½ï¿½ m_rangeï¿½ï¿½Å­ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½
         if (Physics.Raycast(m_cam.transform.position, m_cam.transform.forward, out hit, m_range))
         {
 
 
-            //¿ÀºêÁ§Æ®°¡ ÆÄÀÌÇÁÆÛÁñÀÎ °æ¿ì
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             if (hit.transform.CompareTag("PipeButton"))
             {
-                //»óÈ£ÀÛ¿ë Å©·Î½ºÇì¾î È°¼ºÈ­
+                //ï¿½ï¿½È£ï¿½Û¿ï¿½ Å©ï¿½Î½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
                 m_Crosshair.gameObject.SetActive(true);
 
-                //¾È³»¸Þ¼¼Áö°°Àº°Å Ãß°¡ÇØ¾ßÇÔ
+                //ï¿½È³ï¿½ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
 
-                //ÆÄÀÌÇÁ ¹öÆ°¿¡¼­ ¸¶¿ì½º´©¸£¸é ÆÄÀÌÇÁ ½ÇÇà
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (PipePuzzleManager.M_pipeManager.M_IsStarted == false)
                     {
                         PipePuzzleManager.M_pipeManager.M_IsStarted = true;
                         DigitalClock.M_clock.M_puzzleTimer = DigitalClock.M_clock.M_currentSeconds - 120f;
-                        Debug.Log("ÆÄÀÌÇÁÆÛÁñ ½ÃÀÛ");
+                        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                         return;
                     }
 
                     M_pipeButton = hit.transform.GetComponent<PipeButton>();
                     M_pipeButton.ActiveButton();
 
-                    hit.transform.Rotate(Vector3.back, Time.deltaTime * 250f, Space.Self);
+
+                    //hit.transform.Rotate(Vector3.forward, Time.deltaTime * 250f, Space.Self);
+
                 }
             }
-            else if (hit.transform.CompareTag("Paint") || hit.transform.CompareTag("Paint_correct")) //¿ÀºêÁ§Æ®°¡ ±×¸²ÆÛÁñÀÎ °æ¿ì
+            else if (hit.transform.CompareTag("Paint") || hit.transform.CompareTag("Paint_correct")) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             {
-                //»óÈ£ÀÛ¿ë Å©·Î½ºÇì¾î È°¼ºÈ­
+                //ï¿½ï¿½È£ï¿½Û¿ï¿½ Å©ï¿½Î½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
                 m_Crosshair.gameObject.SetActive(true);
 
-                //¾È³»¸Þ¼¼Áö°°Àº°Å Ãß°¡ÇØ¾ßÇÔ
+                //ï¿½È³ï¿½ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    //±×¸² »óÈ£ÀÛ¿ëÀÌ Ã¹¹øÂ°(½ÃÀÛ) ÀÌ¶ó¸é
+                    //ï¿½×¸ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ï¿½ï¿½ Ã¹ï¿½ï¿½Â°(ï¿½ï¿½ï¿½ï¿½) ï¿½Ì¶ï¿½ï¿½
                     if (m_PaintStart == false)
                     {
                         m_PaintStart = true;
-                        Debug.Log("±×¸²ÆÛÁñ½ÃÀÛ");
+                        Debug.Log("ï¿½×¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                         return;
                     }
                     else
@@ -152,45 +159,58 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                         m_PaintCount++;
                     }
 
-                    //±×¸² »óÈ£ÀÛ¿ë Ä«¿îÆ®¸¦ Áõ°¡½ÃÅ°°í
+                    //ï¿½×¸ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ Ä«ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½
 
                     Debug.Log(m_PaintCount);
                     if (hit.transform.CompareTag("Paint"))
                     {
-                        Debug.Log("±×¸²ÀÓ");
-                        //±×¸²À» Å¬¸¯ÇÏ¸é
-                        //Àü±¸±ôºýÀÌ´Â ÆÐ³ÎÆ¼
+                        Debug.Log("ï¿½×¸ï¿½ï¿½ï¿½");
+                        //ï¿½×¸ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ï¸ï¿½
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½Ð³ï¿½Æ¼
                         LightPenalty.instance.M_IsPenalty = true;
                         LightPenalty.instance.StartPenalty();
                         if (m_PaintCount == 10)
                         {
 
                         }
-                        //±×¸²ÀÌ¸é
+                        //ï¿½×¸ï¿½ï¿½Ì¸ï¿½
                     }
                     else if (hit.transform.CompareTag("Paint_correct"))
                     {
-                        //Á¤´äÀÌ¸é
-                        //ºñÈ°¼ºÈ­½ÃÅ´
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
+                        //ï¿½ï¿½È°ï¿½ï¿½È­ï¿½ï¿½Å´
 
                         LightPenalty.instance.M_IsPenalty = false;
+                        LightPenalty.instance.obj.SetActive(true);
                         hit.transform.gameObject.SetActive(false);
-                        Debug.Log("Á¤´äÀÓ");
+                        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                     }
-                    //M_pipeButton.ActiveButton();
                 }
             }
-            else if (hit.transform.CompareTag("Bomb")) //¿ÀºêÁ§Æ®°¡ ÆøÅºÀÎ°æ¿ì
+            else if (hit.transform.CompareTag("Radio"))
             {
-                //»óÈ£ÀÛ¿ë Å©·Î½ºÇì¾î È°¼ºÈ­
+                m_Crosshair.gameObject.SetActive(true);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    GameManager.M_gameManager.StartRadio();
+                }
+            }
+            else if (hit.transform.CompareTag("Bomb")) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Åºï¿½Î°ï¿½ï¿½
+            {
+                //ï¿½ï¿½È£ï¿½Û¿ï¿½ Å©ï¿½Î½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
                 m_Crosshair.gameObject.SetActive(true);
 
                 if (Input.GetMouseButtonDown(0))
                 {
                     m_Crosshair.gameObject.SetActive(false);
-                    m_tempHit = hit;
+                    //ï¿½ï¿½Åº ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡
+
+                    m_tempObj = hit.transform.parent.gameObject;
+                    m_tempCol = hit.collider;
+                    m_tempTransform = hit.transform.parent.position;
+                    m_tempTransformRotate = hit.transform.parent.eulerAngles;
+
                     m_moveScript.M_Input = false;
-                    m_tempTransform = hit.transform.parent;
                     Debug.Log(hit.transform.tag);
 
                     temp_pos = hit.transform.parent;
@@ -208,7 +228,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             }
             else if (hit.transform.CompareTag("ChessGame"))
             {
-                //»óÈ£ÀÛ¿ë Å©·Î½ºÇì¾î È°¼ºÈ­
+                //ï¿½ï¿½È£ï¿½Û¿ï¿½ Å©ï¿½Î½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
                 m_Crosshair.gameObject.SetActive(true);
 
                 if (Input.GetMouseButtonDown(0))
@@ -221,23 +241,41 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     chess.ZoomInSet();
                 }
             }
+            else if (hit.transform.CompareTag("USB"))
+            {
+                m_Crosshair.gameObject.SetActive(true);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    IsUsb = true;
+                    hit.transform.gameObject.SetActive(false);
+                }
+            }
+            else if (hit.transform.CompareTag("Key"))
+            {
+                m_Crosshair.gameObject.SetActive(true);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Iskey = true;
+                    hit.transform.gameObject.SetActive(false);
+                }
+            }
             else
             {
                 m_Crosshair.gameObject.SetActive(false);
             }
         }
-        //else if(hit.transform.CompareTag("Wall") || hit.transform.CompareTag("Untagged"))
-        //{
-        //    //»óÈ£ÀÛ¿ëÇÒ°Ô ¾øÀ¸¸é Å©·Î½ºÇì¾î ²ô±â
-        //    m_Crosshair.gameObject.SetActive(false);
-        //}
         else
         {
             m_Crosshair.gameObject.SetActive(false);
         }
     }
-    private RaycastHit m_tempHit;
-    private Transform m_tempTransform;
+    [SerializeField]
+    private GameObject m_tempObj;
+    private Collider m_tempCol;
+
+    [SerializeField]
+    Vector3 m_tempTransform;
+    Vector3 m_tempTransformRotate;
     void ZoomIn()
     {
         //if (!IsPointerOverUIObject())
@@ -251,23 +289,46 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         RaycastHit _hit;
         if (Physics.Raycast(m_cam.ScreenPointToRay(Input.mousePosition), out _hit))
         {
-            //ÁÜµÈ»óÅÂ¶ó¸é
+            //ï¿½ÜµÈ»ï¿½ï¿½Â¶ï¿½ï¿½
             if (Input.GetMouseButtonDown(0))
             {
 
                 if (_hit.transform.CompareTag("Cover"))
                 {
-                    M_bombScript = _hit.transform.GetComponent<BombScript>();
-                    if (M_bombScript.M_State == BombScript.Cover_State.Close)
-                        M_bombScript.M_State = BombScript.Cover_State.Open;
+                    M_bombCoverScript = _hit.transform.GetComponent<BombCoverScript>();
+                    if (M_bombCoverScript.M_State == BombCoverScript.Cover_State.Close)
+                        M_bombCoverScript.M_State = BombCoverScript.Cover_State.Open;
                     else
                     {
-                        M_bombScript.M_State = BombScript.Cover_State.Close;
+                        M_bombCoverScript.M_State = BombCoverScript.Cover_State.Close;
                     }
-                    Debug.Log("ÆøÅºÄ¿¹öÅ¬¸¯");
+                    Debug.Log("ï¿½ï¿½ÅºÄ¿ï¿½ï¿½Å¬ï¿½ï¿½");
                 }
-                Debug.Log(_hit.transform.tag);
-
+                if (_hit.transform.CompareTag("Button"))
+                {
+                    DigitalClock.M_clock.M_currentSeconds -= 30f;
+                }
+                if(_hit.transform.CompareTag("CorrectButton"))
+                {
+                    //dï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                }
+                if(_hit.transform.CompareTag("KeyHolder"))
+                {
+                    if(Iskey)
+                    {
+                        _hit.collider.enabled = false;
+                        _hit.transform.GetChild(0).gameObject.SetActive(true);
+                    }
+                }
+                if(_hit.transform.CompareTag("USBHolder"))
+                {
+                    if (IsUsb)
+                    {
+                        _hit.collider.enabled = false;
+                        _hit.transform.GetChild(0).gameObject.SetActive(true);
+                    }
+                }
+                CutWire(_hit.transform.tag, _hit.transform.parent.gameObject);
             }
 
             ChessGameClick(_hit);
@@ -278,11 +339,13 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             //m_moveScript.M_Input = true;
 
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log("Å°´­¸²");
-            m_tempHit.collider.enabled = true;
-            m_tempHit.transform.position = m_tempTransform.position;
+            Debug.Log("Å°ï¿½ï¿½ï¿½ï¿½");
+            //m_tempObj.collider.enabled = true;
+            m_tempCol.enabled = true;
+            m_tempObj.transform.position = m_tempTransform;
+            m_tempObj.transform.eulerAngles = m_tempTransformRotate;
 
 
             m_moveScript.M_Input = true;
@@ -296,7 +359,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
 
     ChessZoom chess;
 
-    //Ã¼½º°ÔÀÓ Á¶ÀÛ
+    //Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     void ChessGameClick(RaycastHit hit)
     {
         if (Input.GetMouseButtonDown(0)
@@ -305,54 +368,54 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         {
             Debug.Log($"{hit.transform.tag}");
 
-            //Ã¼½ºº¸µå Å¬¸¯
+            //Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½
             if (hit.transform.CompareTag("ChessBoard"))
             {
-                // Ã¼½ºº¸µå(Å¬¸¯ÇÑ º¸µå À§Ä¡)·Î ¿òÁ÷ÀÓ
+                // Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 if (ClickPiece != null)
                 {
-                    //ÇÃ·¹ÀÌ¾î°¡ ¼±ÅÃÇÑ ¸»
+                    //ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
                     Piece playerpiece = ClickPiece.GetComponent<Piece>();
-                    //Å¬¸¯ÇÑ º¸µå
+                    //Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                     Board hitBoard = hit.transform.GetComponent<Board>();
                     BoardManager boardManager = hitBoard.boardManager;
                     Vector3 tempvec = new Vector3();
 
-                    //¿òÁ÷ÀÌ·Á´Â À§Ä¡ °è»ê
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½
                     tempvec.x = hitBoard.pieceInfo.Index.x - playerpiece.pieceInfo.Index.x;
                     tempvec.z = hitBoard.pieceInfo.Index.y - playerpiece.pieceInfo.Index.y;
 
-                    //¿òÁ÷ÀÓ È®ÀÎ
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
                     if (playerpiece.IsMove(tempvec, hitBoard, false))
                     {
-                        //¹Ý´ëÆí Ã¼½ºÆÇµµ ¾÷µ¥ÀÌÆ®
+                        //ï¿½Ý´ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½Çµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
                         ChessMissionManager.Instance.UpdateChess(boardManager, playerpiece, hitBoard, null);
-                        //ÀÌµ¿°¡´ÉÇÑ Å¸ÀÏ ºñÈ°¼ºÈ­
+                        //ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
                         playerpiece.MoveTileFalse();
-                        //¿òÁ÷ÀÓ
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         playerpiece.PV.RPC("MoveTo", RpcTarget.AllBuffered,
                             (int)hitBoard.pieceInfo.playerType, (int)hitBoard.pieceInfo.chessPiece, hitBoard.pieceInfo.Index.x, hitBoard.pieceInfo.Index.y);/*.MoveTo(hitBoard, null);*/
-                        //ÇÃ·¹ÀÌ¾î°¡ ¼±ÅÃÇÑ ¸» null
+                        //ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ null
                         ClickPiece = null;
 
                     }
                 }
             }
-            else if (hit.transform.CompareTag("ChessPiece"))    //Ã¼½º¸» Å¬¸¯
+            else if (hit.transform.CompareTag("ChessPiece"))    //Ã¼ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½
             {
-                //ÇöÀç ¼±ÅÃÇÑ Ã¼½º¸» nullÀÌ ¾Æ´Ò °æ¿ì
+                //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ nullï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
                 if (ClickPiece != null)
                 {
-                    //ÇÃ·¹ÀÌ¾î°¡ ¼±ÅÃÇÑ Ã¼½º¸»
+                    //ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½
                     Piece playerpiece = ClickPiece.GetComponent<Piece>();
-                    //»õ·Î ¼±ÅÃÇÑ Ã¼½º¸»
+                    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½
                     Piece hitpiece = hit.transform.GetComponent<Piece>();
-                    //»õ·Î ¼±ÅÃÇÑ Ã¼½º¸»ÀÇ º¸µå¸Å´ÏÁ®
+                    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½
                     BoardManager boardManager = hitpiece.boardManager;
-                    //Å¬¸¯ÇÑ º¸µå À§Ä¡ÀÇ º¸µå
+                    //Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                     Board hitBoard = boardManager.M_BoardArr[hitpiece.pieceInfo.Index.y, hitpiece.pieceInfo.Index.x];
 
-                    //Çàµ¿Ãë¼Ò(Å¬¸¯ÇÑ ¸»ÀÌ ÀÌÀü¿¡ ¼±ÅÃÇÑ ¸»°ú °°À» °æ¿ì)
+                    //ï¿½àµ¿ï¿½ï¿½ï¿½(Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½)
                     if (hit.transform.gameObject == ClickPiece)
                     {
                         playerpiece.MoveTileFalse();
@@ -360,35 +423,35 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
 
                         return;
                     }
-                    //»ó´ëÆí ¸» Àâ±â(Å¬¸¯ÇÑ ¸»ÀÌ ÀÌÀü¿¡ ¼±ÅÃÇÑ ¸»°ú »öÀÌ ´Ù¸¦ °æ¿ì)
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½(Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½)
                     if (playerpiece.pieceInfo.playerType != hitpiece.pieceInfo.playerType)
                     {
                         Vector3 tempvec = new Vector3();
 
-                        //¿òÁ÷ÀÌ·Á´Â À§Ä¡ °è»ê
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½
                         tempvec.x = hitBoard.pieceInfo.Index.x - playerpiece.pieceInfo.Index.x;
                         tempvec.z = hitBoard.pieceInfo.Index.y - playerpiece.pieceInfo.Index.y;
 
-                        //¿òÁ÷ÀÓ ¿©ºÎ Ã¼Å© ÈÄ ¿òÁ÷ÀÓ
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å© ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         if (playerpiece.IsMove(tempvec, hitBoard, true))
                         {
-                            //¹Ý´ëÆí Ã¼½ºÆÇ ¾÷µ¥ÀÌÆ®
+                            //ï¿½Ý´ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
                             ChessMissionManager.Instance.UpdateChess(boardManager, playerpiece, hitBoard, hitpiece);
-                            //¿òÁ÷ÀÓ
+                            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                             playerpiece.PV.RPC("MoveTo", RpcTarget.AllBuffered,
                                 (int)hitBoard.pieceInfo.playerType, (int)hitBoard.pieceInfo.chessPiece, hitBoard.pieceInfo.Index.x, hitBoard.pieceInfo.Index.y,
                                 (int)hitpiece.pieceInfo.playerType, (int)hitpiece.pieceInfo.chessPiece, hitpiece.pieceInfo.Index.x, hitpiece.pieceInfo.Index.y);/*.MoveTo(hitBoard, hitpiece);*/
-                            //Ã¼½º¸» ¼±ÅÃ ÇØÁ¦
+                            //Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                             ClickPiece = null;
                             //hitpiece.gameObject.SetActive(false);
-                            //¹Ì¼Ç¼º°ø?
+                            //ï¿½Ì¼Ç¼ï¿½ï¿½ï¿½?
                             if (ChessMissionManager.Instance.isMission(hitpiece.pieceInfo))
                             {
                                 hitpiece.gameObject.SetActive(true);
                             }
                         }
                     }
-                    else //ÇÃ·¹ÀÌ¾î ¸» ¹Ù²Ù±â(¼±ÅÃÇÑ ¸»ÀÇ »öÀÌ ÀÌÀü¿¡ ¼±ÅÃÇÑ ¸»ÀÇ »ö°ú °°À» °æ¿ì)
+                    else //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ ï¿½Ù²Ù±ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½)
                     {
 
                         playerpiece.MoveTileFalse();
@@ -397,7 +460,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                         playerpiece.MoveTileTrue();
                     }
                 }
-                else //ÇÃ·¹ÀÌ¾î º»ÀÎ ¸» ¼±ÅÃ(ÀÌÀü¿¡ ¼±ÅÃÇÑ ¸»ÀÌ nullÀÏ °æ¿ì)
+                else //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ nullï¿½ï¿½ ï¿½ï¿½ï¿½)
                 {
                     Piece playerpiece = hit.transform.GetComponent<Piece>();
                     BoardManager boardManager = playerpiece.boardManager;
@@ -440,6 +503,42 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         ClickPiece = null;
     }
 
+    void CutWire(string Wire_name, GameObject Hide_Wire)
+    {
+        switch (Wire_name)
+        {
+            case "RedWire":
+                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                BombScript.M_instance.M_cutRed.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+            case "BlueWire":
+                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                BombScript.M_instance.M_cutBlue.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+            case "BlackWire":
+                BombScript.M_instance.M_cutBlack.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+            case "WhiteWire":
+                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                BombScript.M_instance.M_cutWhite.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+            case "YellowWire":
+                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                BombScript.M_instance.M_cutYellow.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+            case "GreenWire":
+                DigitalClock.M_clock.M_currentSeconds -= 30f;
+                BombScript.M_instance.M_cutGreen.SetActive(true);
+                Hide_Wire.SetActive(false);
+                break;
+        }
+    }
+    
     private bool IsPointerOverUIObject()
     {
         List<RaycastResult> results = GetUIObjectsUnderPointer();
