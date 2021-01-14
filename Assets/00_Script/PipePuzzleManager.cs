@@ -69,5 +69,7 @@ public class PipePuzzleManager : MonoBehaviour
         m_BrokenPipe.SetActive(true);
         m_MeshRenderer.material.color = Color.black;
 
+        _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.pipe_broke);
+
     }
 }

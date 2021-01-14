@@ -11,7 +11,7 @@ public class DoorControler : MonoBehaviour
     private void Start()
     {
         
-        StartCoroutine(__OpenDoor()); // test code
+        //StartCoroutine(__OpenDoor()); // test code
     }
 
     private void OnTriggerEnter(Collider other)

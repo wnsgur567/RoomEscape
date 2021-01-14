@@ -59,7 +59,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         KeyCode.Y,
         KeyCode.Z,
      };
-
+    public static CharactorInteraction Instance = null;
     string m_InputField;
     [Header("ĳ���Ϳ� ������Ʈ�� ��ȣ�ۿ� �Ÿ�")]
     [SerializeField]
@@ -90,7 +90,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     private GameObject temp_obj;
 
 
-    ZOOMSTATE zoomState;
+    public ZOOMSTATE zoomState;
 
     [SerializeField]
     GameObject ClickPiece;             //Ŭ���� ü����
@@ -100,6 +100,11 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     private bool IsUsb;
     private bool m_ActivePipe;
     private bool m_IsUsbActivated;
+    private void Awake()
+    {
+
+        Instance = this;
+    }
     void Start()
     {
         m_IsUsbActivated = false;
@@ -212,6 +217,8 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     m_ActivePipe = true;
                     M_pipeButton = hit.transform.GetComponent<PipeButton>();
                     M_pipeButton.ActiveButton();
+
+                    _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.pipe_valve);
 
                 }
             }
@@ -329,12 +336,15 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 m_Crosshair.gameObject.SetActive(true);
                 if (Input.GetMouseButtonDown(0))
                 {
+                    m_Crosshair.gameObject.SetActive(false);
                     Debug.Log("노트임");
                     Note note = hit.transform.GetComponent<Note>();
                     note.M_NoteImg.ActiveTrue();
 
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.Confined;
+                    zoomState = ZOOMSTATE.ZOOMIN;
+                    
 
                 }
             }
@@ -424,10 +434,14 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     tempBombTimePenalty();
                     //m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
                     BombScript.M_instance.FailedMsg();
+
+                    _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.bomb_button);
                 }
                 if (_hit.transform.CompareTag("CorrectButton"))
                 {
                     BombScript.M_instance.SuccessMsg();
+                    _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.bomb_button);
+                    BombScript.M_instance.D_Clear = true;
                 }
                 if (_hit.transform.CompareTag("KeyHolder"))
                 {
@@ -435,9 +449,17 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     {
                         _hit.collider.enabled = false;
                         _hit.transform.GetChild(0).gameObject.SetActive(true);
+                        _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.bomb_key);
+                        Debug.Log("B클리어 변하기전 : ");
+                        Debug.Log(BombScript.M_instance.B_Clear);
+                        BombScript.M_instance.B_Clear = true;
+                        Debug.Log("B클리어 변한 후 : ");
+                        Debug.Log(BombScript.M_instance.B_Clear);
                         BombScript.M_instance.SuccessMsg();
                         tempHolder = _hit.transform.GetComponent<KeyHolder>();
                         tempHolder.M_State = KeyHolder.Holder_State.Activated;
+                        //Invoke()예정
+                        _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.bomb_keyopen);
                     }
                 }
                 if (_hit.transform.CompareTag("USBHolder"))
@@ -638,7 +660,13 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 Hide_Wire.SetActive(false);
                 break;
             case "BlackWire":
+                Debug.Log("A클리어 변하기전 : ");
+                Debug.Log(BombScript.M_instance.A_Clear);
+                BombScript.M_instance.A_Clear = true;
+                Debug.Log("A클리어 변한 후 : ");
+                Debug.Log(BombScript.M_instance.A_Clear);
                 BombScript.M_instance.M_cutBlack.SetActive(true);
+
                 BombScript.M_instance.SuccessMsg();
                 Hide_Wire.SetActive(false);
                 break;
@@ -661,6 +689,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 Hide_Wire.SetActive(false);
                 break;
             default:
+                _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.bomb_cut);
                 Debug.Log(Hide_Wire.tag);
                 break;
         }
@@ -676,6 +705,12 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         {
             if (m_InputField == BombScript.M_instance.M_PassWord)
             {
+                Debug.Log("C클리어 변하기전 : ");
+                Debug.Log(BombScript.M_instance.C_Clear);
+                BombScript.M_instance.C_Clear = true;
+
+                Debug.Log("C클리어 변한 후 : ");
+                Debug.Log(BombScript.M_instance.C_Clear);
                 m_tmPro.enabled = false;
                 BombScript.M_instance.SuccessMsg();
             }
@@ -693,6 +728,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         {
             if (Input.GetKeyDown(m_KeyCode[i]))
             {
+                _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.keyboard_click);
                 if (m_KeyCode[i] == KeyCode.Alpha0)
                 {
                     m_InputField += "0";

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
+
 public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager M_gameManager = null;
@@ -32,8 +34,22 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         DigitalClock.M_clock.m_minute = m_infoManager.m_playerInfo.deadLine_time;
         DigitalClock.M_clock.Clock_Initialize();
+        _SoundManager.Instance.PlayBGMSound(E_BGMSound.bgm_play);
 
         Spawn(m_infoManager);
+    }
+    private void Update()
+    {
+        if(BombScript.M_instance.A_Clear == true && BombScript.M_instance.B_Clear == true && BombScript.M_instance.D_Clear == true && BombScript.M_instance.D_Clear == true)
+        {
+            DefuseSuccess();
+        }
+
+        Debug.Log(DigitalClock.M_clock.M_currentSeconds);
+        //if (DigitalClock.M_clock.M_currentSeconds <= 0)
+        //{
+        //    DefuseFailed();
+        //}
     }
     public void Complete_PipePuzzle()
     {
@@ -75,10 +91,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     public void DefuseSuccess()
     {
-
+        SceneManager.LoadScene("Ending_Success");
     }
     public void DefuseFailed()
     {
-
+        SceneManager.LoadScene("Ending_Failed");
     }
 }

@@ -6,6 +6,8 @@ using Photon.Realtime;
 
 public class CharactorMove : MonoBehaviourPunCallbacks
 {
+
+    public static CharactorMove Instance = null;
     private PhotonView m_PV;
     public float moveSpeed = 5.0f;
     public float rotSpeed = 0.2f;
@@ -17,6 +19,10 @@ public class CharactorMove : MonoBehaviourPunCallbacks
 
     public bool M_Input;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         m_tr = GetComponent<Transform>();
@@ -49,6 +55,7 @@ public class CharactorMove : MonoBehaviourPunCallbacks
         m_v = Input.GetAxis("Vertical");
         Vector3 moveDir = (Vector3.forward * m_v) + (Vector3.right * m_h);
 
+        _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.user_walk);
         m_tr.Translate(moveDir * Time.deltaTime * moveSpeed, Space.Self);
 
     }

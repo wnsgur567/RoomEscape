@@ -49,6 +49,7 @@ public class BombScript : MonoBehaviour
     public void FailedMsg()
     {
         m_FailedMsg.SetActive(true);
+        _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.bomb_fail);
         Invoke("InvkeFaildMsg", 1f);
     }
     void InvkeFaildMsg()

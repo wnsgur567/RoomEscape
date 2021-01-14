@@ -1,9 +1,11 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class _SoundManager : Singleton<_SoundManager>,IAwake
+public class _SoundManager : Singleton<_SoundManager>, IAwake
 {
+    _OptionInfoManager m_optionManager = null;
+
     _ResourceLoader m_resourceLoader = null;
     Dictionary<E_BGMSound, AudioClip> m_bgmDic = null;
     Dictionary<E_UISound, AudioClip> m_uiDic = null;
@@ -17,30 +19,45 @@ public class _SoundManager : Singleton<_SoundManager>,IAwake
 
     public void __Awake()
     {
-        // dictionary °¡Á®¿À±â
+        m_optionManager = _OptionInfoManager.Instance;
+
+        // dictionary ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         m_resourceLoader = _ResourceLoader.Instance;
         m_bgmDic = m_resourceLoader.m_BGMSoundDics;
         m_uiDic = m_resourceLoader.m_UISoundDics;
         m_interationDic = m_resourceLoader.m_ObjectInterationSoundDics;
 
-        // audio ÄÄÆ÷³ÍÆ® ¼ÂÆÃ
+        // audio ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         _audios = GetComponents<AudioSource>();
 
         __InitBgm();
         __InitUI();
-    }    
+
+    }
+
+    public void _ApplyOptions()
+    {
+        __SetVolume();
+        __SetEffecVolume();
+    }
 
 
     #region BGM
 
-    // ¸ðµç »ç¿îµå´Â loop
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ loop
 
     private void __InitBgm()
     {
         m_bgm_audio = _audios[0];
 
+        m_bgm_audio.volume = 0.5f;
         m_bgm_audio.loop = true;
         PlayBGMSound(E_BGMSound.bgm_title);
+    }
+
+    private void __SetVolume()
+    {
+        m_bgm_audio.volume = m_optionManager.m_currentOptionInfo.volume_bgm * 0.5f;
     }
 
     public void PlayBGMSound(E_BGMSound p_soundName)
@@ -52,11 +69,11 @@ public class _SoundManager : Singleton<_SoundManager>,IAwake
     #endregion
 
     #region UI & ObjectInteration
-    
-    // ¸ðµç »ç¿îµå´Â ´Ü¹ß¼ºÀÓ
-    // µ¿½Ã¿¡ ½ÇÇàµÇ´Â Sound´Â AudioSource °³¼ö¸¦ ³ÑÁö ¾Ê´Â´Ù°í °¡Á¤ÇÔ
-    // Queue·Î ±¸ÇöµÇ¾î °³¼ö¸¦ ³Ñ¾î°¥ ½Ã ¸ÕÀú ½ÇÇàµÈ »ç¿îµå°¡ ¾ÃÈú ¼ö ÀÖÀ½
-    // ÇÊ¿ä ½Ã ÄÄÆ÷³ÍÆ® °³¼ö Ãß°¡ ¹Ù¶÷
+
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü¹ß¼ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ Soundï¿½ï¿½ AudioSource ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // Queueï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    // ï¿½Ê¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ù¶ï¿½
 
     private void __InitUI()
     {
@@ -66,12 +83,20 @@ public class _SoundManager : Singleton<_SoundManager>,IAwake
             _audios[i].loop = false;
             _audios[i].Stop();
             m_ui_audio_queue.Enqueue(_audios[i]);
-        }        
+        }
+    }
+
+    private void __SetEffecVolume()
+    {
+        foreach (var item in m_ui_audio_queue)
+        {
+            item.volume = m_optionManager.m_currentOptionInfo.volume_effect;
+        }
     }
 
     public void PlayUISound(E_UISound p_soundName)
     {
-        if(m_ui_audio_queue.Count > 0)
+        if (m_ui_audio_queue.Count > 0)
         {
             AudioSource _source = m_ui_audio_queue.Dequeue();
             _source.clip = m_uiDic[p_soundName];
@@ -90,6 +115,6 @@ public class _SoundManager : Singleton<_SoundManager>,IAwake
         }
     }
 
-   
+
     #endregion
 }

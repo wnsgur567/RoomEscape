@@ -35,7 +35,7 @@ public class KeyHolder : MonoBehaviour
                     m_endflag = true;
                     M_State = Holder_State.None;
                     BombScript.M_instance.SuccessMsg();
-                    
+                    BombScript.M_instance.B_Clear = true;
                     break;
                 }
                 else

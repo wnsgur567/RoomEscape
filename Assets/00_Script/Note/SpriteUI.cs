@@ -33,6 +33,10 @@ public class SpriteUI : MonoBehaviour
     {
         NoteImg.transform.gameObject.SetActive(true);
         NoteImg.sprite = sprite_list[CurCount];
+        CharactorMove.Instance.M_Input = false;
+        CharactorInteraction.Instance.zoomState = ZOOMSTATE.ZOOMIN;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void _OnNextButton()
@@ -43,6 +47,7 @@ public class SpriteUI : MonoBehaviour
         }
         NoteImg.sprite = sprite_list[++CurCount];
 
+        _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.book_next);
     }
 
     public void _OnPrevButton()
@@ -57,6 +62,9 @@ public class SpriteUI : MonoBehaviour
 
     public void _OnBackButton()
     {
-        NoteImg.transform.gameObject.SetActive(false);
+        NoteImg.transform.gameObject.SetActive(false); 
+        CharactorMove.Instance.M_Input = true;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }

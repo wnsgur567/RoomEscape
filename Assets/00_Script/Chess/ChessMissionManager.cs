@@ -393,5 +393,6 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
     void TableAniTrigger()
     {
         ChessTableAni.SetTrigger("isMove");
+        _SoundManager.Instance.PlayUISound(E_UISound.drawer_open);
     }
 }

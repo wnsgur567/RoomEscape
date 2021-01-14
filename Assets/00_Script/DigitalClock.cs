@@ -20,7 +20,7 @@ public class DigitalClock :  MonoBehaviour
     public float M_currentSeconds;          //현재 시간
 
     private bool m_penalty;
-    private int m_timerdefault;
+    public int m_timerdefault;
 
     [SerializeField]
     private Image m_PenaltyImage;
@@ -38,6 +38,8 @@ public class DigitalClock :  MonoBehaviour
         m_penalty = false;
         m_timerdefault = 0;
         m_timerdefault += (m_second + (m_minute * 60));
+        Debug.Log("디폴트타이머");
+        Debug.Log(m_timerdefault);
         M_currentSeconds = m_timerdefault;
     }
     void Update()
@@ -71,9 +73,6 @@ public class DigitalClock :  MonoBehaviour
         }
         else if (M_currentSeconds <= 0)
         {
-            //게임종료로 넘기는씬 있어야함
-            GameManager.M_gameManager.DefuseFailed();
-            //폭탄터지는씬
             m_CountdownText.text = "00:00";
         }
     }
