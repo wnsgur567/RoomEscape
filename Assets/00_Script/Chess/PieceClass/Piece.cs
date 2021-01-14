@@ -116,7 +116,7 @@ public class Piece : MonoBehaviourPunCallbacks
 
     //움직임
     [PunRPC]
-    public virtual void MoveTo(int _hitboardPType, int _hitboardPiece, int indexX, int indexY/*PieceInfo _hitboard*/)
+    public virtual void MoveTo(int _hitboardPType, int _hitboardPiece, int indexX, int indexY, bool isSound)
     {
         //변환
         PieceInfo info = new PieceInfo(_hitboardPType, _hitboardPiece, indexX, indexY);
@@ -151,12 +151,16 @@ public class Piece : MonoBehaviourPunCallbacks
         //인덱스 변경
         this.pieceInfo.Index.x = hitBoard.pieceInfo.Index.x;
         this.pieceInfo.Index.y = hitBoard.pieceInfo.Index.y;
+        if (isSound)
+        {
+            _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.chess_chess);
+        }
     }
 
     //움직임, 말잡기
     [PunRPC]
     public virtual void MoveTo(int _hitboardPType, int _hitboardPiece, int _hitboardindexX, int _hitboardindexY,
-        int _hitpiecePType, int _hitpiecePiece, int _hitpieceindexX, int _hitpieceindexY
+        int _hitpiecePType, int _hitpiecePiece, int _hitpieceindexX, int _hitpieceindexY, bool isSound
         /*PieceInfo _hitboard, PieceInfo _hitpiece*/)
     {
         Board hitBoard = null;
@@ -207,6 +211,10 @@ public class Piece : MonoBehaviourPunCallbacks
         if (hitPiece != null)
         {
             hitPiece.gameObject.SetActive(false);
+        }
+        if (isSound)
+        {
+            _SoundManager.Instance.PlayObjInterationSound(E_ObjectInterationSound.chess_chess);
         }
     }
 

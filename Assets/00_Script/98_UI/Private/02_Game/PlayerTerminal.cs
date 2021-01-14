@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
 public class PlayerTerminal : MonoBehaviour
 {
     private _NetworkChatManager m_chatManager = null;

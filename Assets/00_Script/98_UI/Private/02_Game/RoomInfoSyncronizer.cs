@@ -30,17 +30,8 @@ public class RoomInfoSyncronizer : MonoBehaviourPunCallbacks
     public void _OnReady()
     {
         if (m_infoManager.m_playerInfo.type != E_RoomType.Max && PhotonNetwork.IsMasterClient == false)
-        {
-            bool _b;
-            if (m_infoManager.m_playerInfo.isReady)
-            {
-                _b = false;
-            }
-            else
-            {
-                _b = true;
-            }
-            m_pv.RPC("__RPC_SyncReady", RpcTarget.Others, _b);
+        {            
+            m_pv.RPC("__RPC_SyncReady", RpcTarget.Others, m_infoManager.m_playerInfo.isReady);
         }
     }
 
@@ -85,7 +76,7 @@ public class RoomInfoSyncronizer : MonoBehaviourPunCallbacks
     private void __RPC_SyncRoomSelect(int p_type)
     {
         E_RoomType _type = (E_RoomType)p_type;
-        
+        m_infoManager.m_playerInfo.isReady = true;
         switch (_type)
         {
             case E_RoomType.A:

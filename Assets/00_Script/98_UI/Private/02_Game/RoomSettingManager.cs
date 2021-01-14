@@ -39,32 +39,30 @@ public class RoomSettingManager : MonoBehaviour
         // 생성한 사람을 기본owner 로 설정했음
         //Debug.LogFormat("1111111111111111____________ {0}", PhotonNetwork.IsMasterClient);
         if (PhotonNetwork.IsMasterClient)
-        {
-            // 방 타입 설정
-            m_infoManager.m_playerInfo.type = E_RoomType.A;
-
+        {            
             // 최 상단 Owner 표시 Text 
             m_OwnerText.text = "방 장";
 
             // 버튼 활성화, 비활성화 (방장만 권한 있음)
             if (m_infoManager.m_playerInfo.isReady == false)
                 m_startButton.interactable = false;
-            m_startButtonText.text = "시작하기";                        
-            m_Aroom_selectButton.interactable = true;
-            m_Broom_selectButton.interactable = true;
+            m_startButtonText.text = "시작하기";                       
+           
         }
         else
         {
-            // 방 타입 설정
-            m_infoManager.m_playerInfo.type = E_RoomType.B;
 
             // 최 상단 Owner 표시 Text panel 온오프
+            if (m_infoManager.m_playerInfo.isReady == false)
+                m_startButton.interactable = false;
+            else
+                m_startButton.interactable = true;
+
             m_OwnerText.text = "참가자";
 
             // 시작 버튼 활성화, 비활성화
-            m_startButtonText.text = "준비완료";            
-            m_Aroom_selectButton.interactable = false;
-            m_Broom_selectButton.interactable = false;
+            m_startButtonText.text = "준비완료";           
+            
         }
     }
 

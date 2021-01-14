@@ -72,7 +72,7 @@ public class _NetworkChatManager : Singleton<_NetworkChatManager>, IChatClientLi
         {
             // 해당 채널에(m_channelName), 입력 메세지(inputField.text) 뿌리기
 
-            if (isGameStart)
+            if (isGameStart == false)
             {
                 m_chatClient.PublishMessage(m_channelName, m_InputField.text);
                 m_InputField.text = "";

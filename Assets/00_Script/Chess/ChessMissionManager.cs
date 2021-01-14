@@ -52,7 +52,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         Debug.Log($"CurTurn: {CurTurn}");
 
         //현재 턴이 주어진 미션의 턴보다 많으면 실패함
-        if(CurTurn > CurMission.Turn)
+        if (CurTurn > CurMission.Turn)
         {
             //현재 턴 초기화
             CurTurn = 0;
@@ -73,7 +73,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
     public bool isMission(PieceInfo _piece)
     {
         //미션성공
-        if(_piece.playerType == CurMission.Color
+        if (_piece.playerType == CurMission.Color
             && _piece.chessPiece == CurMission.Piece)
         {
             Debug.Log("ChessGameComplete");
@@ -83,7 +83,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
             return true;
         }
         //미션실패
-       
+
 
         return false;
     }
@@ -97,7 +97,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         BoardManager UpdateBoardManager = null;
 
         //상대편 보드매니져 찾음
-        if(boardManagerList.IndexOf(_UpdateboardManager) == 0)
+        if (boardManagerList.IndexOf(_UpdateboardManager) == 0)
         {
             UpdateBoardManager = boardManagerList[1];
         }
@@ -107,9 +107,9 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         }
 
         //상대편 보드매니져의 같은 말 찾음
-        foreach(Piece piece in UpdateBoardManager.PieceList)
+        foreach (Piece piece in UpdateBoardManager.PieceList)
         {
-            if(piece.pieceInfo == _movepiece.pieceInfo)
+            if (piece.pieceInfo == _movepiece.pieceInfo)
             {
                 tempmovepiece = piece;
                 break;
@@ -137,18 +137,18 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
                 }
             }
         }
-     
+
         //잡는 말이 있을 경우
         if (_hitpiece != null)
         {
             tempmovepiece.PV.RPC("MoveTo", RpcTarget.AllBuffered,
                 (int)tempboard.pieceInfo.playerType, (int)tempboard.pieceInfo.chessPiece, tempboard.pieceInfo.Index.x, tempboard.pieceInfo.Index.y,
-                (int)temphitpiece.pieceInfo.playerType, (int)temphitpiece.pieceInfo.chessPiece, temphitpiece.pieceInfo.Index.x, temphitpiece.pieceInfo.Index.y);
+                (int)temphitpiece.pieceInfo.playerType, (int)temphitpiece.pieceInfo.chessPiece, temphitpiece.pieceInfo.Index.x, temphitpiece.pieceInfo.Index.y, false);
         }
         else //없을 경우
         {
             tempmovepiece.PV.RPC("MoveTo", RpcTarget.AllBuffered, (int)tempboard.pieceInfo.playerType, (int)tempboard.pieceInfo.chessPiece
-                , tempboard.pieceInfo.Index.x, tempboard.pieceInfo.Index.y);
+                , tempboard.pieceInfo.Index.x, tempboard.pieceInfo.Index.y, false);
         }
         //플레이어 색 바꿈
         PV.RPC("SwitchPlayerType", RpcTarget.AllBuffered);// SwitchPlayerType();
@@ -237,7 +237,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         CurMission = MissionList[Random.Range(0, MissionList.Count)];
         CurMission.Turn *= 2;
 
-        
+
 
         PV.RPC("SendMission", RpcTarget.AllBuffered, CurMission.Turn, (int)CurMission.Color, (int)CurMission.Piece);
 
@@ -258,8 +258,8 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
     bool CheckGameCount(bool _isMission)
     {
         //목표 말 잡기?
-        if(_isMission)
-        {        
+        if (_isMission)
+        {
             //최대 게임 카운트 안에 게임 끝냄
             if (CurCount >= SuccessMissionCount
                 && CurCount < MaxMissionCount)
@@ -288,7 +288,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
             }
         }
 
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             SetMission();
         }

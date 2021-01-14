@@ -18,7 +18,7 @@ public class RoomJoinButton : MonoBehaviour
     public void JoinRoom(string p_sceneName)
     {
         if (m_roomManager.m_selectedRoomName == "")
-            //return;
+            return;
 
         if (m_roomManager._JoinRoom(m_roomManager.m_selectedRoomName))
         {

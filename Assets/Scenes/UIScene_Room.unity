@@ -5057,7 +5057,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1276892478}
         m_TargetAssemblyTypeName: RoomJoinButton, Assembly-CSharp
-        m_MethodName: __JoinRoom
+        m_MethodName: JoinRoom
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

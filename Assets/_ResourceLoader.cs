@@ -30,6 +30,18 @@ public enum E_UISound
 }
 public enum E_ObjectSound
 {
+    bomb_Timer = 0,
+    bomb_TimerLast = 1,
+    pipe_waterdrop = 2,
+    pipe_vapor = 3,
+    radio_morse = 4,
+
+    Max
+
+
+}
+public enum E_ObjectInterationSound
+{
     bomb_cut = 0,
     bomb_key = 1,
     bomb_keyopen = 2,
@@ -42,16 +54,6 @@ public enum E_ObjectSound
     keyboard_click = 9,
     user_walk = 10,
     user_walk_metal = 11,
-
-    Max
-}
-public enum E_ObjectInterationSound
-{
-    bomb_Timer = 0,
-    bomb_TimerLast = 1,
-    pipe_waterdrop = 2,
-    pipe_vapor = 3,
-    radio_morse = 4,
 
     Max
 }

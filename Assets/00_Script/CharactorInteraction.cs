@@ -71,19 +71,14 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             
         }
     }
-
-
-
     void Update()
     {
         if (m_PV.IsMine)
         {
-
             if (zoomState == ZOOMSTATE.NONE)
                 Interaction();
             else
                 ZoomIn();
-            
         }
     }
 
@@ -400,7 +395,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                         playerpiece.MoveTileFalse();
                         //������
                         playerpiece.PV.RPC("MoveTo", RpcTarget.AllBuffered,
-                            (int)hitBoard.pieceInfo.playerType, (int)hitBoard.pieceInfo.chessPiece, hitBoard.pieceInfo.Index.x, hitBoard.pieceInfo.Index.y);/*.MoveTo(hitBoard, null);*/
+                            (int)hitBoard.pieceInfo.playerType, (int)hitBoard.pieceInfo.chessPiece, hitBoard.pieceInfo.Index.x, hitBoard.pieceInfo.Index.y, true);/*.MoveTo(hitBoard, null);*/
                         //�÷��̾ ������ �� null
                         ClickPiece = null;
 
@@ -446,7 +441,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                             //������
                             playerpiece.PV.RPC("MoveTo", RpcTarget.AllBuffered,
                                 (int)hitBoard.pieceInfo.playerType, (int)hitBoard.pieceInfo.chessPiece, hitBoard.pieceInfo.Index.x, hitBoard.pieceInfo.Index.y,
-                                (int)hitpiece.pieceInfo.playerType, (int)hitpiece.pieceInfo.chessPiece, hitpiece.pieceInfo.Index.x, hitpiece.pieceInfo.Index.y);/*.MoveTo(hitBoard, hitpiece);*/
+                                (int)hitpiece.pieceInfo.playerType, (int)hitpiece.pieceInfo.chessPiece, hitpiece.pieceInfo.Index.x, hitpiece.pieceInfo.Index.y, true);/*.MoveTo(hitBoard, hitpiece);*/
                             //ü���� ���� ����
                             ClickPiece = null;
                             //hitpiece.gameObject.SetActive(false);

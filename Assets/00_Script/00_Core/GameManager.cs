@@ -6,8 +6,6 @@ using Photon.Realtime;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager M_gameManager = null;
-    public GameObject m_Pipe_puzzle;
-    public GameObject m_Paint_puzzle;
 
     public Transform A_SpawnPosition;
     public Transform B_SpawnPosition;
@@ -51,6 +49,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         m_CCover.tag = "Cover";
         Debug.Log("라디오퍼즐 시작");
+    }
+    public void Complete_ChessPuzzle()
+    {
+        m_BCover.tag = "Cover";
+        Debug.Log("체스퍼즐 클리어");
     }
 
 

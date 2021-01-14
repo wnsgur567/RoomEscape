@@ -123,9 +123,9 @@ public class Pawn : Piece
     }
 
     [PunRPC]
-    public override void MoveTo(int _hitboardPType, int _hitboardPiece, int indexX, int indexY/* ,PieceInfo _hitboard*/)
+    public override void MoveTo(int _hitboardPType, int _hitboardPiece, int indexX, int indexY, bool isSound/* ,PieceInfo _hitboard*/)
     {
-        base.MoveTo(_hitboardPType, _hitboardPiece, indexX, indexY);
+        base.MoveTo(_hitboardPType, _hitboardPiece, indexX, indexY, isSound);
 
         if (!M_PawnMove)
         {
@@ -136,10 +136,10 @@ public class Pawn : Piece
 
     [PunRPC]
     public override void MoveTo(int _hitboardPType, int _hitboardPiece, int _hitboardindexX, int _hitboardindexY,
-        int _hitpiecePType, int _hitpiecePiece, int _hitpieceindexX, int _hitpieceindexY)
+        int _hitpiecePType, int _hitpiecePiece, int _hitpieceindexX, int _hitpieceindexY, bool isSound)
     {
         base.MoveTo(_hitboardPType, _hitboardPiece, _hitboardindexX, _hitboardindexY,
-             _hitpiecePType,  _hitpiecePiece,  _hitpieceindexX,  _hitpieceindexY);
+             _hitpiecePType,  _hitpiecePiece,  _hitpieceindexX,  _hitpieceindexY, isSound);
 
         if (!M_PawnMove)
         {
