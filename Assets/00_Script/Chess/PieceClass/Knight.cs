@@ -9,21 +9,8 @@ public class Knight : Piece
         base.__Init();
     }
 
-    void Update()
-    {
-        
-    }
-
     public override bool IsMove(Vector3 _index, Board _hitBoard, bool _attck)
     {
-        if (_index.x + this.transform.position.x >= boardManager.BoardSize.x
-            || _index.x + this.transform.position.x < 0
-            || _index.z + this.transform.position.z >= boardManager.BoardSize.z
-            || _index.z + this.transform.position.z < 0)
-        {
-            return false;
-        }
-
         foreach (Vector3 item in MoveIndex)
         {
             if (item == _index)
@@ -39,7 +26,7 @@ public class Knight : Piece
     {
         foreach (Vector3 vec in MoveIndex)
         {
-            if (pieceInfo.Index.x + (int)vec.x  < boardManager.BoardSize.x
+            if (pieceInfo.Index.x + (int)vec.x < boardManager.BoardSize.x
             && pieceInfo.Index.x + (int)vec.x > -1
             && pieceInfo.Index.y + (int)vec.z < boardManager.BoardSize.z
             && pieceInfo.Index.y + (int)vec.z > -1)

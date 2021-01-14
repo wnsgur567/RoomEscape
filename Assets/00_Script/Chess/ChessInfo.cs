@@ -1,8 +1,8 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Ã¼½º¸»
+//Ã¼ï¿½ï¿½ï¿½ï¿½
 [System.Serializable]
 public enum CHESSPIECE
 {
@@ -18,7 +18,7 @@ public enum CHESSPIECE
     MAX
 }
 
-//ÇÃ·¹ÀÌ¾î »ö
+//ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½
 [System.Serializable]
 public enum PLAYERTYPE
 {
@@ -30,7 +30,7 @@ public enum PLAYERTYPE
     MAX
 }
 
-//¹æÇâ
+//ï¿½ï¿½ï¿½ï¿½
 [System.Serializable]
 public enum DIRECTIONTYPE
 {
@@ -48,7 +48,7 @@ public enum DIRECTIONTYPE
     MAX
 }
 
-//º¸µå ¹è¿­ ÀÎµ¦½º
+//ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ ï¿½Îµï¿½ï¿½ï¿½
 [System.Serializable]
 public struct Index
 {
@@ -85,15 +85,15 @@ public struct Index
 }
 
 
-//Ã¼½º Á¤º¸
+//Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 [System.Serializable]
 public struct PieceInfo
 {
-    //»ö
+    //ï¿½ï¿½
     public PLAYERTYPE playerType;
-    //¸»
+    //ï¿½ï¿½
     public CHESSPIECE chessPiece;
-    //º¸µå ÀÎµ¦½º
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½
     public Index Index;
 
     public PieceInfo(int _PType, int _Piece, int indexX, int indexY)
@@ -117,7 +117,7 @@ public struct PieceInfo
 
     public static bool operator ==(PieceInfo op1, PieceInfo op2)
     {
-        if(op1.playerType == op2.playerType
+        if (op1.playerType == op2.playerType
             && op1.chessPiece == op2.chessPiece
             && op1.Index == op2.Index)
         {
@@ -141,12 +141,44 @@ public struct PieceInfo
 
 }
 
-//¹Ì¼Ç Á¤º¸
+//ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 [System.Serializable]
 public struct ChessMissionInfo
 {
     public int Turn;
     public PLAYERTYPE Color;
     public CHESSPIECE Piece;
+
+    public ChessMissionInfo(int _turn, int _color, int _piece)
+    {
+        Turn = _turn;
+        Color = (PLAYERTYPE)_color;
+        Piece = (CHESSPIECE)_piece;
+    }
+
+    public static bool operator ==(ChessMissionInfo op1, ChessMissionInfo op2)
+    {
+        if (op1.Turn == op2.Turn
+            && op1.Color == op2.Color
+            && op1.Piece == op2.Piece)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static bool operator !=(ChessMissionInfo op1, ChessMissionInfo op2)
+    {
+        if (op1.Turn != op2.Turn
+           && op1.Color != op2.Color
+           && op1.Piece != op2.Piece)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 }
 

@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -6,26 +6,27 @@ using Photon.Pun;
 public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
 {
     public Animator ChessTableAni;
-
-    public PLAYERTYPE TurnPlayer;                 //ÇöÀç ÇÃ·¹ÀÌ¾î »ö
-    public List<ChessMissionInfo> MissionList;    //¹Ì¼Ç ¸®½ºÆ®
-    public int SuccessMissionCount;                //¼º°ø °ÔÀÓ Ä«¿îÆ® 
-    public int MaxMissionCount;                     //ÃÖ´ë °ÔÀÓ Ä«¿îÆ®
-
+    public List<ChessMissionInfo> MissionList;    //ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+    public int SuccessMissionCount;                //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ® 
+    public int MaxMissionCount;                     //ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ®
     public float PenaltyTime;
+    public List<BoardManager> boardManagerList;     //ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 
-    public List<BoardManager> boardManagerList;     //º¸µå¸Å´ÏÁ® ¸®½ºÆ®
+    public PLAYERTYPE TurnPlayer;                 //ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½
 
+    ChessMissionInfo CurMission;                   //ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¼ï¿½
+    int CurTurn;                                        //ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    int CurCount;                                      //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ®
+    int SuccessCount;
+
+    public bool isClear;
+    public PhotonView PV;
+    bool isInit;
+
+    List<CHESSPIECE> m_PenaltyPieceList = new List<CHESSPIECE>(); //ï¿½Ù²ï¿½ Ã¼ï¿½ï¿½
     [SerializeField]
-    ChessMissionInfo CurMission;                   //ÇöÀç ¹Ì¼Ç
-    int CurTurn;                                        //ÇöÀç Ã¼½º°ÔÀÓ ÅÏ
+    List<ChessMissionInfo> m_UseMission = new List<ChessMissionInfo>(); //ï¿½Ì¹ï¿½ ï¿½ï¿½ ï¿½Ì¼ï¿½
 
-    int CurCount;                                      //ÇöÀç °ÔÀÓ Ä«¿îÆ®
-
-    PhotonView PV;
-
-
-    List<CHESSPIECE> m_PenaltyPieceList = new List<CHESSPIECE>(); //¹Ù²ï Ã¼½º
     void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -33,7 +34,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
 
 
 
-    //ÃÊ±âÈ­
+    //ï¿½Ê±ï¿½È­
     public void __Init()
     {
         TurnPlayer = PLAYERTYPE.WHITE;
@@ -44,51 +45,56 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
 
     }
 
-    //ÅÏ Ãß°¡
+    //ï¿½ï¿½ ï¿½ß°ï¿½
     [PunRPC]
     public void CurTurnAdd()
     {
         CurTurn++;
         Debug.Log($"CurTurn: {CurTurn}");
 
-        //ÇöÀç ÅÏÀÌ ÁÖ¾îÁø ¹Ì¼ÇÀÇ ÅÏº¸´Ù ¸¹À¸¸é ½ÇÆÐÇÔ
-        if (CurTurn > CurMission.Turn)
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½Ïºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if (CurTurn >= CurMission.Turn)
         {
-            //ÇöÀç ÅÏ ÃÊ±âÈ­
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê±ï¿½È­
             CurTurn = 0;
-            //°ÔÀÓÄ«¿îÆ® ¿Ã¸²
+            //ï¿½ï¿½ï¿½ï¿½Ä«ï¿½ï¿½Æ® ï¿½Ã¸ï¿½
             CurCount++;
-            //ÆÐ³ÎÆ¼ Ãß°¡
+            //ï¿½Ð³ï¿½Æ¼ ï¿½ß°ï¿½
             if (PhotonNetwork.IsMasterClient)
             {
                 PenaltySet();
             }
-            //°ÔÀÓ ¹Ì¼Ç 6¹ø ½ÇÆÐ ½Ã
-            CheckGameCount(false);
-            Debug.Log($"Ã¼½º¹Ì¼Ç ½ÇÆÐ:CurCount {CurCount}");
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¼ï¿½ 6ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+            if (CheckGameCount(false))
+            {
+
+            }
+            Debug.Log($"Ã¼ï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½:CurCount {CurCount}");
+
         }
     }
 
-    //¹Ì¼ÇÀÌ ¼º°øÇß´ÂÁö(¸»ÀâÀ»¶§ »ç¿ë)
-    public bool isMission(PieceInfo _piece)
+    [PunRPC]
+    public void isMission(int _hitboardPType, int _hitboardPiece, int indexX, int indexY)
     {
-        //¹Ì¼Ç¼º°ø
-        if (_piece.playerType == CurMission.Color
-            && _piece.chessPiece == CurMission.Piece)
+        PieceInfo piece = new PieceInfo(_hitboardPType, _hitboardPiece, indexX, indexY);
+
+
+        //ï¿½Ì¼Ç¼ï¿½ï¿½ï¿½
+        if (piece.playerType == CurMission.Color
+            && piece.chessPiece == CurMission.Piece)
         {
             Debug.Log("ChessGameComplete");
             CurTurn = 0;
-            //¹Ì¼Ç 3¹ø ¼º°ø
+            CurCount++;
+            SuccessCount++;
+            //ï¿½Ì¼ï¿½ 3ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             CheckGameCount(true);
-            return true;
+            return;
         }
-        //¹Ì¼Ç½ÇÆÐ
-
-
-        return false;
     }
 
-    //»ó´ëÆí °ÔÀÓº¸µå ¾÷µ¥ÀÌÆ®
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Óºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     public void UpdateChess(BoardManager _UpdateboardManager, Piece _movepiece, Board _hitboard, Piece _hitpiece)
     {
         Piece tempmovepiece = null;
@@ -96,7 +102,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         Board tempboard = null;
         BoardManager UpdateBoardManager = null;
 
-        //»ó´ëÆí º¸µå¸Å´ÏÁ® Ã£À½
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
         if (boardManagerList.IndexOf(_UpdateboardManager) == 0)
         {
             UpdateBoardManager = boardManagerList[1];
@@ -106,7 +112,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
             UpdateBoardManager = boardManagerList[0];
         }
 
-        //»ó´ëÆí º¸µå¸Å´ÏÁ®ÀÇ °°Àº ¸» Ã£À½
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã£ï¿½ï¿½
         foreach (Piece piece in UpdateBoardManager.PieceList)
         {
             if (piece.pieceInfo == _movepiece.pieceInfo)
@@ -115,7 +121,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
                 break;
             }
         }
-        //»ó´ëÆí º¸µå¸Å´ÏÁ®ÀÇ °°Àº º¸µå Ã£À½
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
         foreach (Board board in UpdateBoardManager.M_BoardArr)
         {
             if (board.pieceInfo == _hitboard.pieceInfo)
@@ -124,10 +130,10 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
                 break;
             }
         }
-        //Àâ´Â ¸»ÀÌ ÀÖÀ» °æ¿ì
+        //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         if (_hitpiece != null)
         {
-            //°°Àº ¸» Ã£À½
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã£ï¿½ï¿½
             foreach (Piece piece in UpdateBoardManager.PieceList)
             {
                 if (piece.pieceInfo == _hitpiece.pieceInfo)
@@ -138,43 +144,46 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
             }
         }
 
-        //Àâ´Â ¸»ÀÌ ÀÖÀ» °æ¿ì
+        //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         if (_hitpiece != null)
         {
             tempmovepiece.PV.RPC("MoveTo", RpcTarget.AllBuffered,
                 (int)tempboard.pieceInfo.playerType, (int)tempboard.pieceInfo.chessPiece, tempboard.pieceInfo.Index.x, tempboard.pieceInfo.Index.y,
                 (int)temphitpiece.pieceInfo.playerType, (int)temphitpiece.pieceInfo.chessPiece, temphitpiece.pieceInfo.Index.x, temphitpiece.pieceInfo.Index.y, false);
         }
-        else //¾øÀ» °æ¿ì
+        else //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         {
             tempmovepiece.PV.RPC("MoveTo", RpcTarget.AllBuffered, (int)tempboard.pieceInfo.playerType, (int)tempboard.pieceInfo.chessPiece
                 , tempboard.pieceInfo.Index.x, tempboard.pieceInfo.Index.y, false);
         }
-        //ÇÃ·¹ÀÌ¾î »ö ¹Ù²Þ
+        //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ ï¿½Ù²ï¿½
         PV.RPC("SwitchPlayerType", RpcTarget.AllBuffered);// SwitchPlayerType();
-        //ÅÏ Ãß°¡
+        //ï¿½ï¿½ ï¿½ß°ï¿½
         PV.RPC("CurTurnAdd", RpcTarget.AllBuffered);// CurTurnAdd();
     }
 
-    //´Ü¸»±â ¸Þ¼¼Áö
+    //ï¿½Ü¸ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public string ChessMissionMessage()
     {
         string text = "";
+        string turntext = (CurMission.Turn * 0.5).ToString();
 
-        text += CurMission.Turn.ToString() + "³²¾Ò½À´Ï´Ù.\n";
-        text += "ÅÏ:\t" + CurMission.Turn + "\n";
-        text += "»ö»ó:\t" + CurMission.Color + "\n";
-        text += "¸ñÇ¥:\t" + CurMission.Piece + "\n";
+        text += turntext + "ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ï¿½Ï´ï¿½.\n";
+        text += "ï¿½ï¿½:\t" + turntext + "\n";
+        text += "ï¿½ï¿½ï¿½ï¿½:\t" + CurMission.Color + "\n";
+        text += "ï¿½ï¿½Ç¥:\t" + CurMission.Piece + "\n";
+
+        Debug.Log(text);
 
         return text;
     }
 
-    //ÆÐ³ÎÆ¼(»ö¹Ù²Ù±â)
+    //ï¿½Ð³ï¿½Æ¼(ï¿½ï¿½ï¿½Ù²Ù±ï¿½)
     public void PenaltySet()
     {
         CHESSPIECE changePiece;
 
-        //ÀÌ¹Ì ¸ðµç Ã¼½º¸»ÀÌ ´Ù ¹Ù²î¾ú´Ù¸é ¸®ÅÏ
+        //ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (m_PenaltyPieceList.Count >= (int)CHESSPIECE.MAX - 1)
         {
             return;
@@ -184,20 +193,20 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
 
         while (true)
         {
-            //·£´ý ¸» ÁöÁ¤
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             changePiece = (CHESSPIECE)Random.Range((int)CHESSPIECE.NONE + 1, (int)CHESSPIECE.MAX);
 
-            //°°Àº ¸»ÀÌ ¾ø´Ù¸é ¹Ýº¹¹® Á¾·á
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½Ýºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (m_PenaltyPieceList.IndexOf(changePiece) == -1)
             {
                 break;
             }
 
-            //¹«ÇÑ·çÇÁ¹æÁö
+            //ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (++count > 10000)
             {
 
-                Debug.LogError("¹«ÇÑ·çÇÁ");
+                Debug.LogError("ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½ï¿½");
                 return;
             }
 
@@ -205,9 +214,10 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
 
         PV.RPC("ChangePieceColor", RpcTarget.AllBuffered, (int)changePiece);// ChangePieceColor(changePiece);
 
+
     }
 
-    //Ã¼½º ¸» ¹Ù²Þ
+    //Ã¼ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù²ï¿½
     [PunRPC]
     void ChangePieceColor(int _changeP)
     {
@@ -215,7 +225,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
 
         foreach (BoardManager boardManager in boardManagerList)
         {
-            //»ö¹Ù²Þ
+            //ï¿½ï¿½ï¿½Ù²ï¿½
             foreach (Piece piece in boardManager.PieceList)
             {
                 if (piece.pieceInfo.chessPiece == changePiece)
@@ -225,16 +235,41 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
             }
         }
 
-        //»öÀÌ ¹Ù²ï ¸» Ãß°¡
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ ï¿½ß°ï¿½
         m_PenaltyPieceList.Add(changePiece);
+
+
     }
 
 
-    //¹Ì¼Ç ¼¼ÆÃ
+    //ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
     void SetMission()
     {
         Debug.Log("MissionSet");
+
         CurMission = MissionList[Random.Range(0, MissionList.Count)];
+
+        int count = 0;
+        while (true)
+        {
+
+            //ï¿½ï¿½ï¿½Ù²ï¿½
+            foreach (ChessMissionInfo usemission in m_UseMission)
+            {
+                if (CurMission != usemission)
+                {
+                    break;
+                }
+            }
+            CurMission = MissionList[Random.Range(0, MissionList.Count)];
+
+            if (count++ > 10000)
+            {
+                break;
+            }
+        }
+
+
         CurMission.Turn *= 2;
 
 
@@ -243,47 +278,58 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
 
     }
 
-    //¹Ì¼Ç º¸³¿
+    //ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
     [PunRPC]
     void SendMission(int _Turn, int _Color, int _Piece)
     {
+        ChessMissionInfo mission = new ChessMissionInfo(_Turn, _Color, _Piece);
+
+        mission.Turn = (int)(mission.Turn * 0.5);
+        foreach (ChessMissionInfo chessMission in MissionList)
+        {
+            if (chessMission == mission)
+            {
+                m_UseMission.Add(chessMission);
+                break;
+            }
+        }
+
         this.CurMission.Turn = _Turn;
         this.CurMission.Color = (PLAYERTYPE)_Color;
         this.CurMission.Piece = (CHESSPIECE)_Piece;
-        //´Ü¸»±â ¸Þ¼¼Áö º¸³¿
-        _NetworkChatManager.Instance.AddLine(ChessMissionMessage());
+        Debug.Log("newMission");
+        //ï¿½Ü¸ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        _NetworkChatManager.Instance.AddLineTermianl(ChessMissionMessage());
     }
 
-    //°ÔÀÓ ³¡³µ´ÂÁö
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     bool CheckGameCount(bool _isMission)
     {
-        //¸ñÇ¥ ¸» Àâ±â?
+        //ï¿½ï¿½Ç¥ ï¿½ï¿½ ï¿½ï¿½ï¿½?
         if (_isMission)
         {
-            //ÃÖ´ë °ÔÀÓ Ä«¿îÆ® ¾È¿¡ °ÔÀÓ ³¡³¿
-            if (CurCount >= SuccessMissionCount
-                && CurCount < MaxMissionCount)
+            //ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ® ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            if (SuccessCount >= SuccessMissionCount)
             {
-                //Ã¥»ó¿­¸²
+                //Ã¥ï¿½ó¿­¸ï¿½
+                GameManager.M_gameManager.Complete_ChessPuzzle();
                 TableAniTrigger();
-                Debug.Log($"Ã¼½º°ÔÀÓ ¼º°ø, ÇöÀçÄ«¿îÆ® :CurCount {CurCount}");
+                isClear = true;
+
+
+                Debug.Log($"Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ä«ï¿½ï¿½Æ® :CurCount {CurCount}");
                 return true;
             }
 
         }
         else
         {
-            //ÃÖ´ë °ÔÀÓ Ä«¿îÆ®º¸´Ù ¸¹¾ÆÁü
+            //ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (CurCount >= MaxMissionCount)
             {
-                //ÆøÅº ½Ã°£ ÁÙ¾îµë
-                DigitalClock.M_clock.M_currentSeconds -= PenaltyTime;
+                PV.RPC("IsInitTrue", RpcTarget.AllBuffered);
 
-                foreach (BoardManager boardManager in boardManagerList)
-                {
-                    boardManager.BoardInit();
-                }
-                Debug.Log("Ã¼½º°ÔÀÓ½ÇÆÐ");
+                Debug.Log("Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½");
                 return true;
             }
         }
@@ -295,7 +341,40 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         return false;
     }
 
-    //ÅÏ »ö ¹Ù²Þ
+    [PunRPC]
+    void IsInitTrue()
+    {
+        isInit = true;
+    }
+
+    [PunRPC]
+    public void ChessFail()
+    {
+        if (isInit)
+        {
+            TurnPlayer = PLAYERTYPE.WHITE;
+            DigitalClock.M_clock.M_currentSeconds -= PenaltyTime;
+            CurTurn = 0;
+            CurCount = 0;
+            SuccessCount = 0;
+            m_UseMission.Clear();
+            m_PenaltyPieceList.Clear();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                SetMission();
+            }
+            foreach (BoardManager boardManager in boardManagerList)
+            {
+                boardManager.BoardInit();
+            }
+            isInit = false;
+        }
+
+
+    }
+
+
+    //ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù²ï¿½
     [PunRPC]
     void SwitchPlayerType()
     {
@@ -310,7 +389,7 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         }
     }
 
-    //Ã¥»ó¼­¶ø ¿­¸®´Â ¾Ö´Ï¸ÞÀÌ¼Ç
+    //Ã¥ï¿½ó¼­¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
     void TableAniTrigger()
     {
         ChessTableAni.SetTrigger("isMove");

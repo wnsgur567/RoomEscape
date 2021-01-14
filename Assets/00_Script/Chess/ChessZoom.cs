@@ -1,28 +1,28 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ChessZoom : MonoBehaviour
 {
-    public Transform ZoomPos;       //ÁÜÇÒ Æ÷Áö¼Ç
-    public CharactorInteraction Player;           //ÁÜµÇ´Â ÇÃ·¹ÀÌ¾î
+    public Transform ZoomPos;       //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public CharactorInteraction Player;           //ï¿½ÜµÇ´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½
 
-    //ÁÜµÇ´Â ¼Óµµ
-    public float PositionSpeed;        
+    //ï¿½ÜµÇ´ï¿½ ï¿½Óµï¿½
+    public float PositionSpeed;
     public float RotationSpeed;
 
-    public Button ExitButton;        //³ª°¡±â ¹öÆ°
+    public Button ExitButton;        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
 
 
-    public ZOOMSTATE chessZoomState;   //ÇöÀç ÁÜ »óÅÂ
+    public ZOOMSTATE chessZoomState;   //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    Vector3 OriginPlayerPos;                        //¿ø·¡ À§Ä¡
-    Vector3 OriginPlayerRotate;                     //¿ø·¡ ·ÎÅ×ÀÌ¼Ç
+    Vector3 OriginPlayerPos;                        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+    Vector3 OriginPlayerRotate;                     //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½
 
     BoxCollider boxCollider;
 
-    bool isChessSet;                                    //Ã³À½ ÁÜ ÇÏ´Â°ÇÁö
+    bool isChessSet;                                    //Ã³ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï´Â°ï¿½ï¿½ï¿½
 
     Transform camera;
     [SerializeField]
@@ -36,7 +36,7 @@ public class ChessZoom : MonoBehaviour
 
     void Update()
     {
-        switch(chessZoomState)
+        switch (chessZoomState)
         {
             case ZOOMSTATE.ZOOMIN:
                 ZoomIn();
@@ -44,7 +44,7 @@ public class ChessZoom : MonoBehaviour
             case ZOOMSTATE.ZOOMOUT:
                 ZoomOut();
                 break;
-        }    
+        }
 
     }
 
@@ -53,7 +53,7 @@ public class ChessZoom : MonoBehaviour
         ExitButton.onClick.RemoveAllListeners();
     }
 
-    //ÁÜ ÀÎ ¼¼ÆÃ
+    //ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void ZoomInSet()
     {
         if (!isChessSet)
@@ -62,24 +62,24 @@ public class ChessZoom : MonoBehaviour
         }
 
         camera = Player.m_cam.transform;
-        OriginPlayerPos = new Vector3(camera.position.x, camera.position.y, camera.position.z);                                                       //¿ø·¡ Æ÷Áö¼Ç °ª
-        OriginPlayerRotate = new Vector3(camera.rotation.eulerAngles.x, camera.rotation.eulerAngles.y, camera.rotation.eulerAngles.z);      //¿ø·¡ ·ÎÅ×ÀÌ¼Ç °ª
-        chessZoomState = ZOOMSTATE.ZOOMIN;                                                                                                      //»óÅÂ º¯°æ
-        boxCollider.enabled = false;                                                                                                                                //ÄÝ¶óÀÌ´õ ²ô±â
+        OriginPlayerPos = new Vector3(camera.position.x, camera.position.y, camera.position.z);                                                       //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+        OriginPlayerRotate = new Vector3(camera.rotation.eulerAngles.x, camera.rotation.eulerAngles.y, camera.rotation.eulerAngles.z);      //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½
+        chessZoomState = ZOOMSTATE.ZOOMIN;                                                                                                      //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        boxCollider.enabled = false;                                                                                                                                //ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½
         ExitButton.transform.gameObject.SetActive(true);
         Player.MouseSetTrue();
     }
 
-    //ÁÜ ¾Æ¿ô ¼¼ÆÃ
+    //ï¿½ï¿½ ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void ZoomOutSet()
     {
         ExitButton.transform.gameObject.SetActive(false);
         chessZoomState = ZOOMSTATE.ZOOMOUT;
-        
-        
+
+
     }
 
-    //Ã³À½¿¡¸¸ ½ÇÇà, ÁÜ ÃÊ±âÈ­
+    //Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½Ê±ï¿½È­
     void ZoomInit()
     {
         //2 line only chess
@@ -91,26 +91,29 @@ public class ChessZoom : MonoBehaviour
         ExitButton.onClick.AddListener(() => ZoomOutSet());
     }
 
-    //ÁÜÀÎ
+    //ï¿½ï¿½ï¿½ï¿½
     void ZoomIn()
     {
         camera.position = Vector3.MoveTowards(camera.position, ZoomPos.position, PositionSpeed * Time.deltaTime);
         camera.rotation = Quaternion.Euler(Vector3.MoveTowards(camera.rotation.eulerAngles, ZoomPos.rotation.eulerAngles, RotationSpeed * Time.deltaTime));
     }
 
-    //ÁÜ¾Æ¿ô
+    //ï¿½Ü¾Æ¿ï¿½
     void ZoomOut()
     {
         camera.position = Vector3.MoveTowards(camera.position, OriginPlayerPos, PositionSpeed * Time.deltaTime);
         camera.rotation = Quaternion.Euler(Vector3.MoveTowards(camera.rotation.eulerAngles, OriginPlayerRotate, RotationSpeed * Time.deltaTime));
 
-        //¿ø·¡ À§Ä¡·Î °¬À» °æ¿ì »óÅÂ º¯°æ
-        if(camera.position == OriginPlayerPos
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (camera.position == OriginPlayerPos
             && camera.rotation.eulerAngles == OriginPlayerRotate)
         {
             chessZoomState = ZOOMSTATE.NONE;
-            boxCollider.enabled = true;
             Player.MouseSetFalse();
+            if (!ChessMissionManager.Instance.isClear)
+            {
+                boxCollider.enabled = true;
+            }
         }
     }
 }

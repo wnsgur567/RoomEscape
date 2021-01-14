@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
+
 using UnityEngine;
 
-public class PaintPuzzleManager : MonoBehaviour
+public class PaintPuzzleManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     GameObject[] m_Paint;
@@ -25,6 +28,18 @@ public class PaintPuzzleManager : MonoBehaviour
         M_IsStarted = false;
     }
     // Update is called once per frame
+
+    public void __InitPaint()
+    {
+        m_IsClearPuzzle = false;
+        m_endflag = false;
+        M_IsStarted = false;
+        for (int i = 0; i < 5; i++)
+        {
+            m_Paint[i].SetActive(true);
+        }
+        m_PaintCol.enabled = true;
+    }
     void Update()
     {
         if (m_endflag == true)
@@ -44,7 +59,7 @@ public class PaintPuzzleManager : MonoBehaviour
         }
         if (m_IsClearPuzzle)
         {
-            GameManager.M_gameManager.Complete_PaintPuzzle();
+            GameManager.M_gameManager.M_PV.RPC("Complete_PaintPuzzle",RpcTarget.AllBuffered);
             EndPuzzle();
             m_endflag = true;
         }

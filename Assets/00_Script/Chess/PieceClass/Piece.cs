@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -6,28 +6,28 @@ using Photon.Pun;
 public class Piece : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
-    public BoardManager boardManager;       
+    public BoardManager boardManager;
 
-    public PieceInfo pieceInfo;             //ÀÌ ¸»ÀÇ Á¤º¸
-    public List<Vector3> MoveIndex;     //ÀÌµ¿ °¡´ÉÇÑ À§Ä¡
-    public Material OriginMaterial;        //¿ø·¡ »ö
-    public Material PenaltyMatrial;        //ÆÐ³ÎÆ¼ »ö
+    public PieceInfo pieceInfo;             //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public List<Vector3> MoveIndex;     //ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+    public Material OriginMaterial;        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    public Material PenaltyMatrial;        //ï¿½Ð³ï¿½Æ¼ ï¿½ï¿½
 
-    protected List<DIRECTIONTYPE> m_directiontypeList = new List<DIRECTIONTYPE>();      //ÀÌµ¿ÇÏ´Â ¹æÇâ
-    protected List<Board> m_moveBoard = new List<Board>();                                        //ÀÌµ¿°¡´ÉÇÑ º¸µå Ç¥½Ã
+    protected List<DIRECTIONTYPE> m_directiontypeList = new List<DIRECTIONTYPE>();      //ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
+    protected List<Board> m_moveBoard = new List<Board>();                                        //ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
 
-    MeshRenderer m_meshRenderer;                                                                          
+    MeshRenderer m_meshRenderer;
 
     void Start()
     {
-       
+
 
         __Init();
-        
+
     }
 
 
-    //ÃÊ±âÈ­
+    //ï¿½Ê±ï¿½È­
     protected virtual void __Init()
     {
         PV = GetComponent<PhotonView>();
@@ -40,22 +40,13 @@ public class Piece : MonoBehaviourPunCallbacks
         m_meshRenderer = this.gameObject.GetComponent<MeshRenderer>();
     }
 
-    //¿òÁ÷ÀÏ ¼ö ÀÖ´ÂÁö
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½
     public virtual bool IsMove(Vector3 _index, Board _hitBoard, bool _attck)
     {
-        //º¸µå ¹ÛÀ¸·Î ¹þ¾î³ªÁö´Â ¾Ê´ÂÁö
-        if(_index.x + this.pieceInfo.Index.x > boardManager.BoardSize.x
-            || _index.x + this.pieceInfo.Index.x < 0
-            || _index.z + this.pieceInfo.Index.y > boardManager.BoardSize.z
-            || _index.z + this.pieceInfo.Index.y < 0)
-        {
-            return false;
-        }
-
-        //¿òÁ÷ÀÌ·Á´Â ¹æÇâ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         DIRECTIONTYPE dir = Direction(_index);
 
-        //´ë°¢¼± ¿òÁ÷ÀÓ
+        //ï¿½ë°¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (dir > DIRECTIONTYPE.LEFT)
         {
             if (Mathf.Abs(_index.x) != Mathf.Abs(_index.z))
@@ -64,91 +55,91 @@ public class Piece : MonoBehaviourPunCallbacks
             }
         }
 
-        //¹æÇâ Ã£À½
+        //ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
         int listIndex = m_directiontypeList.IndexOf(dir);
 
-        //°¡·Á´Â ¹æÇâÀÌ ¾øÀ½
-        if(listIndex < 0)
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (listIndex < 0)
         {
             return false;
         }
 
-        //ÀÌµ¿ÇÏ·Á´Â À§Ä¡°¡ °¥¼öÀÖ´Â À§Ä¡º¸´Ù Å©¸é false
-        if(Mathf.Abs(_index.x) > Mathf.Abs(MoveIndex[listIndex].x)
+        //ï¿½Ìµï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ false
+        if (Mathf.Abs(_index.x) > Mathf.Abs(MoveIndex[listIndex].x)
             || Mathf.Abs(_index.z) > Mathf.Abs(MoveIndex[listIndex].z))
         {
             return false;
         }
-        
-        //À§µ¿ À§Ä¡¿¡ ¸»ÀÌ ÀÖ´ÂÁö È®ÀÎÇÏ±â À§ÇØ ´õÇÏ´Â °ª
+
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½
         Index tempindex = GetDirection(dir);
-        //ÇöÀç ¸» À§Ä¡
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¡
         int i = pieceInfo.Index.y; int j = pieceInfo.Index.x;
-        
+
         int count = 0;
-        
-        //ÀÌµ¿ÇÏ·Á´Â À§Ä¡ Áß°£¿¡ ¸»ÀÌ ÀÖ´ÂÁö
+
+        //ï¿½Ìµï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½
         while (true)
         {
             i += tempindex.y; j += tempindex.x;
-        
-            //¸»ÀÌ ÀÖ´Ù
-            if(boardManager.M_BoardArr[i, j].M_isPiece
+
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½
+            if (boardManager.M_BoardArr[i, j].M_isPiece
                 && boardManager.M_BoardArr[i, j] != _hitBoard)
             {
                 return false;
             }
-            //ÀÌµ¿À§Ä¡¿Í °°´Ù¸é ¹Ýº¹¹® Á¾·á
+            //ï¿½Ìµï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½Ýºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (i == _hitBoard.pieceInfo.Index.y && j == _hitBoard.pieceInfo.Index.x)
             {
                 break;
             }
-        
-            //¹«ÇÑ ·çÇÁ ¹æÁö
-            if(++count > 1000)
+
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            if (++count > 1000)
             {
                 Debug.Log("Err");
             }
         }
-        
+
         return true;
     }
 
-    //¿òÁ÷ÀÓ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     [PunRPC]
     public virtual void MoveTo(int _hitboardPType, int _hitboardPiece, int indexX, int indexY, bool isSound)
     {
-        //º¯È¯
+        //ï¿½ï¿½È¯
         PieceInfo info = new PieceInfo(_hitboardPType, _hitboardPiece, indexX, indexY);
 
         Board hitBoard = null;
 
-        //°°Àº º¸µå Ã£À½
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
         foreach (Board board in boardManager.M_BoardArr)
         {
-            if(info == board.pieceInfo)
+            if (info == board.pieceInfo)
             {
                 hitBoard = board;
                 break;
             }
         }
 
-        //Å¬¸¯ÇÑ ¸» null
+        //Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ null
         boardManager.ClickManager.ClickChessPieceNull();
-        //ÀÌµ¿ °¡´ÉÇÑ Å¸ÀÏÇ¥½ÃX
+        //ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½Ç¥ï¿½ï¿½X
         MoveTileFalse();
 
-        //ÀÌµ¿ ÇÏ´Â º¸µå¿¡ ¸» Á¤º¸ µî·Ï
+        //ï¿½Ìµï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½å¿¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         hitBoard.M_isPiece = true;
         hitBoard.pieceInfo.SetType(this.pieceInfo);
 
-        //ÇöÀç À§Ä¡ÀÇ º¸µå ¸» Á¤º¸ ÃÊ±âÈ­
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].M_isPiece = false;
         boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].pieceInfo.InitInfo();
 
-        //ÀÌµ¿
+        //ï¿½Ìµï¿½
         this.transform.position = hitBoard.transform.position;
-        //ÀÎµ¦½º º¯°æ
+        //ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         this.pieceInfo.Index.x = hitBoard.pieceInfo.Index.x;
         this.pieceInfo.Index.y = hitBoard.pieceInfo.Index.y;
         if (isSound)
@@ -157,7 +148,7 @@ public class Piece : MonoBehaviourPunCallbacks
         }
     }
 
-    //¿òÁ÷ÀÓ, ¸»Àâ±â
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½
     [PunRPC]
     public virtual void MoveTo(int _hitboardPType, int _hitboardPiece, int _hitboardindexX, int _hitboardindexY,
         int _hitpiecePType, int _hitpiecePiece, int _hitpieceindexX, int _hitpieceindexY, bool isSound
@@ -165,11 +156,11 @@ public class Piece : MonoBehaviourPunCallbacks
     {
         Board hitBoard = null;
         Piece hitPiece = null;
-        //º¯È¯
+        //ï¿½ï¿½È¯
         PieceInfo boardinfo = new PieceInfo(_hitboardPType, _hitboardPiece, _hitboardindexX, _hitboardindexY);
         PieceInfo pieceinfo = new PieceInfo(_hitpiecePType, _hitpiecePiece, _hitpieceindexX, _hitpieceindexY);
 
-        //°°Àº º¸µå Ã£±â
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
         foreach (Board board in boardManager.M_BoardArr)
         {
             if (boardinfo == board.pieceInfo)
@@ -179,7 +170,7 @@ public class Piece : MonoBehaviourPunCallbacks
             }
         }
 
-        //°°Àº ¸» Ã£±â
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã£ï¿½ï¿½
         foreach (Piece piece in boardManager.PieceList)
         {
             if (pieceinfo == piece.pieceInfo)
@@ -189,25 +180,25 @@ public class Piece : MonoBehaviourPunCallbacks
             }
         }
 
-        //¼±ÅÃÇÑ ¸» null
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ null
         boardManager.ClickManager.ClickChessPieceNull();
 
-        //ÀÌµ¿°¡´É º¸µå Ç¥½ÃX
+        //ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½X
         MoveTileFalse();
 
-        //ÀÌµ¿ÇÏ´Â º¸µå 
+        //ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         hitBoard.M_isPiece = true;
         hitBoard.pieceInfo.SetType(this.pieceInfo);
-        //ÀÌÀü¿¡ ÀÖ´ø º¸µå ÃÊ±âÈ­
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].M_isPiece = false;
         boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].pieceInfo.InitInfo();
 
-        //¿òÁ÷ÀÓ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         this.transform.position = hitBoard.transform.position;
         this.pieceInfo.Index.x = hitBoard.pieceInfo.Index.x;
         this.pieceInfo.Index.y = hitBoard.pieceInfo.Index.y;
 
-        //ÀâÀº ¸» ºñÈ°¼ºÈ­
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
         if (hitPiece != null)
         {
             hitPiece.gameObject.SetActive(false);
@@ -218,37 +209,37 @@ public class Piece : MonoBehaviourPunCallbacks
         }
     }
 
-    //ÀÌµ¿°¡´ÉÇÑ ¸» º¸µå »ö Ç¥½Ã
+    //ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ç¥ï¿½ï¿½
     public virtual void MoveTileTrue()
     {
-        //ÀÌµ¿ÇÏ´Â À§Ä¡
+        //ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Ä¡
         foreach (Vector3 vec in MoveIndex)
         {
-            //´õÇÏ´Â ¹æÇâ °ª
+            //ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
             Index dirvec = GetDirection(Direction(vec));
-            //for¹® ¹Ýº¹ ¼ö
+            //forï¿½ï¿½ ï¿½Ýºï¿½ ï¿½ï¿½
             int count = 8;
-            //ÇØ´ç À§Ä¡
+            //ï¿½Ø´ï¿½ ï¿½ï¿½Ä¡
             Vector3 tempvec = new Vector3(dirvec.x, 0f, dirvec.y);
             for (int j = 0; j < count; j++)
             {
-                //ÇöÀç À§Ä¡+ÀÌµ¿ÇÏ´Â À§Ä¡ ¹üÀ§ ¹ÛÀÌ ¾Æ´Ò °æ¿ì
+                //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡+ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
                 if (pieceInfo.Index.x + (int)tempvec.x < boardManager.BoardSize.x
                         && pieceInfo.Index.x + (int)tempvec.x > -1
                         && pieceInfo.Index.y + (int)tempvec.z < boardManager.BoardSize.z
                         && pieceInfo.Index.y + (int)tempvec.z > -1)
                 {
-                    //ÇØ´ç À§Ä¡ÀÇ º¸µå 
+                    //ï¿½Ø´ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                     Board board = boardManager.M_BoardArr[pieceInfo.Index.y + (int)tempvec.z, pieceInfo.Index.x + (int)tempvec.x];
 
-                    //¿òÁ÷ÀÏ ¼ö ÀÖ´ÂÁö
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½
                     if (IsMove(tempvec, board, false))
                     {
-                        //°°Àº »öÀÌ ¾Æ´Ò °æ¿ì
+                        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
                         if (board.pieceInfo.playerType
                        != pieceInfo.playerType)
                         {
-                            //ÀÌµ¿ °¡´É
+                            //ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
                             board.MaterialMove();
                             m_moveBoard.Add(board);
                         }
@@ -256,44 +247,44 @@ public class Piece : MonoBehaviourPunCallbacks
 
 
                 }
-                else  //¹üÀ§ ¹ÛÀÏ °æ¿ì ¹Ýº¹¹® Á¾·á
-                { 
+                else  //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ýºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                {
                     break;
                 }
 
-                //´ÙÀ½ º¸µå·Î
+                //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
                 tempvec.x += dirvec.x;
                 tempvec.z += dirvec.y;
             }
         }
 
-        //¼±ÅÃÇÑ ¸» À§Ä¡ »ö È°¼ºÈ­
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ È°ï¿½ï¿½È­
         boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialSelect();
     }
 
-    //¿òÁ÷ÀÌ·Á´Â º¸µå ÃÊ±âÈ­
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
     public void MoveTileFalse()
     {
-        //»ö Ç¥½Ã ²û
+        //ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½
         foreach (Board board in m_moveBoard)
         {
             board.MaterialOff();
         }
 
-        //¸®½ºÆ® ÃÊ±âÈ­
+        //ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­
         m_moveBoard.Clear();
 
-        //¼±ÅÃÇÑ ¸» À§Ä¡ »ö ÃÊ±âÈ­
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ ï¿½Ê±ï¿½È­
         boardManager.M_BoardArr[pieceInfo.Index.y, pieceInfo.Index.x].MaterialOff();
     }
 
-    //¸¶Å×¸®¾ó ¼¼ÆÃ
+    //ï¿½ï¿½ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void SetMaterial(Material material)
     {
         m_meshRenderer.material = material;
     }
 
-    //¹æÇâ¾ò±â
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     protected DIRECTIONTYPE Direction(Vector3 _dir)
     {
         if (_dir.z > 0 && _dir.x == 0)
@@ -332,7 +323,7 @@ public class Piece : MonoBehaviourPunCallbacks
         return DIRECTIONTYPE.NONE;
     }
 
-    //¹æÇâ°ª¾ò±â
+    //ï¿½ï¿½ï¿½â°ªï¿½ï¿½ï¿½
     protected Index GetDirection(DIRECTIONTYPE dir)
     {
         Index tempindex = new Index();

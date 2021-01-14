@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine.EventSystems;
 
 [System.Serializable]
@@ -12,7 +13,7 @@ public enum ZOOMSTATE
     NONE,
     ZOOMIN,
     ZOOMOUT,
-
+    USBMODE,
     MAX
 
 }
@@ -20,6 +21,46 @@ public enum ZOOMSTATE
 
 public class CharactorInteraction : MonoBehaviourPunCallbacks
 {
+    private KeyCode[] m_KeyCode = {
+         KeyCode.Alpha0,
+         KeyCode.Alpha1,
+         KeyCode.Alpha2,
+         KeyCode.Alpha3,
+         KeyCode.Alpha4,
+         KeyCode.Alpha5,
+         KeyCode.Alpha6,
+         KeyCode.Alpha7,
+         KeyCode.Alpha8,
+         KeyCode.Alpha9,
+        KeyCode.A,
+        KeyCode.B,
+        KeyCode.C,
+        KeyCode.D,
+        KeyCode.E,
+        KeyCode.F,
+        KeyCode.G,
+        KeyCode.H,
+        KeyCode.I,
+        KeyCode.J,
+        KeyCode.K,
+        KeyCode.L,
+        KeyCode.M,
+        KeyCode.N,
+        KeyCode.O,
+        KeyCode.P,
+        KeyCode.Q,
+        KeyCode.R,
+        KeyCode.S,
+        KeyCode.T,
+        KeyCode.U,
+        KeyCode.V,
+        KeyCode.W,
+        KeyCode.X,
+        KeyCode.Y,
+        KeyCode.Z,
+     };
+
+    string m_InputField;
     [Header("ĳ���Ϳ� ������Ʈ�� ��ȣ�ۿ� �Ÿ�")]
     [SerializeField]
     private float m_range;//��ȣ�ۿ� �Ÿ�
@@ -37,8 +78,8 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     private int m_PaintCount;
     private bool m_PaintStart;
 
-    [SerializeField]
-    private SpriteUI m_NoteUI;
+    private GameObject m_NoteUI;
+    private SpriteUI m_NoteImg;
     [SerializeField]
     private CharactorMove m_moveScript;
 
@@ -48,18 +89,20 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     private Transform temp_pos;
     private GameObject temp_obj;
 
+
     ZOOMSTATE zoomState;
 
     [SerializeField]
     GameObject ClickPiece;             //Ŭ���� ü����
 
 
-    private bool Iskey; 
+    private bool Iskey;
     private bool IsUsb;
     private bool m_ActivePipe;
-    
+    private bool m_IsUsbActivated;
     void Start()
     {
+        m_IsUsbActivated = false;
         m_ActivePipe = false;
         Iskey = false;
         IsUsb = false;
@@ -72,7 +115,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         if (m_PV.IsMine)
         {
             FindInit();
-            
+
         }
     }
     void Update()
@@ -85,7 +128,13 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 PipeAction();
             }
             else
+            {
                 ZoomIn();
+                if(m_IsUsbActivated)
+                {
+                    KeyboardInput();
+                }
+            }
         }
     }
 
@@ -164,8 +213,6 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     M_pipeButton = hit.transform.GetComponent<PipeButton>();
                     M_pipeButton.ActiveButton();
 
-
-
                 }
             }
             else if (hit.transform.CompareTag("Paint") || hit.transform.CompareTag("Paint_correct")) //������Ʈ�� �׸������� ���
@@ -201,7 +248,9 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                         LightPenalty.instance.StartPenalty();
                         if (m_PaintCount == 10)
                         {
-
+                            m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
+                            PaintPuzzleManager.M_paintManager.__InitPaint();
+                            m_PaintCount = 0;
                         }
                         //�׸��̸�
                     }
@@ -222,7 +271,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 m_Crosshair.gameObject.SetActive(true);
                 if (Input.GetMouseButtonDown(0))
                 {
-                    GameManager.M_gameManager.StartRadio();
+                    GameManager.M_gameManager.M_PV.RPC("StartRadio", RpcTarget.AllBuffered);
                 }
             }
             else if (hit.transform.CompareTag("Bomb")) //������Ʈ�� ��ź�ΰ��
@@ -254,6 +303,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.Confined;
 
+                    m_tmPro = hit.transform.GetComponentInChildren<TextMeshPro>();
                     zoomState = ZOOMSTATE.ZOOMIN;
                     //bomb = hit.transform.parent.GetComponent<ChessZoom>();
                     //bomb.ZoomInSet();
@@ -274,13 +324,18 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                     chess.ZoomInSet();
                 }
             }
-            else if(hit.transform.CompareTag("Note"))
+            else if (hit.transform.CompareTag("Note"))
             {
                 m_Crosshair.gameObject.SetActive(true);
-                if(Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0))
                 {
-                    m_NoteUI.gameObject.SetActive(true);
-                    m_NoteUI.ActiveTrue();
+                    Debug.Log("노트임");
+                    Note note = hit.transform.GetComponent<Note>();
+                    note.M_NoteImg.ActiveTrue();
+
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.Confined;
+
                 }
             }
             else if (hit.transform.CompareTag("USB"))
@@ -320,6 +375,8 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     Vector3 m_tempTransformRotate;
 
     private GameObject m_tempCover;
+
+    [SerializeField]
     void ZoomIn()
     {
         //if (!IsPointerOverUIObject())
@@ -328,24 +385,28 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         //}
 
         //m_moveScript.M_Input = false;
-
+        KeyHolder tempHolder;
         RaycastHit _hit;
         if (Physics.Raycast(m_cam.ScreenPointToRay(Input.mousePosition), out _hit))
         {
             //�ܵȻ��¶��
-            if (_hit.transform.CompareTag("Cover"))
-            {
-                m_tempCover = _hit.transform.GetChild(0).gameObject;
-                m_tempCover.SetActive(true);
-            }
-            else
-            {
-                m_tempCover.SetActive(false);
-                m_tempCover = null;
-            }
+            //if (_hit.transform.CompareTag("Cover"))
+            //{
+            //    m_tempCover = _hit.transform.GetChild(0).gameObject;
+            //    m_tempCover.SetActive(true);
+            //}
+            //else
+            //{
+            //    if (m_tempCover == null)
+            //        return;
+            //    else
+            //    {
+            //        m_tempCover.SetActive(false);
+            //        m_tempCover = null;
+            //    }
+            //}
             if (Input.GetMouseButtonDown(0))
             {
-
                 if (_hit.transform.CompareTag("Cover"))
                 {
                     M_bombCoverScript = _hit.transform.GetComponent<BombCoverScript>();
@@ -359,40 +420,41 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 }
                 if (_hit.transform.CompareTag("Button"))
                 {
-                    DigitalClock.M_clock.M_currentSeconds -= 30f;
+
+                    tempBombTimePenalty();
+                    //m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
+                    BombScript.M_instance.FailedMsg();
                 }
-                if(_hit.transform.CompareTag("CorrectButton"))
+                if (_hit.transform.CompareTag("CorrectButton"))
                 {
-                    //d���� ����
+                    BombScript.M_instance.SuccessMsg();
                 }
-                if(_hit.transform.CompareTag("KeyHolder"))
+                if (_hit.transform.CompareTag("KeyHolder"))
                 {
-                    if(Iskey)
+                    if (Iskey)
                     {
                         _hit.collider.enabled = false;
                         _hit.transform.GetChild(0).gameObject.SetActive(true);
+                        BombScript.M_instance.SuccessMsg();
+                        tempHolder = _hit.transform.GetComponent<KeyHolder>();
+                        tempHolder.M_State = KeyHolder.Holder_State.Activated;
                     }
                 }
-                if(_hit.transform.CompareTag("USBHolder"))
+                if (_hit.transform.CompareTag("USBHolder"))
                 {
                     if (IsUsb)
                     {
                         _hit.collider.enabled = false;
                         _hit.transform.GetChild(0).gameObject.SetActive(true);
+                        m_IsUsbActivated = true;
                     }
                 }
                 CutWire(_hit.transform.tag, _hit.transform.parent.gameObject);
             }
 
             ChessGameClick(_hit);
-            //hit.transform.parent.transform.position = temp_pos.position;
-            //hit.transform.parent.transform.rotation = temp_pos.rotation;
-
-
-            //m_moveScript.M_Input = true;
-
         }
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("Ű����");
             //m_tempObj.collider.enabled = true;
@@ -406,6 +468,9 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
             Cursor.lockState = CursorLockMode.Locked;
             temp_obj.transform.parent = temp_pos;
 
+
+            m_InputField = null;
+            m_tmPro.text = m_InputField;
             zoomState = ZOOMSTATE.NONE;
         }
     }
@@ -489,6 +554,9 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                         //������ ���� üũ �� ������
                         if (playerpiece.IsMove(tempvec, hitBoard, true))
                         {
+                            ChessMissionManager.Instance.PV.RPC("isMission", RpcTarget.AllBuffered,
+                                (int)hitpiece.pieceInfo.playerType, (int)hitpiece.pieceInfo.chessPiece, hitpiece.pieceInfo.Index.x, hitpiece.pieceInfo.Index.y);
+
                             //�ݴ��� ü���� ������Ʈ
                             ChessMissionManager.Instance.UpdateChess(boardManager, playerpiece, hitBoard, hitpiece);
                             //������
@@ -498,11 +566,6 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                             //ü���� ���� ����
                             ClickPiece = null;
                             //hitpiece.gameObject.SetActive(false);
-                            //�̼Ǽ���?
-                            if (ChessMissionManager.Instance.isMission(hitpiece.pieceInfo))
-                            {
-                                hitpiece.gameObject.SetActive(true);
-                            }
                         }
                     }
                     else //�÷��̾� �� �ٲٱ�(������ ���� ���� ������ ������ ���� ���� ���� ���)
@@ -538,7 +601,7 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         BoardManager[] tempObj;
         tempObj = GameObject.FindObjectsOfType<BoardManager>();
 
-        foreach(BoardManager boardManager in tempObj)
+        foreach (BoardManager boardManager in tempObj)
         {
             boardManager.ClickManager = this;
         }
@@ -563,44 +626,133 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
         {
             case "RedWire":
                 m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
+
+                BombScript.M_instance.FailedMsg();
                 BombScript.M_instance.M_cutRed.SetActive(true);
                 Hide_Wire.SetActive(false);
                 break;
             case "BlueWire":
                 m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
+                BombScript.M_instance.FailedMsg();
                 BombScript.M_instance.M_cutBlue.SetActive(true);
                 Hide_Wire.SetActive(false);
                 break;
             case "BlackWire":
                 BombScript.M_instance.M_cutBlack.SetActive(true);
+                BombScript.M_instance.SuccessMsg();
                 Hide_Wire.SetActive(false);
                 break;
             case "WhiteWire":
                 m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
+                BombScript.M_instance.FailedMsg();
                 BombScript.M_instance.M_cutWhite.SetActive(true);
                 Hide_Wire.SetActive(false);
                 break;
             case "YellowWire":
                 m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
+                BombScript.M_instance.FailedMsg();
                 BombScript.M_instance.M_cutYellow.SetActive(true);
                 Hide_Wire.SetActive(false);
                 break;
             case "GreenWire":
                 m_PV.RPC("BombTimePenalty", RpcTarget.AllBuffered);
+                BombScript.M_instance.FailedMsg();
                 BombScript.M_instance.M_cutGreen.SetActive(true);
                 Hide_Wire.SetActive(false);
                 break;
+            default:
+                Debug.Log(Hide_Wire.tag);
+                break;
         }
     }
+    private TextMeshPro m_tmPro;
+    void KeyboardInput()
+    {
+        if (!m_IsUsbActivated)
+            return;
 
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if (m_InputField == BombScript.M_instance.M_PassWord)
+            {
+                m_tmPro.enabled = false;
+                BombScript.M_instance.SuccessMsg();
+            }
+            else
+            {
+                Debug.Log("틀림");
+            }
+            m_InputField = null;
+            m_IsUsbActivated = false;
+            return;
+        }
+
+
+        for (int i = 0; i < m_KeyCode.Length; i++)
+        {
+            if (Input.GetKeyDown(m_KeyCode[i]))
+            {
+                if (m_KeyCode[i] == KeyCode.Alpha0)
+                {
+                    m_InputField += "0";
+                }
+                else if (m_KeyCode[i] == KeyCode.Alpha1)
+                {
+                    m_InputField += "1";
+                }
+                else if (m_KeyCode[i] == KeyCode.Alpha2)
+                {
+                    m_InputField += "2";
+                }
+                else if (m_KeyCode[i] == KeyCode.Alpha3)
+                {
+                    m_InputField += "3";
+                }
+                else if (m_KeyCode[i] == KeyCode.Alpha4)
+                {
+                    m_InputField += "4";
+                }
+                else if (m_KeyCode[i] == KeyCode.Alpha5)
+                {
+                    m_InputField += "5";
+                }
+                else if (m_KeyCode[i] == KeyCode.Alpha6)
+                {
+                    m_InputField += "6";
+                }
+                else if (m_KeyCode[i] == KeyCode.Alpha7)
+                {
+                    m_InputField += "7";
+                }
+                else if (m_KeyCode[i] == KeyCode.Alpha8)
+                {
+                    m_InputField += "8";
+                }
+                else if (m_KeyCode[i] == KeyCode.Alpha9)
+                {
+                    m_InputField += "9";
+                }
+                else
+                {
+                    m_InputField += m_KeyCode[i].ToString();
+                }
+                m_tmPro.text = m_InputField;
+            }
+        }
+    }
     [PunRPC]
     void BombTimePenalty()
     {
         DigitalClock.M_clock.M_currentSeconds -= 30f;
     }
 
+    void tempBombTimePenalty()
+    {
+        DigitalClock.M_clock.M_currentSeconds -= 30f;
+    }
 
-    
+
     private bool IsPointerOverUIObject()
     {
         List<RaycastResult> results = GetUIObjectsUnderPointer();

@@ -33,6 +33,7 @@ public class DigitalClock :  MonoBehaviour
     }
     public void Clock_Initialize()
     {
+        M_puzzleTimer = 0f;
         M_IsStop = false;
         m_penalty = false;
         m_timerdefault = 0;
@@ -70,6 +71,9 @@ public class DigitalClock :  MonoBehaviour
         }
         else if (M_currentSeconds <= 0)
         {
+            //게임종료로 넘기는씬 있어야함
+            GameManager.M_gameManager.DefuseFailed();
+            //폭탄터지는씬
             m_CountdownText.text = "00:00";
         }
     }

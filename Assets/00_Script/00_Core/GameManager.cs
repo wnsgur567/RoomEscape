@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public Transform A_SpawnPosition;
     public Transform B_SpawnPosition;
-
+    public PhotonView M_PV;
     [SerializeField]
     private GameObject m_ACover;
     [SerializeField]
@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject m_DCover;
 
+
+    
     _NetworkInfoManager m_infoManager = null;
     // Start is called before the first frame update
     private void Awake()
@@ -39,17 +41,20 @@ public class GameManager : MonoBehaviourPunCallbacks
         m_ACover.tag = "Cover";
         Debug.Log("파이프 클리어!");
     }
+    [PunRPC]
     public void Complete_PaintPuzzle()
     {
         //페인트퍼즐 완료시
         m_DCover.tag = "Cover";
         Debug.Log("페인트 클리어!");
     }
+    [PunRPC]
     public void StartRadio()
     {
         m_CCover.tag = "Cover";
         Debug.Log("라디오퍼즐 시작");
     }
+    [PunRPC]
     public void Complete_ChessPuzzle()
     {
         m_BCover.tag = "Cover";
@@ -67,5 +72,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.Instantiate("Charactor", B_SpawnPosition.position, Quaternion.identity);
         }
+    }
+    public void DefuseSuccess()
+    {
+
+    }
+    public void DefuseFailed()
+    {
+
     }
 }

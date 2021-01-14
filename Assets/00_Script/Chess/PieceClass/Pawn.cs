@@ -1,38 +1,38 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Pawn : Piece
 {
-    public bool M_PawnMove = false;         //ÆùÀÌ Ã³À½ ÀÌµ¿ÇÏ´ÂÁö
-    public List<Vector3> AttckMoveList;    //¸» ÀâÀ»¶§ ÀÌµ¿ÇÏ´Â À§Ä¡
-    List<DIRECTIONTYPE> m_AttackDirList = new List<DIRECTIONTYPE>();    //¸» ÀâÀ»¶§ ¹æÇâ
+    public bool M_PawnMove = false;         //ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ï¿½ï¿½
+    public List<Vector3> AttckMoveList;    //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Ä¡
+    List<DIRECTIONTYPE> m_AttackDirList = new List<DIRECTIONTYPE>();    //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     void Start()
     {
         __Init();
 
-        //Æù Ã³À½ ¿òÁ÷ÀÓ(2Ä­)
+        //ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(2Ä­)
         if (!M_PawnMove)
         {
             MoveIndex[0] = new Vector3(MoveIndex[0].x, MoveIndex[0].y, MoveIndex[0].z * 2);
         }
     }
 
-    //ÃÊ±âÈ­
+    //ï¿½Ê±ï¿½È­
     protected override void __Init()
     {
         base.__Init();
 
-        //¹æÇâ Ãß°¡
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
         foreach (Vector3 item in AttckMoveList)
         {
             m_AttackDirList.Add(Direction(item));
         }
     }
 
-    //¿òÁ÷ÀÏ ¼ö ÀÖ´ÂÁö
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½
     public override bool IsMove(Vector3 _index, Board _hitBoard, bool _attck)
     {
         DIRECTIONTYPE dir = Direction(_index);
@@ -45,7 +45,7 @@ public class Pawn : Piece
             tempVec = AttckMoveList;
         }
 
-        //´ë°¢¼±
+        //ï¿½ë°¢ï¿½ï¿½
         if (dir > DIRECTIONTYPE.LEFT)
         {
             if (Mathf.Abs(_index.x) != Mathf.Abs(_index.z))
@@ -64,62 +64,56 @@ public class Pawn : Piece
 
         if (_attck)
         {
-            if(!_hitBoard.M_isPiece)
+            if (!_hitBoard.M_isPiece)
             {
                 return false;
             }
 
-            if (_hitBoard.M_isPiece 
+            if (_hitBoard.M_isPiece
                 && _hitBoard.pieceInfo.playerType == this.pieceInfo.playerType)
             {
                 return false;
             }
         }
+        int listIndex = tempDirList.IndexOf(dir);
 
-
-
-
-        foreach (DIRECTIONTYPE item in tempDirList)
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (listIndex < 0)
         {
-            int listIndex = tempDirList.IndexOf(item);
+            return false;
+        }
 
-           //¹æÇâ°°À½
-            if (item == dir)
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ Å«ï¿½ï¿½
+        if (Mathf.Abs(_index.x) > Mathf.Abs(tempVec[listIndex].x)
+            || Mathf.Abs(_index.z) > Mathf.Abs(tempVec[listIndex].z))
+        {
+            return false;
+        }
+
+
+        Index tempindex = GetDirection(dir);
+        int i = pieceInfo.Index.y; int j = pieceInfo.Index.x;
+
+        while (true)
+        {
+            i += tempindex.y; j += tempindex.x;
+
+            if (boardManager.M_BoardArr[i, j].M_isPiece
+                && boardManager.M_BoardArr[i, j] != _hitBoard)
             {
-               //¿òÁ÷ÀÌ·Á´Â À§Ä¡°¡ °¥¼öÀÖ´Â À§Ä¡º¸´Ù Å«Áö
-                if (Mathf.Abs(_index.x) > Mathf.Abs(tempVec[listIndex].x)
-                    || Mathf.Abs(_index.z) > Mathf.Abs(tempVec[listIndex].z))
-                {
-                    return false;
-                }
+                return false;
+            }
 
-
-                Index tempindex = GetDirection(dir);
-                int i = pieceInfo.Index.y; int j = pieceInfo.Index.x;
-
-                while (true)
-                {
-                    i += tempindex.y; j += tempindex.x;
-
-                    if (boardManager.M_BoardArr[i, j].M_isPiece
-                        && boardManager.M_BoardArr[i, j] != _hitBoard)
-                    {
-                        return false;
-                    }
-
-                    /*if (i == _hitBoard.M_BoardIndex.y && j == _hitBoard.M_BoardIndex.x)*/
-                    if (i == _hitBoard.pieceInfo.Index.y && j == _hitBoard.pieceInfo.Index.x)
-                    {
-                        break;
-                    }
-                }
-                
-
-                return true;
+            /*if (i == _hitBoard.M_BoardIndex.y && j == _hitBoard.M_BoardIndex.x)*/
+            if (i == _hitBoard.pieceInfo.Index.y && j == _hitBoard.pieceInfo.Index.x)
+            {
+                break;
             }
         }
 
-        return false;
+
+        return true;
+
     }
 
     [PunRPC]
@@ -139,7 +133,7 @@ public class Pawn : Piece
         int _hitpiecePType, int _hitpiecePiece, int _hitpieceindexX, int _hitpieceindexY, bool isSound)
     {
         base.MoveTo(_hitboardPType, _hitboardPiece, _hitboardindexX, _hitboardindexY,
-             _hitpiecePType,  _hitpiecePiece,  _hitpieceindexX,  _hitpieceindexY, isSound);
+             _hitpiecePType, _hitpiecePiece, _hitpieceindexX, _hitpieceindexY, isSound);
 
         if (!M_PawnMove)
         {
@@ -194,7 +188,7 @@ public class Pawn : Piece
         foreach (Vector3 vec in AttckMoveList)
         {
             Index dirvec = GetDirection(Direction(vec));
-            
+
 
             Vector3 tempvec = new Vector3(dirvec.x, 0f, dirvec.y);
             for (int j = 0; j < count; j++)
