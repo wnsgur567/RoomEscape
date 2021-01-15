@@ -46,10 +46,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         Debug.Log(DigitalClock.M_clock.M_currentSeconds);
-        //if (DigitalClock.M_clock.M_currentSeconds <= 0)
-        //{
-        //    DefuseFailed();
-        //}
+        if (DigitalClock.M_clock.M_currentSeconds <= 0)
+        {
+            DefuseFailed();
+        }
     }
     public void Complete_PipePuzzle()
     {

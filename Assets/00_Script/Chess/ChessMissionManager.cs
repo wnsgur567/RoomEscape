@@ -168,10 +168,10 @@ public class ChessMissionManager : SingletonPunCallback<ChessMissionManager>
         string text = "";
         string turntext = (CurMission.Turn * 0.5).ToString();
 
-        text += turntext + "�� ���ҽ��ϴ�.\n";
-        text += "��:\t" + turntext + "\n";
-        text += "����:\t" + CurMission.Color + "\n";
-        text += "��ǥ:\t" + CurMission.Piece + "\n";
+        text += SuccessMissionCount + "번 남았습니다.\n";
+        text += "턴:\t" + turntext + "\n";
+        text += "색상:\t" + CurMission.Color + "\n";
+        text += "목표:\t" + CurMission.Piece + "\n";
 
         Debug.Log(text);
 

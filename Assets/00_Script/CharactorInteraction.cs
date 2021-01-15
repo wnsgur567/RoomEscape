@@ -125,6 +125,26 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        { 
+            if(chess != null)
+            {
+                if (chess.chessZoomState != ZOOMSTATE.NONE)
+                    return;
+            }
+
+            if(Cursor.visible == false)
+            {
+                MouseSetTrue();
+            }
+            else
+            {
+                MouseSetFalse();
+
+            }
+        }
+
+
         if (m_PV.IsMine)
         {
             if (zoomState == ZOOMSTATE.NONE)
@@ -141,6 +161,8 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
                 }
             }
         }
+
+
     }
 
     //파이프 회전속도
@@ -476,7 +498,8 @@ public class CharactorInteraction : MonoBehaviourPunCallbacks
 
             ChessGameClick(_hit);
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)
+            && chess.chessZoomState == ZOOMSTATE.NONE)
         {
             Debug.Log("Ű����");
             //m_tempObj.collider.enabled = true;

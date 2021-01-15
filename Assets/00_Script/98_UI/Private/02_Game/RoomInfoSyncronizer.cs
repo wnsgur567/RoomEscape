@@ -90,6 +90,21 @@ public class RoomInfoSyncronizer : MonoBehaviourPunCallbacks
         }
     }
 
+    public void _SyncTime()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            m_pv.RPC("RPC_SyncDeadLine", RpcTarget.Others, m_infoManager.m_playerInfo.deadLine_time);
+        }
+
+    }
+
+    [PunRPC]
+    private void RPC_SyncDeadLine(int p_val)
+    {
+        m_infoManager.m_playerInfo.deadLine_time = p_val;
+    }
+
     public void SetAroomImageColor()
     {
         m_BroomImage.color = m_unSelectedColor;

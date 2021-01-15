@@ -198,20 +198,20 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 493673338854534061}
-  - component: {fileID: 1585908191324536427}
   - component: {fileID: 6481601473268168635}
   - component: {fileID: 8532731208226758753}
   - component: {fileID: 914461804}
   - component: {fileID: 503033248513128590}
   - component: {fileID: 7980613676849089358}
   - component: {fileID: 967401329658155231}
+  - component: {fileID: 66101939697098619}
   m_Layer: 0
   m_Name: Charactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &493673338854534061
 Transform:
   m_ObjectHideFlags: 0
@@ -228,20 +228,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1585908191324536427
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1023640405088958125}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6481601473268168635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,9 +301,9 @@ MonoBehaviour:
   m_Crosshair: {fileID: 267683932}
   M_pipeButton: {fileID: 0}
   M_bombCoverScript: {fileID: 0}
-  m_NoteUI: {fileID: 0}
   m_moveScript: {fileID: 914461804}
   m_Zoom_pos: {fileID: 396338592}
+  zoomState: 0
   ClickPiece: {fileID: 0}
   m_tempObj: {fileID: 0}
   m_tempTransform: {x: 0, y: 0, z: 0}
@@ -329,13 +315,13 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1023640405088958125}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 50
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 2
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 3
 --- !u!114 &967401329658155231
 MonoBehaviour:
@@ -353,6 +339,19 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!65 &66101939697098619
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023640405088958125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4623461272429003470
 GameObject:
   m_ObjectHideFlags: 0

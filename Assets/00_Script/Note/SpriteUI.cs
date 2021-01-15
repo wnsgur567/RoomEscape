@@ -66,5 +66,6 @@ public class SpriteUI : MonoBehaviour
         CharactorMove.Instance.M_Input = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        CharactorInteraction.Instance.zoomState = ZOOMSTATE.NONE;
     }
 }
